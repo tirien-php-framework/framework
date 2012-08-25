@@ -1,7 +1,7 @@
 Options -Indexes
 
-ErrorDocument 403 /application/contents/403.htm
-ErrorDocument 404 /application/contents/404.htm
+ErrorDocument 403 /application/views/403.htm
+ErrorDocument 404 /application/views/404.htm
 
 RewriteEngine on
 RewriteRule ^index\.php$ index.php [L]

@@ -43,7 +43,7 @@
 				return false;
 			}
 
-			$this->content_path = empty($this->content_path) ? './application/contents/'.$this->controller_name.'/'.$this->content_name.'.php' : $this->content_path;
+			$this->content_path = empty($this->content_path) ? './application/views/'.$this->controller_name.'/'.$this->content_name.'.php' : $this->content_path;
 			
 			include($this->content_path);
 			return true;

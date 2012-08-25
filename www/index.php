@@ -23,17 +23,17 @@
 	
 	/* IF SITE IS ON MAINTENANCE */
 	if(
-		!$_config['system']['production'] && 
+		$_config['system']['maintenance'] && 
 		!in_array($_SERVER['REMOTE_ADDR'],$_config['system']['development_ip'])
 	){
-		include('application/contents/maintenance.htm');
+		include('application/views/maintenance.htm');
 		die();
 	}
 
 	
 	
 	/* GET ALL INCLUDES */
-	$folder_names = array('system','application/functions','application/models','application/library');
+	$folder_names = array('system','application/functions');
 	foreach($folder_names as $folder_name) {
 		if ($handle = opendir('./'.$folder_name.'/')) {
 			while ( ($file = readdir($handle)) !== false ) {
@@ -46,6 +46,14 @@
 				}
 			}
 			closedir($handle);
+		}
+	}
+	function __autoload($class_name) {
+		if( stristr($class_name,"Model_") ){
+			include 'application/model/'.$class_name.'.php';
+		}
+		else{
+			include 'application/library/'.$class_name.'.php';
 		}
 	}
 	

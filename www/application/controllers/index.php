@@ -1,3 +1,11 @@
 <?php 
-	echo 'Controller';
+	class IndexController extends Core
+	{
+	
+		function indexAction()
+		{
+			
+		}
+		
+	}
 ?>

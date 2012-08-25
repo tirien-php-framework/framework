@@ -70,7 +70,7 @@
 	function pageNotFound(){
 		sleep(3);
 		header("Status: 404 Not Found");
-		include('application/contents/404.htm');
+		include('application/views/404.htm');
 		die();
 	}
 ?>
