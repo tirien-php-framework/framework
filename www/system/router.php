@@ -21,8 +21,8 @@
 			self::$param = explode("#",self::$param);
 			if(is_array(self::$param)) self::$param = self::$param[0];
 			
-			$_redirects = parse_ini_file('./application/config/redirects.ini', true);
-			var_dump($_redirects);
+			$redirects = parse_ini_file('./application/configs/redirects.ini', true);
+			var_dump($redirects);
 
 			// REDIRECTIONS
 			if(self::$controller=="event"){

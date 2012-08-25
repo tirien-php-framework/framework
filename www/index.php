@@ -5,7 +5,7 @@
 	/* Build 20120813 */
 	/* www.tirien.com */
 	
-	$_config = parse_ini_file('application/config/config.ini', true);
+	$_config = parse_ini_file('application/configs/application.ini', true);
 	$_fwRoot = dirname(__FILE__);
 	
 	$_debug = $_config['system']['debug'] && in_array($_SERVER['REMOTE_ADDR'],$_config['system']['development_ip']) ? true : false;
