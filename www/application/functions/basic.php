@@ -18,7 +18,7 @@
 		}
 	}
 	
-	function cleanRequest($input, $type="string") {
+	function cleanInput($input, $type="string") {
 		if($type=="int") return (int)$input;
 		
 		if($type=="string") {

@@ -34,20 +34,13 @@
 	
 	/* GET ALL INCLUDES */
 	$folder_names = array('system','application/functions');
+	
 	foreach($folder_names as $folder_name) {
-		if ($handle = opendir('./'.$folder_name.'/')) {
-			while ( ($file = readdir($handle)) !== false ) {
-				if ( $file != "." && $file != ".." ) {
-					$path = $folder_name.'/'.$file;
-					$info = pathinfo($path);
-					if ($info['extension']=='php'){
-						include_once($path);
-					}						
-				}
-			}
-			closedir($handle);
+		foreach (glob($folder_name."/*.php") as $class) {
+			require_once ($class);
 		}
 	}
+	
 	function __autoload($class_name) {
 		if( stristr($class_name,"Model_") ){
 			include 'application/model/'.$class_name.'.php';
@@ -59,23 +52,16 @@
 	
 	
 	
-	/* URL CLASS */
-	Url::setVars($_config, $_fwRoot);
-
-	
-	
 	/* DISABLE MAGIC QUOTES */
 	disableMagicQuotes();
-
-
 	
-	/* GET REQUEST */
+	/* Init routes */
+	Path::init();
+	Router::init();
+	
+	/* LOG SESSION */
 	session_start(); 
-	Log::session();
-	Router::init(
-		$_config['system']['default_controller'], 
-		$_config['system']['default_action']
-	);
+	Log::session();	
 	
 	
 	
@@ -89,8 +75,8 @@
 	else{
 		pageNotFound();
 	}
-	
-	if (method_exists($system,$system_rq_action)){
+
+	if ( method_exists($system,$system_rq_action) ){
 		$system->setVars(Router::$controller, Router::$action, $_config['system']['default_layout']);
 		$system->init();
 		$system->$system_rq_action();

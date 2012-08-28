@@ -1,18 +1,22 @@
 <?php
-class Url{
+class Path{
 
-	public static $baseUrl;
+	private static $baseUrl;
 	private static $fwRoot;
 	private static $folders = Array(
 		'css'		=> '/css',
 		'docs'		=> '/docs',
+		'videos'	=> '/videos',
 		'images'	=> '/images',
 		'scripts'	=> '/scripts',
 		'skin' 		=> '/skins'
 	);
 	
-	public static function setVars($config, $root){
-		$protocol_pos = strpos($config['system']['domain'], 'http');
+	public static function init(){
+		global $_config;
+		global $_fwRoot;
+
+		$protocol_pos = strpos($_config['system']['url_root'], 'http');
 		if( $protocol_pos===false || $protocol_pos>5 ){
 			$protocol = ( empty($_SERVER['HTTPS']) ? 'http' : 'https' ) . '://';
 		}
@@ -20,8 +24,8 @@ class Url{
 			$protocol = '';
 		}
 		
-		self::$baseUrl = $protocol . trim($config['system']['domain'], '/');			
-		self::$fwRoot = $root;
+		self::$baseUrl = $protocol . trim($_config['system']['url_root'], '/');			
+		self::$fwRoot = $_fwRoot;
 	}
 	
 	public static function skin($attachment=''){
@@ -40,6 +44,10 @@ class Url{
 		return trim( self::$baseUrl.self::$folders['docs'].'/'.trim($attachment,'/'), '/');
 	}	
 	
+	public static function video($attachment=''){
+		return trim( self::$baseUrl.self::$folders['video'].'/'.trim($attachment,'/'), '/');
+	}	
+	
 	public static function image($attachment=''){
 		return trim( self::$baseUrl.self::$folders['images'].'/'.trim($attachment,'/'), '/');
 	}
@@ -48,7 +56,7 @@ class Url{
 		return trim( self::$fwRoot.'/'.trim($attachment,'/'), '/');
 	}
 	
-	public static function domain($attachment=''){
+	public static function urlRoot($attachment=''){
 		return trim( self::$baseUrl.'/'.trim($attachment,'/'), '/');
 	}
 		
