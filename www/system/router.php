@@ -31,12 +31,21 @@
 			
 			// REDIRECTIONS
 			$redirects = parse_ini_file('./application/configs/redirects.ini', true);
+			$request_url = trim( Path::$urlProtocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], "/" );
 			
 			foreach($redirects as &$redirect){
 				if( !empty($redirect['uri']) ){
-					vd(Url::urlRoot());
-					vd($redirect['uri']);
-					vd($_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI']);
+					$redirect_url = trim( Path::urlRoot().'/'.$redirect['uri'], "/" );
+					
+					if( $request_url == $redirect_url ){
+					
+						self::$controller = !empty($redirect['controller']) ? $redirect['controller'] : self::$controller ;
+						
+						self::$action = !empty($redirect['action']) ? $redirect['action'] : self::$action ;
+						
+						self::$param = !empty($redirect['param']) ? $redirect['param'] : self::$param ;
+						
+					}
 				}
 			}
 			

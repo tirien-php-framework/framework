@@ -1,7 +1,8 @@
 <?php
 class Path{
 
-	private static $baseUrl;
+	public static $urlProtocol;
+	private static $urlBase;
 	private static $fwRoot;
 	private static $folders = Array(
 		'css'		=> '/css',
@@ -16,40 +17,37 @@ class Path{
 		global $_config;
 		global $_fwRoot;
 
-		$protocol_pos = strpos($_config['system']['url_root'], 'http');
-		if( $protocol_pos===false || $protocol_pos>5 ){
-			$protocol = ( empty($_SERVER['HTTPS']) ? 'http' : 'https' ) . '://';
-		}
-		else {
-			$protocol = '';
-		}
+		$url_root = trim( $_config['system']['url_root'], '/' );
+		$url_root = explode( "://", $url_root );
+		$url_root = is_array($url_root) ? $url_root[1] : $url_root;
 		
-		self::$baseUrl = $protocol . trim($_config['system']['url_root'], '/');			
+		self::$urlProtocol = ( empty($_SERVER['HTTPS']) ? 'http' : 'https' ) . '://';
+		self::$urlBase = self::$urlProtocol.$url_root;			
 		self::$fwRoot = $_fwRoot;
 	}
 	
 	public static function skin($attachment=''){
-		return trim( self::$baseUrl.self::$folders['skin'].'/'.trim($attachment,'/'), '/');
+		return trim( self::$urlBase.self::$folders['skin'].'/'.trim($attachment,'/'), '/');
 	}
 	
 	public static function script($attachment=''){
-		return trim( self::$baseUrl.self::$folders['scripts'].'/'.trim($attachment,'/'), '/');
+		return trim( self::$urlBase.self::$folders['scripts'].'/'.trim($attachment,'/'), '/');
 	}
 	
 	public static function css($attachment=''){
-		return trim( self::$baseUrl.self::$folders['css'].'/'.trim($attachment,'/'), '/');
+		return trim( self::$urlBase.self::$folders['css'].'/'.trim($attachment,'/'), '/');
 	}
 	
 	public static function doc($attachment=''){
-		return trim( self::$baseUrl.self::$folders['docs'].'/'.trim($attachment,'/'), '/');
+		return trim( self::$urlBase.self::$folders['docs'].'/'.trim($attachment,'/'), '/');
 	}	
 	
 	public static function video($attachment=''){
-		return trim( self::$baseUrl.self::$folders['video'].'/'.trim($attachment,'/'), '/');
+		return trim( self::$urlBase.self::$folders['video'].'/'.trim($attachment,'/'), '/');
 	}	
 	
 	public static function image($attachment=''){
-		return trim( self::$baseUrl.self::$folders['images'].'/'.trim($attachment,'/'), '/');
+		return trim( self::$urlBase.self::$folders['images'].'/'.trim($attachment,'/'), '/');
 	}
 	
 	public static function appRoot($attachment=''){
@@ -57,7 +55,7 @@ class Path{
 	}
 	
 	public static function urlRoot($attachment=''){
-		return trim( self::$baseUrl.'/'.trim($attachment,'/'), '/');
+		return trim( self::$urlBase.'/'.trim($attachment,'/'), '/');
 	}
 		
 }
