@@ -20,23 +20,43 @@
 			self::$param = empty($_REQUEST['rq_param']) ? null : strtolower(trim($_REQUEST['rq_param']));
 			
 			
+			
 			self::$controller = explode("#",self::$controller);
+			if(is_array(self::$controller)) self::$controller = self::$controller[0];
+			self::$controller = explode("?",self::$controller);
 			if(is_array(self::$controller)) self::$controller = self::$controller[0];
 			
 			self::$action = explode("#",self::$action);
 			if(is_array(self::$action)) self::$action = self::$action[0];
+			self::$action = explode("?",self::$action);
+			if(is_array(self::$action)) self::$action = self::$action[0];
 			
 			self::$param = explode("#",self::$param);
 			if(is_array(self::$param)) self::$param = self::$param[0];
+			self::$param = explode("?",self::$param);
+			if(is_array(self::$param)) self::$param = self::$param[0];
+			
+
+			
+			$request_url = trim( Path::$urlProtocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], "/" );
+			
+			$get_string = trim( strstr($request_url, "?" ), "?" );
+			parse_str( $get_string, $get_string );
+			$_GET = array_merge( $_GET, $get_string );
+			
+			if( !empty($get_string) ) {
+				$request_url_array =  explode( "?", $request_url );
+				$request_url =  $request_url_array[0];
+			}
+
 			
 			// REDIRECTIONS
 			$redirects = parse_ini_file('./application/configs/redirects.ini', true);
-			$request_url = trim( Path::$urlProtocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], "/" );
 			
 			foreach($redirects as &$redirect){
 				if( !empty($redirect['uri']) ){
 					$redirect_url = trim( Path::urlRoot().'/'.$redirect['uri'], "/" );
-					
+
 					if( $request_url == $redirect_url ){
 					
 						self::$controller = !empty($redirect['controller']) ? $redirect['controller'] : self::$controller ;
@@ -55,6 +75,7 @@
 				self::$action = "index";
 			}
 			// END REDIRECTIONS
+			
 		}
 		
 	}
