@@ -50,6 +50,7 @@
 			}
 
 			
+			
 			// REDIRECTIONS
 			$redirects = parse_ini_file('./application/configs/redirects.ini', true);
 			
