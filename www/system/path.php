@@ -18,8 +18,8 @@ class Path{
 		global $_fwRoot;
 
 		$url_root = trim( $_config['system']['url_root'], '/' );
-		$url_root = explode( "://", $url_root );
-		$url_root = is_array($url_root) ? $url_root[1] : $url_root;
+		$url_root = explode( "://", $url_root ); var_dump($url_root);
+		$url_root = !empty($url_root[1]) ? $url_root[1] : $url_root[0];
 		
 		self::$urlProtocol = ( empty($_SERVER['HTTPS']) ? 'http' : 'https' ) . '://';
 		self::$urlBase = self::$urlProtocol.$url_root;			

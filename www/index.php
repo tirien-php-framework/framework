@@ -2,7 +2,7 @@
 
 	/* Tirien Web Framework */
 	/* Version 1 */
-	/* Build 20120829 */
+	/* Build 0021 */
 	/* www.tirien.com */
 	
 	$_config = parse_ini_file('application/configs/application.ini', true);
