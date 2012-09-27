@@ -25,7 +25,7 @@ class Path{
 		
 		if( empty($url_root) ){
 			$url_root = $_SERVER['SERVER_NAME'];
-			$uri = $_SERVER['REQUEST_URI']; var_dump($uri);
+			$uri = $_SERVER['REQUEST_URI'];
 		}
 		else {
 			$url_root = explode( "://", $url_root );
