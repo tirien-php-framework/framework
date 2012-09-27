@@ -37,9 +37,10 @@
 			if(is_array(self::$param)) self::$param = self::$param[0];
 			
 
+			$request_url = trim( Path::$urlProtocol.'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], "/" );
 			
-			$request_url = trim( Path::$urlProtocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], "/" );
 			
+			// GET PARAMS
 			$get_string = trim( strstr($request_url, "?" ), "?" );
 			parse_str( $get_string, $get_string );
 			$_GET = array_merge( $_GET, $get_string );
@@ -48,7 +49,8 @@
 				$request_url_array =  explode( "?", $request_url );
 				$request_url =  $request_url_array[0];
 			}
-
+			// END GET PARAMS
+			
 			
 			// REDIRECTIONS
 			$redirects = parse_ini_file('./application/configs/redirects.ini', true);
