@@ -50,13 +50,12 @@
 			}
 
 			
-			
 			// REDIRECTIONS
 			$redirects = parse_ini_file('./application/configs/redirects.ini', true);
 			
 			foreach($redirects as &$redirect){
 				if( !empty($redirect['uri']) ){
-					$redirect_url = trim( Path::urlRoot().'/'.$redirect['uri'], "/" );
+					$redirect_url = trim( Path::urlBase().'/'.$redirect['uri'], "/" );
 
 					if( $request_url == $redirect_url ){
 					

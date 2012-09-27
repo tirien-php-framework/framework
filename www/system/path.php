@@ -2,6 +2,7 @@
 class Path{
 
 	public static $urlProtocol;
+	public static $urlPort;
 	private static $urlBase;
 	private static $fwRoot;
 	private static $folders = Array(
@@ -17,12 +18,21 @@ class Path{
 		global $_config;
 		global $_fwRoot;
 
-		$url_root = trim( $_config['system']['url_root'], '/' );
-		$url_root = explode( "://", $url_root ); var_dump($url_root);
-		$url_root = !empty($url_root[1]) ? $url_root[1] : $url_root[0];
+		self::$urlProtocol = ( empty($_SERVER['HTTPS']) ? 'http' : 'https' );
+		self::$urlPort = $_SERVER['SERVER_PORT']=='80' ? '' : $_SERVER['SERVER_PORT'];
 		
-		self::$urlProtocol = ( empty($_SERVER['HTTPS']) ? 'http' : 'https' ) . '://';
-		self::$urlBase = self::$urlProtocol.$url_root;			
+		$url_root = trim( $_config['system']['url_root'], '/' );
+		
+		if( empty($url_root) ){
+			$url_root = $_SERVER['SERVER_NAME'];
+			$uri = $_SERVER['REQUEST_URI']; var_dump($uri);
+		}
+		else {
+			$url_root = explode( "://", $url_root );
+			$url_root = !empty($url_root[1]) ? $url_root[1] : $url_root[0];		
+		}
+		
+		self::$urlBase = self::$urlProtocol . '://' . $url_root . ( empty(self::$urlPort) ? '' : ':'.self::$urlPort );			
 		self::$fwRoot = $_fwRoot;
 	}
 	
@@ -54,7 +64,7 @@ class Path{
 		return trim( self::$fwRoot.'/'.trim($attachment,'/'), '/');
 	}
 	
-	public static function urlRoot($attachment=''){
+	public static function urlBase($attachment=''){
 		return trim( self::$urlBase.'/'.trim($attachment,'/'), '/');
 	}
 		
