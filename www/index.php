@@ -2,7 +2,7 @@
 
 	/* Tirien Web Framework */
 	/* Version 1 */
-	/* Build 0022 */
+	/* Build 0021 */
 	/* www.tirien.com */
 	
 	$_config = parse_ini_file('application/configs/application.ini', true);
@@ -56,7 +56,7 @@
 	disableMagicQuotes();
 	
 	/* Init routes */
-	Path::init();
+	Path::init( dirname($_SERVER['PHP_SELF']) );
 	Router::init();
 	
 	/* LOG SESSION */

@@ -4,7 +4,6 @@ class Path{
 	public static $urlProtocol;
 	public static $urlPort;
 	public static $urlBase;
-	public static $urlUri;
 	private static $fwRoot;
 	private static $folders = Array(
 		'css'		=> '/public/css',
@@ -15,34 +14,15 @@ class Path{
 		'skin' 		=> '/public/skins'
 	);
 	
-	public static function init(){
-		global $_config;
+	public static function init( $index_uri ){
 		global $_fwRoot;
-
+		$index_uri = trim($index_uri, "/");
+		
 		self::$urlProtocol = ( empty($_SERVER['HTTPS']) ? 'http' : 'https' );
 		self::$urlPort = $_SERVER['SERVER_PORT']=='80' ? '' : $_SERVER['SERVER_PORT'];
-		
-		$url_root = trim( $_config['system']['url_root'], '/' );
-		$url_root = explode( "://", $url_root );
-		$url_root = !empty($url_root[1]) ? $url_root[1] : $url_root[0];	
-		$url_root_segments = explode( "/", $url_root );
-		$url_root = $url_root_segments[0];
-		
-		if( count($url_root_segments)>1 ){
-			unset($url_root_segments[0]);
-			self::$urlUri = implode( "/", $url_root_segments );
-		}
-		else {
-			self::$urlUri = '';
-		}
-		
-		$url_root = explode( ":", $url_root );
 
-		self::$urlPort = count($url_root)>1 ? $url_root[1] : self::$urlPort;
-		$url_root = $url_root[0];
-		
-		self::$urlBase = self::$urlProtocol . '://' . $url_root . ( empty(self::$urlPort) ? '' : ':'.self::$urlPort ) . ( empty(self::$urlUri) ? '' : '/'.self::$urlUri );
-		
+		self::$urlBase = self::$urlProtocol . '://' . trim($_SERVER['HTTP_HOST'], "/") . ( empty($index_uri) ? '' : '/'.$index_uri );
+		var_dump($_SERVER['SERVER_PORT']); die();
 		self::$fwRoot = $_fwRoot;
 	}
 	
