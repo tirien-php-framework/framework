@@ -22,7 +22,7 @@ class Path{
 		self::$urlPort = $_SERVER['SERVER_PORT']=='80' ? '' : $_SERVER['SERVER_PORT'];
 
 		self::$urlBase = self::$urlProtocol . '://' . trim($_SERVER['HTTP_HOST'], "/") . ( empty($index_uri) ? '' : '/'.$index_uri );
-		var_dump($_SERVER['SERVER_PORT']); die();
+		
 		self::$fwRoot = $_fwRoot;
 	}
 	
