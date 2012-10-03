@@ -15,9 +15,9 @@
 			$default_action = empty($_config['system']['default_action']) ? 'index' : $_config['system']['default_action'];
 			
 			
-			self::$controller = empty($_REQUEST['rq_controller']) ? $default_controller : strtolower(trim($_REQUEST['rq_controller'],'/'));
-			self::$action = empty($_REQUEST['rq_action']) ? $default_action : strtolower(trim($_REQUEST['rq_action'],'/'));
-			self::$param = empty($_REQUEST['rq_param']) ? null : strtolower(trim($_REQUEST['rq_param']));
+			self::$controller = !isset($_REQUEST['rq_controller']) ? $default_controller : strtolower(trim($_REQUEST['rq_controller'],'/'));
+			self::$action = !isset($_REQUEST['rq_action']) ? $default_action : strtolower(trim($_REQUEST['rq_action'],'/'));
+			self::$param = !isset($_REQUEST['rq_param']) ? null : strtolower(trim($_REQUEST['rq_param']));
 			
 			
 			
@@ -61,11 +61,11 @@
 
 					if( $request_url == $redirect_url ){
 					
-						self::$controller = !empty($redirect['controller']) ? $redirect['controller'] : self::$controller ;
+						self::$controller = isset($redirect['controller']) ? $redirect['controller'] : self::$controller ;
 						
-						self::$action = !empty($redirect['action']) ? $redirect['action'] : self::$action ;
+						self::$action = isset($redirect['action']) ? $redirect['action'] : self::$action ;
 						
-						self::$param = !empty($redirect['param']) ? $redirect['param'] : self::$param ;
+						self::$param = isset($redirect['param']) ? $redirect['param'] : self::$param ;
 						
 					}
 				}
