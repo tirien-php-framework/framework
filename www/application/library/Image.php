@@ -1,32 +1,38 @@
 <?php
 
-class Images {
+class Image {
 
 
 /*
  * Upload Image
  * $param - input name
+ * $dir - where to put the file
  *
 */
 
-public $dirname = "/home/user/htdocs/public/images/";
+public $dirname;
 
-function UploadImage($name){
+function __construct(){
+	define("MAX_SIZE", 2048);
+}
 
-	define("MAX_SIZE", 1000);
+//This function reads the extension of the file. It is used to determine if the file  is an image by checking the extension.
+function getExtension($str) {
+	$i = strrpos($str,".");
+	if (!$i) { return ""; }
+	$l = strlen($str) - $i;
+	$ext = substr($str,$i+1,$l);
+	return $ext;
+}
+	 
+function upload($name, $dir){
+	$this->dirname = $dir;
 	
 	$arr = array();
 	$arr['status'] = 1;
 	$arr['msg'] = 'Sucess';
 
-    //This function reads the extension of the file. It is used to determine if the file  is an image by checking the extension.
-     function getExtension($str) {
-             $i = strrpos($str,".");
-             if (!$i) { return ""; }
-             $l = strlen($str) - $i;
-             $ext = substr($str,$i+1,$l);
-             return $ext;
-     }
+
 
 
      //This variable is used as a flag. The value is initialized with 0 (meaning no error  found)
@@ -46,7 +52,7 @@ function UploadImage($name){
     //get the original name of the file from the clients machine
             $filename = stripslashes($_FILES[$name]['name']);
     //get the extension of the file in a lower case format
-            $extension = getExtension($filename);
+            $extension = $this->getExtension($filename);
             $extension = strtolower($extension);
 
      if (($extension != "jpg") && ($extension != "jpeg") && ($extension != "png") && ($extension != "gif")) {
@@ -69,7 +75,7 @@ function UploadImage($name){
      }
 
      //we will give an unique name, for example the time in unix time format
-     $image_name=time().'.'.$extension;
+     $image_name=date("YmdHis",time()).'-'.$filename;
  
      //the new name will be containing the full path where will be stored (images folder)
      $newname=$this->dirname.$image_name;
