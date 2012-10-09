@@ -108,7 +108,7 @@ class DB {
 				$set_params[] = "`$key`=:$key";
 			}
 		} else {
-			$p = split('=', $set);
+			$p = explode('=', $set);
 			$params[$p[0]] = $p[1];
 			$set_params[] = "`{$p[0]}`=:{$p[0]}";
 		}
@@ -161,7 +161,7 @@ class DB {
 			}
 			$where_part = ' ' . implode(' AND ', $condition) . ' ';
 		} else {
-			$p = split('=', $where);
+			$p = explode('=', $where);
 			$where_part  = "$where";
 		}
 
