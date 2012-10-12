@@ -51,11 +51,11 @@ class Path{
 	}
 	
 	public static function appRoot($attachment=''){
-		return trim( self::$fwRoot.'/'.trim($attachment,'/'), '/');
+		return rtrim( self::$fwRoot.'/'.trim($attachment,'/'), '/');
 	}
 	
 	public static function urlBase($attachment=''){
-		return trim( self::$urlBase.'/'.trim($attachment,'/'), '/');
+		return rtrim(self::$urlBase.'/'.trim($attachment,'/'), '/');
 	}
 		
 }
