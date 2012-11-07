@@ -1,217 +1,218 @@
 <?php
 class DB {
-	private $link;
-	public $debug = false;
-	private $global_debug=false;
-	const prefix = 'w__';
-	function __construct() {
+    private static $link;
+    private static $dbType = 'sqlite';
+    private static $globalDebug = false;
+    private static $printOutput = false;
+    private static $isInitiated = false;
+    private static $databaseName = '';
+    const prefix = 'w__';
+    private static function init() {
 		global $_config;
 		global $_debug;
 		
-		$this->global_debug = $_debug;
+		$db_config = $_config['database'];
+        self::$isInitiated = true;
+        self::$globalDebug = $_debug;
 		
-		$db_host = $_config['database']['host'];
-		$db_user = $_config['database']['user'];
-		$db_pass = $_config['database']['pass'];
-		$db_name = $_config['database']['name'];
-		try {
-			$this->link = new PDO('mysql:host='.$db_host.';dbname='.$db_name, $db_user, $db_pass);
-		} catch (PDOException $e) {
-
-			if ($this->global_debug && $this->debug) {
-				print "Error: " . $e->getMessage();
-			} else {
-				print "Database connection error!";
-			}
-			die();
-		}
-		$this->link->exec("SET NAMES utf8");
-		$this->link->exec("SET CHARACTER SET utf8");
-		$this->link->exec("SET COLLATION_CONNECTION='utf8_general_ci'");
-	}
-
-	function addPrefix($array, $prefix) {
-		$newArray = array();
-		foreach ($array as $key => $value) {
-			$newArray[$key] = $prefix . $value;
-		}
-		return $newArray;
-	}
-
-	function query($prepared, $values = array()) {
-
+		switch(self::$dbType){
 		
-		if ($this->global_debug && $this->debug){
-			$stmt = $this->prepare($prepared, $values);
-			vd($stmt);
-			vd($values);
-			vd($stmt->errorInfo());
-			$stmt->execute();
-			return $stmt->fetchAll(PDO::FETCH_ASSOC);
-						
-		}
-		else{
-			$prepared_statement = $this->prepare($prepared, $values);
-			$prepared_statement->execute();			
-			return $prepared_statement->fetchAll(PDO::FETCH_ASSOC);
-		}		
-
-	}
-
-	function insert($table, $values) {		
-		global $_config;		
-		$columns = array();
-		$keys = array_keys($values);
-		foreach($keys as $value)
-		{
-			$columns[] = "`$value`";
-		}
-		
-		$statement = sprintf('INSERT INTO `%s`.`%s` (%s) VALUES (%s);',
-			$_config['database']['name'],
-			$table,
-			implode(',', $columns),
-			implode(',', $this->addPrefix(array_keys($values),':'))
-		);
-		
-
-		if ($this->global_debug && $this->debug){
-			$stmt = $this->prepare($statement, $values);
-			vd($stmt);
-			vd($values);
-			$stmt->execute();
-			vd($stmt->errorInfo());
-		}
-		else{
-			$prepared_statement = $this->prepare($statement, $values);	
-			if ($prepared_statement->execute())
-				return $this->link->lastInsertId();
-			else
-				return FALSE;
-			;
-		}
-		
-	}
-	
-	function update($table, $set, $where = false) {
-		global $_config;
-
-		$params = array();
-		$set_params = array();
-		$where_params = array();
-		$set_part;
-		$where_part;
-
-		if (is_array($set)) {
-			foreach ($set as $key => $value) {
-				$params[$key] = $value;
-				$set_params[] = "`$key`=:$key";
-			}
-		} else {
-			$p = explode('=', $set);
-			$params[$p[0]] = $p[1];
-			$set_params[] = "`{$p[0]}`=:{$p[0]}";
-		}
-		$set_part = implode(',', $set_params);
-
-		if (false === $where) {
-			$where_part = '';
-		} else {
-
-			if (is_array($where)) {
-				foreach ($where as $key => $value) {
-					$params[DB::prefix . $key] = $value;
-					$where_params[] = "`$key`=:" . DB::prefix . $key;
-				}
-				$where_part = 'WHERE ' . implode(' AND ', $where_params);
-			} else {
-				$where_part = 'WHERE '. $where;
-			}
+			case 'sqlite':
+				$connectionString = self::$dbType.":application/databases/default.db";
+				break;
 			
+			case 'mysql':
+				$db_config = $_config['database'];
+				$connectionString = 
+					self::$dbType.':'
+					.'host='.$db_config['host'].';'
+					.'dbname='.$db_config['name'];
+				break;
 			
 		}
-		$statement = sprintf('UPDATE `%s`.`%s` SET %s %s;',
-			$_config['database']['name'],
-			$table,
-			$set_part,
-			$where_part
-		);
 		
-		if ($this->global_debug && $this->debug){		
-			$stmt = $this->prepare($statement, $params);
-			vd($stmt);
-			vd($params);
-			$stmt->execute();
-			vd($stmt->errorInfo());		
+        
+        
+        try {
+            self::$link = self::$dbType=='mysql' ? new PDO($connectionString, $db_config['user'], $db_config['pass']) : new PDO($connectionString);
+            if (self::$globalDebug) {
+                self::$link -> setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+            }
+
+        } catch (PDOException $e) {
+
+            if (self::$globalDebug) {
+                print "Error: " . $e -> getMessage();
+            } else {
+                print "Database connection error!";
+            }
+            die();
+        }
+        
+		if( self::$dbType == 'mysql' ){
+			self::$link -> exec("SET NAMES utf8");
+			self::$link -> exec("SET CHARACTER SET utf8");
+			self::$link -> exec("SET COLLATION_CONNECTION='utf8_general_ci'");
 		}
-		else{
-			return $this->prepare($statement, $params)->execute();
-		}
+		
+    }
 
-	}
+    private static function addPrefix($array, $prefix) {
+        $newArray = array();
+        foreach ($array as $key => $value) {
+            $newArray[$key] = $prefix . $value;
+        }
+        return $newArray;
+    }
 
-	function delete($table, $where) {
-		global $_config;
+    public static function query($prepared, $values = array()) {
+        if (!self::$isInitiated) self::init();
+        if (self::$globalDebug && self::$printOutput) {
+            $stmt = self::prepare($prepared, $values);
+            print_r($stmt);
+            print_r($values);
+            print_r($stmt -> errorInfo());
+            $stmt -> execute();
+            return $stmt -> fetchAll(PDO::FETCH_ASSOC);
 
-		$where_part;
-		if (is_array($where)) {
-			$condition = array();
-			foreach ($where as $key => $value) {				
-				$condition[] = "`$key`=:$key";
-			}
-			$where_part = ' ' . implode(' AND ', $condition) . ' ';
-		} else {
-			$p = explode('=', $where);
-			$where_part  = "$where";
-		}
+        } else {
+            $prepared_statement = self::prepare($prepared, $values);
+            $prepared_statement -> execute();
+            return $prepared_statement -> fetchAll(PDO::FETCH_ASSOC);
+        }
 
-		$statement = sprintf('DELETE FROM `%s`.`%s` WHERE %s;', $_config['database']['name'], $table, $where_part);
-	
-		if ($this->global_debug && $this->debug){
-			$stmt = $this->prepare($statement, $where);
-			vd($stmt);
-			vd($where);
-			$stmt->execute();
-			vd($stmt->errorInfo());				
-		}
-		else{
-			return $this->prepare($statement,$where)->execute();
-		}
+    }
 
-	}
+    public static function insert($table, $values) {
+        if (!self::$isInitiated) self::init();
+        $columns = array();
+        $keys = array_keys($values);
+        foreach ($keys as $value) {
+            $columns[] = "`$value`";
+        }
 
-	function prepare($statement, $values = array()) {
-		$prepared_stmt = $this->link->prepare($statement);
-		if (is_array($values)) {
-			foreach ($values as $key => $value) {
-				
-				if(is_int($value))
+        $statement = sprintf('INSERT INTO %s`%s` (%s) VALUES (%s);', self::$databaseName, $table, implode(',', $columns), implode(',', self::addPrefix(array_keys($values), ':')));
+        if (self::$globalDebug && self::$printOutput) {
+            $stmt = self::prepare($statement, $values);
+            print_r($stmt);
+            print_r($values);
+            $stmt -> execute();
+            print_r($stmt -> errorInfo());
+        } else {
+            $prepared_statement = self::prepare($statement, $values);
+            if ($prepared_statement -> execute())
+                return self::$link -> lastInsertId();
+            else
+                return FALSE;
+            ;
+        }
+
+    }
+
+    public static function update($table, $set, $where = false) {
+        if (!self::$isInitiated) self::init();
+        $params = array();
+        $set_params = array();
+        $where_params = array();
+        $set_part;
+        $where_part;
+
+        if (is_array($set)) {
+            foreach ($set as $key => $value) {
+                $params[$key] = $value;
+                $set_params[] = "`$key`=:$key";
+            }
+        } else {
+            $p = split('=', $set);
+            $params[$p[0]] = $p[1];
+            $set_params[] = "`{$p[0]}`=:{$p[0]}";
+        }
+        $set_part = implode(',', $set_params);
+
+        if (false === $where) {
+            $where_part = '';
+        } else {
+
+            if (is_array($where)) {
+                foreach ($where as $key => $value) {
+                    $params[DB::prefix . $key] = $value;
+                    $where_params[] = "`$key`=:" . DB::prefix . $key;
+                }
+                $where_part = 'WHERE ' . implode(' AND ', $where_params);
+            } else {
+                $where_part = 'WHERE ' . $where;
+            }
+
+        }
+        $statement = sprintf('UPDATE %s`%s` SET %s %s;', self::$databaseName, $table, $set_part, $where_part);
+
+        if (self::$globalDebug && self::$printOutput) {
+            $stmt = self::prepare($statement, $params);
+            print_r($stmt);
+            print_r($params);
+            $stmt -> execute();
+            print_r($stmt -> errorInfo());
+        } else {
+            return self::prepare($statement, $params) -> execute();
+        }
+
+    }
+
+    public static function delete($table, $where) {
+        if (!self::$isInitiated) self::init();
+        $where_part;
+        if (is_array($where)) {
+            $condition = array();
+            foreach ($where as $key => $value) {
+                $condition[] = "`$key`=:$key";
+            }
+            $where_part = ' ' . implode(' AND ', $condition) . ' ';
+        } else {
+            $where_part = "$where";
+        }
+
+        $statement = sprintf('DELETE FROM %s`%s` WHERE %s;', self::$databaseName, $table, $where_part);
+
+        if (self::$globalDebug && self::$printOutput) {
+            $stmt = self::prepare($statement, $where);
+            print_r($stmt);
+            print_r($where);
+            $stmt -> execute();
+            print_r($stmt -> errorInfo());
+        } else {
+            return self::prepare($statement, $where) -> execute();
+        }
+
+    }
+
+    private static function prepare($statement, $values = array()) {
+        $prepared_stmt = self::$link->prepare($statement);
+        if (is_array($values)) {
+            foreach ($values as $key => $value) {
+
+                if (is_int($value))
                     $param = PDO::PARAM_INT;
-                elseif(is_bool($value))
+                elseif (is_bool($value))
                     $param = PDO::PARAM_BOOL;
-                elseif(is_null($value))
+                elseif (is_null($value))
                     $param = PDO::PARAM_NULL;
-                elseif(is_string($value))
+                elseif (is_string($value))
                     $param = PDO::PARAM_STR;
-				
-				if(is_int($key)){
-					$prepared_stmt->bindValue($key+1, $value,$param);
-				}
-				else{
-					$prepared_stmt->bindValue(":$key", $value,$param);
-				}
-					
-			}
-		} else {
-			$prepared_stmt->bindValue(1, $values);
-		}
-		return $prepared_stmt;
-	}
 
-	function __destruct() {
-		unset($this->link);
-	}
-
+                $prepared_stmt -> bindValue(":$key", $value, $param);
+            }
+        } else {
+            $prepared_stmt -> bindValue(1, $values);
+        }
+        return $prepared_stmt;
+    }
+    function getObject(){
+        if (!self::$isInitiated) self::init();
+        return self::link;
+    }
+    public static function printOutput($bool){
+        self::$printOutput = $bool;
+    }
 }
 
 //
