@@ -43,7 +43,7 @@
 	
 	function __autoload($class_name) {
 		if( stristr($class_name,"Model_") ){
-			include 'application/model/'.$class_name.'.php';
+			include 'application/models/'.substr($class_name,6).'.php';
 		}
 		else{
 			include 'application/library/'.$class_name.'.php';
