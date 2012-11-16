@@ -50,6 +50,7 @@
 			$get_string = trim( strstr($request_url, "?" ), "?" );
 			parse_str( $get_string, $get_string );
 			$_GET = array_merge( $_GET, $get_string );
+			$_REQUEST = array_merge( $_REQUEST, $get_string );
 			
 			if( !empty($get_string) ) {
 				$request_url_array =  explode( "?", $request_url );
