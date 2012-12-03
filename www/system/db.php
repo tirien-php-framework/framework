@@ -138,10 +138,12 @@ class DB {
                     $params[DB::prefix . $key] = $value;
                     $where_params[] = "`$key`=:" . DB::prefix . $key;
                 }
-                $where_part = 'WHERE ' . implode(' AND ', $where_params);
             } else {
-                $where_part = 'WHERE ' . $where;
+			    $p = split('=', $where);
+				$params[DB::prefix . $p[0]] = $p[1];
+				$where_params[] = "`{$p[0]}`=:" . DB::prefix . $p[0];
             }
+			$where_part = 'WHERE ' . implode(' AND ', $where_params);
 
         }
         $statement = sprintf('UPDATE %s`%s` SET %s %s;', self::$databaseName, $table, $set_part, $where_part);
@@ -158,18 +160,28 @@ class DB {
 
     }
 
-    public static function delete($table, $where) {
+    public static function delete($table, $where = false) {
         if (!self::$isInitiated) self::init();
         $where_part;
-        if (is_array($where)) {
-            $condition = array();
-            foreach ($where as $key => $value) {
-                $condition[] = "`$key`=:$key";
-            }
-            $where_part = ' ' . implode(' AND ', $condition) . ' ';
+		if (false === $where) {
+            $where_part = '';
         } else {
-            $where_part = "$where";
-        }
+
+			if(!is_array($where)) {
+				$p = split('=', $where);
+				$where = array();
+				$where[$p[0]] = $p[1];
+			}
+			
+			if(is_array($where)) {
+				$condition = array();
+				foreach ($where as $key => $value) {
+					$condition[] = "`$key`=:$key";
+				}
+				$where_part = ' ' . implode(' AND ', $condition) . ' ';
+			}
+			
+		}
 
         $statement = sprintf('DELETE FROM %s`%s` WHERE %s;', self::$databaseName, $table, $where_part);
 
