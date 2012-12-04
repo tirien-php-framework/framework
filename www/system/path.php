@@ -4,6 +4,7 @@ class Path{
 	public static $urlProtocol;
 	public static $urlPort;
 	public static $urlBase;
+	public static $assetsVersion;
 	private static $fwRoot;
 	private static $folders = Array(
 		'css'		=> '/public/css',
@@ -16,6 +17,7 @@ class Path{
 	
 	public static function init( $index_uri ){
 		global $_fwRoot;
+		global $_config;
 		$index_uri = trim($index_uri, "/");
 		
 		self::$urlProtocol = ( empty($_SERVER['HTTPS']) ? 'http' : 'https' );
@@ -24,6 +26,7 @@ class Path{
 		self::$urlBase = self::$urlProtocol . '://' . trim($_SERVER['HTTP_HOST'], "/") . ( empty($index_uri) ? '' : '/'.$index_uri );
 		
 		self::$fwRoot = $_fwRoot;
+		self::$assetsVersion = empty($_config['application']['assets_version']) ? '' : '?v='.$_config['application']['assets_version'];
 	}
 	
 	public static function skin($attachment=''){
@@ -31,23 +34,23 @@ class Path{
 	}
 	
 	public static function script($attachment=''){
-		return trim( self::$urlBase.self::$folders['scripts'], '/').'/'.trim($attachment,'/');
+		return trim( self::$urlBase.self::$folders['scripts'], '/').'/'.trim($attachment,'/').self::$assetsVersion;
 	}
 	
 	public static function css($attachment=''){
-		return trim( self::$urlBase.self::$folders['css'], '/').'/'.trim($attachment,'/');
+		return trim( self::$urlBase.self::$folders['css'], '/').'/'.trim($attachment,'/').self::$assetsVersion;
 	}
 	
 	public static function doc($attachment=''){
-		return trim( self::$urlBase.self::$folders['docs'], '/').'/'.trim($attachment,'/');
+		return trim( self::$urlBase.self::$folders['docs'], '/').'/'.trim($attachment,'/').self::$assetsVersion;
 	}	
 	
 	public static function video($attachment=''){
-		return trim( self::$urlBase.self::$folders['video'], '/').'/'.trim($attachment,'/');
+		return trim( self::$urlBase.self::$folders['video'], '/').'/'.trim($attachment,'/').self::$assetsVersion;
 	}	
 	
 	public static function image($attachment=''){
-		return trim( self::$urlBase.self::$folders['images'], '/').'/'.trim($attachment,'/');
+		return trim( self::$urlBase.self::$folders['images'], '/').'/'.trim($attachment,'/').self::$assetsVersion;
 	}
 	
 	public static function appRoot($attachment=''){
