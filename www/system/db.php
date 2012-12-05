@@ -123,7 +123,7 @@ class DB {
                 $set_params[] = "`$key`=:$key";
             }
         } else {
-            $p = split('=', $set);
+            $p = explode('=', $set);
             $params[$p[0]] = $p[1];
             $set_params[] = "`{$p[0]}`=:{$p[0]}";
         }
@@ -139,7 +139,7 @@ class DB {
                     $where_params[] = "`$key`=:" . DB::prefix . $key;
                 }
             } else {
-			    $p = split('=', $where);
+			    $p = explode('=', $where);
 				$params[DB::prefix . $p[0]] = $p[1];
 				$where_params[] = "`{$p[0]}`=:" . DB::prefix . $p[0];
             }
@@ -168,7 +168,7 @@ class DB {
         } else {
 
 			if(!is_array($where)) {
-				$p = split('=', $where);
+				$p = explode('=', $where);
 				$where = array();
 				$where[$p[0]] = $p[1];
 			}
