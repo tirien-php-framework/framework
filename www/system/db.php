@@ -1,7 +1,7 @@
 <?php
 class DB {
     private static $link;
-    private static $dbType = 'sqlite';
+    private static $dbType;
     private static $globalDebug = false;
     private static $printOutput = false;
     private static $isInitiated = false;
@@ -14,6 +14,7 @@ class DB {
 		$db_config = $_config['database'];
         self::$isInitiated = true;
         self::$globalDebug = $_debug;
+		self::$dbType = $db_config['type'];
 		
 		switch(self::$dbType){
 		
