@@ -3,7 +3,7 @@
 	{
 		public $ajax = false;
 		public $disable_layout = false;
-		public $disable_content = false;
+		public $disable_view = false;
 		public function __construct() {
 			if(
 				!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
@@ -18,7 +18,7 @@
 
 		public function setVars($rq_controller, $rq_action, $layout_name) {
 			$this->controller_name = $rq_controller;
-			$this->content_name = $rq_action;
+			$this->action_name = $rq_action;
 			$this->layout_name = $layout_name;
 		}
 		
@@ -39,13 +39,13 @@
 
 		public function viewContent() {
 		
-			if($this->disable_content){
+			if($this->disable_view){
 				return false;
 			}
 
-			$this->content_path = empty($this->content_path) ? './application/views/'.$this->controller_name.'/'.$this->content_name.'.php' : $this->content_path;
+			$this->view_path = empty($this->view_path) ? './application/views/'.$this->controller_name.'/'.$this->action_name.'.php' : $this->view_path;
 			
-			include($this->content_path);
+			include($this->view_path);
 			return true;
 		}
 
@@ -53,8 +53,8 @@
 			$this->disable_layout = true;
 		}
 
-		public function disableContent() {
-			$this->disable_content = true;
+		public function disableView() {
+			$this->disable_view = true;
 		}
 
 	}
