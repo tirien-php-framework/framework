@@ -20,11 +20,8 @@
 			self::$param = !isset($_REQUEST['rq_param']) ? null : strtolower(trim($_REQUEST['rq_param']));
 			
 			
-			self::$controller = explode("-",self::$controller);
-			if(is_array(self::$controller))	self::$controller = implode('',self::$controller);
-
-			self::$action = explode("-",self::$action);
-			if(is_array(self::$action)) self::$action = implode('',self::$action);
+			self::$controller = str_replace( array('-','_'), '', self::$controller );
+			self::$action = str_replace( array('-','_'), '', self::$action );
 
 			
 			self::$controller = explode("#",self::$controller);
