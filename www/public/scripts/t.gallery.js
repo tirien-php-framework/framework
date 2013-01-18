@@ -1,6 +1,8 @@
 /* 
 	Gallery jQuery Plugin
 	Tirien.com
+	
+	$Rev$
 */
 
 (function($) {
