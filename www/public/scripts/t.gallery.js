@@ -54,7 +54,6 @@
         }
 
 
-
         plugin.startPlaying = function() {
             clearTimeout(timer);
             run();
