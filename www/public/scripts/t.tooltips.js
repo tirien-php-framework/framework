@@ -1,7 +1,8 @@
 /* 
 	Tooltips Script
 	Tirien.com
-	
+	$Rev$
+
 	tooltipsData = [ 
 		{ x:10, y:50, content:"text" }, 
 		{ x:20, y:50, content:"<b>html bold</b>" }, 

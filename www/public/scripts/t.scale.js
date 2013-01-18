@@ -1,6 +1,7 @@
 /* 
 	Scale Images Script
 	Tirien.com
+	$Rev$
 */
 
 $.fn.scale = function(ops){
