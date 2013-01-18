@@ -1,0 +1,25 @@
+.tooltipPoint {
+	position: absolute;
+	cursor:pointer;
+	display:none;
+	
+	width: 14px;
+	height: 14px;
+	background-color: #9b0000;
+	
+	-webkit-border-radius: 7px;
+	-moz-border-radius: 7px;
+	border-radius: 7px;
+}
+.tooltipBox {
+	display:none;
+	width:80px;
+	font: 11px Arial;
+	color: white;
+	position: absolute;
+	bottom: 5px;
+	left: -42px;
+	padding:5px;
+	text-align:center;
+	background-color:#9b0000;
+}
