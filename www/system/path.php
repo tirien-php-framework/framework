@@ -11,8 +11,7 @@ class Path{
 		'docs'		=> '/public/docs',
 		'videos'	=> '/public/videos',
 		'images'	=> '/public/images',
-		'scripts'	=> '/public/scripts',
-		'skin' 		=> '/public/skins'
+		'scripts'	=> '/public/scripts'
 	);
 	
 	public static function init( $index_uri ){
@@ -27,10 +26,6 @@ class Path{
 		
 		self::$fwRoot = $_fwRoot;
 		self::$assetsVersion = empty($_config['application']['assets_version']) ? '' : '?v='.$_config['application']['assets_version'];
-	}
-	
-	public static function skin($attachment=''){
-		return trim( self::$urlBase.self::$folders['skin'], '/').'/'.trim($attachment,'/');
 	}
 	
 	public static function script($attachment=''){

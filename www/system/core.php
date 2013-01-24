@@ -1,61 +1,76 @@
 <?php
-	class Core
-	{
-		public $ajax = false;
-		public $disable_layout = false;
-		public $disable_view = false;
-		public function __construct() {
-			if(
-				!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
-				strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
-			) {
-				$this->ajax = true;
-			}
-		}
-
-		public function init() {
-		}
-
-		public function setVars($rq_controller, $rq_action, $layout_name) {
-			$this->controller_name = $rq_controller;
-			$this->action_name = $rq_action;
-			$this->layout_name = $layout_name;
-		}
+	function vd($var,$die=false) {
+		global $_debug;
+		if(!$_debug) return false;
 		
-		public function setLayout($layout_name){
-			$this->layout_name = $layout_name;
-		}
-
-		public function run() {
-			if($this->ajax) $this->disableLayout();
-			
-			if($this->disable_layout){
-				$this->viewContent();
-			}
-			else {
-				include('./application/layouts/'.$this->layout_name.'.php');
-			}
-		}
-
-		public function viewContent() {
+		$debug_backtrace = debug_backtrace();
 		
-			if($this->disable_view){
-				return false;
-			}
-
-			$this->view_path = empty($this->view_path) ? './application/views/'.$this->controller_name.'/'.$this->action_name.'.php' : $this->view_path;
-			
-			include($this->view_path);
+		echo '<pre style="background-color:#faa; color:#000; padding:20px; clear:both; font:bold 12px/24px Tahoma; position:relative; top:0; text-align:left; width:100%; z-index: 99999;">';
+		echo '<div style="background-color:#fbb; color:#333; padding:5px; clear:both; font:normal 10px Tahoma; margin:0px -10px 10px;">File:'.$debug_backtrace[0]['file'].' | Line:'.$debug_backtrace[0]['line'].'</div>';
+		print_r($var);
+		echo '</pre>';
+		
+		if($die){
+			die();
+		}
+		else{
 			return true;
 		}
-
-		public function disableLayout() {
-			$this->disable_layout = true;
+	}
+	
+	function cleanInput($input, $type="string") {
+		if($type=="int") return (int)$input;
+		
+		if($type=="string") {
+			$input = trim($input);
+			$input = htmlentities($input);
 		}
-
-		public function disableView() {
-			$this->disable_view = true;
+		
+		return $input;
+	}
+	
+	function showResult($rs){
+		$table='<table style="border: 1px solid #CCC">';
+		$table.='<tr>';
+		$headers = array_keys($rs[0]);
+		for ($i=0;$i<sizeof($headers);$i++){
+			$table.='<th>' . $headers[$i] . '</th>';
 		}
-
+		$table.='</tr>';		
+		foreach ($rs as $row) {
+			$table.='<tr>';
+			foreach ($row as $cell) {
+				$table.='<td>'.$cell. '</td>';
+			}
+			$table.='</tr>';
+		}
+		$table .= "</table>";
+		return $table;
+	}
+	
+	function disableMagicQuotes()
+	{
+		if (get_magic_quotes_gpc()) {
+		    $process = array(&$_GET, &$_POST, &$_COOKIE, &$_REQUEST);
+		    while (list($key, $val) = each($process)) {
+		        foreach ($val as $k => $v) {
+		            unset($process[$key][$k]);
+		            if (is_array($v)) {
+		                $process[$key][stripslashes($k)] = $v;
+		                $process[] = &$process[$key][stripslashes($k)];
+		            } else {
+		                $process[$key][stripslashes($k)] = stripslashes($v);
+		            }
+		        }
+		    }
+		    unset($process);
+		}
+	}
+	
+	function pageNotFound(){
+		sleep(5);
+		header("Status: 404 Not Found");
+		include('application/views/404.htm');
+		die();
 	}
 ?>
