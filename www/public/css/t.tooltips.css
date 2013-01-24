@@ -23,3 +23,15 @@
 	text-align:center;
 	background-color:#9b0000;
 }
+.tooltipPoint.yellow {
+	background-color: #E9BC7B;
+}
+.tooltipPoint.brown {
+	background-color: #611D25;
+}
+.tooltipPoint.grey {
+	background-color: grey;
+}
+.tooltipPoint.blue {
+	background-color: #c2c6f2;
+}
