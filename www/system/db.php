@@ -69,7 +69,7 @@ class DB
 		return $newArray;
 	}
 
-	public static function query( $prepared, $values = array() ) {
+	public static function query( $prepared, $values = array(), $fetchRow = false ) {
 		if( !self::$isInitiated ) self::init();
 		if( self::$globalDebug && self::$printOutput ){
 			$stmt = self::prepare( $prepared, $values );
@@ -83,7 +83,7 @@ class DB
 		else{
 			$prepared_statement = self::prepare( $prepared, $values );
 			$prepared_statement->execute();
-			return $prepared_statement->fetchAll( PDO::FETCH_ASSOC );
+			return $fetchRow ? $prepared_statement->fetch( PDO::FETCH_ASSOC ) : $prepared_statement->fetchAll( PDO::FETCH_ASSOC );
 		}
 
 	}

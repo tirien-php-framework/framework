@@ -5,6 +5,7 @@ function vd( $var, $die = false ) {
 	if( !$_debug ) return false;
 
 	$debug_backtrace = debug_backtrace();
+	header( 'Content-type: text/html' );
 
 	echo '<pre style="background-color:#faa; color:#000; padding:20px; clear:both; font:bold 12px/24px Tahoma; position:relative; top:0; text-align:left; width:100%; z-index: 99999;">';
 	echo '<div style="background-color:#fbb; color:#333; padding:5px; clear:both; font:normal 10px Tahoma; margin:0px -10px 10px;">File:'.$debug_backtrace[0]['file'].' | Line:'.$debug_backtrace[0]['line'].'</div>';
