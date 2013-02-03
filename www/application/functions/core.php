@@ -77,4 +77,12 @@ function pageNotFound() {
 	die();
 }
 
+function pageForbidden() {
+	sleep( 5 );
+	header( 'Content-type: text/html' );
+	header( $_SERVER["SERVER_PROTOCOL"]." 403 Forbidden" );
+	include( 'application/views/403.htm' );
+	die();
+}
+
 ?>
