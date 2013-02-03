@@ -4,6 +4,8 @@
 		public $ajax = false;
 		public $disable_layout = false;
 		public $disable_view = false;
+		private $layout_name = '';
+		
 		public function __construct() {
 			if(
 				!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
@@ -19,7 +21,7 @@
 		public function setVars($rq_controller, $rq_action, $layout_name) {
 			$this->controller_name = $rq_controller;
 			$this->action_name = $rq_action;
-			$this->layout_name = $layout_name;
+			$this->layout_name = !empty( $this->layout_name ) ? $this->layout_name : $layout_name;
 		}
 		
 		public function run() {
