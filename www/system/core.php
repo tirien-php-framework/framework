@@ -22,10 +22,6 @@
 			$this->layout_name = $layout_name;
 		}
 		
-		public function setLayout($layout_name){
-			$this->layout_name = $layout_name;
-		}
-
 		public function run() {
 			if($this->ajax) $this->disableLayout();
 			
@@ -49,12 +45,16 @@
 			return true;
 		}
 
-		public function disableLayout() {
-			$this->disable_layout = true;
-		}
-
 		public function disableView() {
 			$this->disable_view = true;
+		}
+
+		public function setLayout($layout_name){
+			$this->layout_name = $layout_name;
+		}
+		
+		public function disableLayout() {
+			$this->disable_layout = true;
 		}
 
 	}
