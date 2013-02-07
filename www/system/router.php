@@ -78,7 +78,7 @@
 			
 		}
 		
-		public static function goto( $uri )
+		public static function go( $uri )
 		{
 			header( "Location: ".Path::$urlBase."/".$uri );
 			die();
