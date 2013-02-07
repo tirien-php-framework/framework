@@ -16,6 +16,7 @@ $.fn.customSelectbox = function(config) {
         var options = dropdown.children();
         var selected = select.children(".cs-selected");
         var isOpened = false;
+		var firstIsEmptyText = true;
 
         init();
 
@@ -133,11 +134,15 @@ $.fn.customSelectbox = function(config) {
             if (o.length)
             {
                 var v = o.attr('value');
-                o.attr('selected', true).addClass('cs-hilighted').siblings().attr('selected', false).removeClass('cs-hilighted');
+                var other_options = o.attr('selected', true).addClass('cs-hilighted').siblings();
+				other_options.attr('selected', false).removeClass('cs-hilighted');
 
                 selected.attr('value', v);
                 selected.text(o.text());
                 if (inputSelect.val() !== v){
+					if(firstIsEmptyText) {
+						other_options.first().hide();
+					}
                     inputSelect.val(v).trigger('change');
                 }
             }
