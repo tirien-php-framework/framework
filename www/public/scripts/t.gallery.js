@@ -1,7 +1,7 @@
 /* 
-	Gallery jQuery Plugin
-	Tirien.com
-	$Rev$
+*	Gallery jQuery Plugin
+*	Tirien.com
+*	$Rev$
 */
 
 (function($){

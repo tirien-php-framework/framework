@@ -1,7 +1,9 @@
 /*
-*	Custom Select Box
-*	$Rev$ 
-*	$("#select").customSelectbox();
+	Custom Selectbox jQuery Plugin
+	Tirien.com
+	$Rev$
+	
+	$("#select").customSelectbox();
 */
 
 $.fn.customSelectbox = function(config) {

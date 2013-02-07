@@ -1,7 +1,7 @@
 /* 
-	Scale Images Script
-	Tirien.com
-	$Rev$
+*	Scale Images jQuery Plugin
+*	Tirien.com
+*	$Rev$
 */
 
 $.fn.scale = function(ops){
