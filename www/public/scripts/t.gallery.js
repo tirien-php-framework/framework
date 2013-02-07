@@ -4,7 +4,7 @@
 	$Rev$
 */
 
-(function($) {
+(function($){
     $.tGallery = function(element, options) {
         var defaults = {
             speed : 900,
