@@ -1,6 +1,6 @@
 /*
 *	Custom Select Box
-*	$Rev: 62 $ 
+*	$Rev$ 
 *	$("#select").customSelectbox();
 */
 
