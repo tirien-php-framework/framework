@@ -1,3 +1,9 @@
+/*
+*	Custom Select Box
+*	$Rev: 62 $ 
+*	$("#select").customSelectbox();
+*/
+
 $.fn.customSelectbox = function(config) {
     return this.each(function(ind, el) {
         var inputSelect = $(el);
