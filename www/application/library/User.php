@@ -12,7 +12,7 @@ class User{
 			$data['password_hash'] = self::hash( $data['password'] );
 			unset( $data['password'] );
 			
-			$user_model = new UserModel();
+			$user_model = new Model_User();
 			$rs = $user_model->getUser( $data );
 			
 			if( !empty($rs[0]) ) {
