@@ -58,7 +58,7 @@ class User{
 	}
 		
 	public static function create( $data ){	
-		$user = new UserModel();
+		$user = new Model_User();
 		return !empty($data) ? $user->createUser($data) : false;
 	}
 	

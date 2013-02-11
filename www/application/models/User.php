@@ -1,5 +1,5 @@
 <?php 
-	Class UserModel
+	Class Model_User
 	{
 	//todo:srediti docs za ovaj model
 		public function getUser( $data )

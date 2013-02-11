@@ -40,8 +40,11 @@ foreach( $folder_names as $folder_name ){
 }
 
 function __autoload( $class_name ) {
-	if( strstr( $class_name, "Model" ) === "Model" ){
-		include 'application/models/'.$class_name.'.php';
+	if( strpos( $class_name, "Model_" ) !== FALSE ){
+		include 'application/models/'.str_replace("Model_", "", $class_name).'.php';
+	}
+	else if( strpos( $class_name, "Library_" ) !== FALSE ){
+		include 'application/library/'.str_replace("Library_", "", $class_name).'.php';
 	}
 	else{
 		include 'application/library/'.$class_name.'.php';
