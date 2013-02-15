@@ -1,12 +1,12 @@
 /*  
 	Tooltips jQuery Plugin
 	Tirien.com
-	$Rev$
+	$Rev: 84 $
 	
 	tooltipsData = [ 
-		{ x:10, y:50, content:"text" }, 
-		{ x:20, y:50, content:"<b>html bold</b>", className:"red" }, 
-		{ x:30, y:50, content:"<i>html italic</i>" } 
+		{ x:10, y:50, content:'text'" }, 
+		{ x:20, y:50, content:'<b>html bold</b>', className:"red" }, 
+		{ x:20, y:50, content:'<i>html italic</i>', class:"yellow under" } 
 	]
 	
 	drawTooltips(".tooltipsWrap", tooltipsData);

@@ -1,0 +1,45 @@
+.tooltipPoint {
+	position: absolute;
+	cursor: pointer;
+	display: none;
+	
+	width: 10px;
+	height: 10px;
+	background-color: #232357;
+	
+	-webkit-border-radius: 5px;
+	-moz-border-radius: 5px;
+	border-radius: 5px;
+}
+.tooltipBox {
+	display: none;
+	width: 80px;
+	font: 11px Arial;
+	color: #232357;
+	position: absolute;
+	bottom: 15px;
+	left: -42px;
+	padding: 7px;
+	text-align: center;
+}
+.tooltipBox img{
+	margin-top: 5px;
+	display: block;
+}
+.tooltipBoxArrow{
+	background: url(tooltip-down-arrow.png) no-repeat;
+	width: 15px;
+	height: 8px;
+	position: absolute;
+	bottom: -8px;
+	left: 39px;
+}
+.under .tooltipBox {
+	top: 25px;
+	bottom: auto;
+}
+.under .tooltipBoxArrow {
+	top: -8px;
+	bottom: auto;
+	background: url(tooltip-up-arrow.png) no-repeat;
+}
