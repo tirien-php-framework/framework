@@ -1,0 +1,40 @@
+.custom-combobox{
+	width: 200px;
+	position: relative;
+	float: left;
+}
+.cs-select{
+	position:relative;
+}
+.cs-selected, .cs-option{
+	background-color: white;
+	color: black;
+	padding: 7px 8px;
+	display:block;
+}
+.cs-dropdown{
+	position: absolute;
+	width: 100%;
+	z-index: 999;
+}
+.cs-option{
+	background-color: lightgray;
+	text-decoration: none;
+}
+.cs-option, .cs-selected{
+	height: 10px;
+	text-decoration: none;
+}
+.cs-option:hover{
+	background-color: gray;
+	color: white;
+}
+.cs-right {
+	position: absolute;
+	background: url('drop-down-arrow.png') no-repeat;
+	width: 11px;
+	height: 11px;
+	right: 6px;
+	top: 8px;
+	cursor: pointer;
+}
