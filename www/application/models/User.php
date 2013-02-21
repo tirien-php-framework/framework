@@ -14,7 +14,7 @@
 				
 				if( !empty($user_exists) ) return false;
 				
-				$data['password_hash'] = User::hash( $data['password'] );
+				$data['password_hash'] = Auth::hash( $data['password'] );
 				$data['dti'] = date('Y-m-d H:i:s');
 				unset( $data['password'] );
 				
