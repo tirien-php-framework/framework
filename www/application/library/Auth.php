@@ -26,7 +26,6 @@ class Auth{
 			$data['password_hash'] = self::hash( $password );
 			
 			$rs = self::$entity_object->{self::$entity_method}( $data );
-			$rs = self::$return_as_array ? $rs[0] : $rs;
 			
 			if( !empty($rs) ) {
 				$_SESSION['AuthLib_user_data'] = $rs;

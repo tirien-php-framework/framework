@@ -4,7 +4,7 @@
 	//todo:srediti docs za ovaj model
 		public function getUser( $data )
 		{
-			return DB::query( "SELECT * FROM user WHERE username=:username AND password_hash=:password_hash AND status=1", $data );		
+			return DB::query( "SELECT * FROM user WHERE username=:username AND password_hash=:password_hash AND status=1", $data, true );		
 		}
 		
 		public function createUser($data)
