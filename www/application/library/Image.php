@@ -2,6 +2,8 @@
 
 class Image
 {
+	const DEFAULT_JPG_QUALITY = 80;
+	const MAX_SIZE = 1048576; // 1MB
 
 	static function getExtension( $str ) {
 		return end(explode('.',$str));
@@ -17,8 +19,6 @@ class Image
 	 * @return array
 	 */
 	static function upload( $name, $dirname ) {
-
-		define( "MAX_SIZE", 1*1024*1024 ); // 1MB
 
 		$arr = array();
 		$arr['status'] = 1;
@@ -61,7 +61,7 @@ class Image
 		$size = filesize( $_FILES[$name]['tmp_name'] );
 
 		//compare the size with the maxim size we defined and print error if bigger
-		if( $size > MAX_SIZE ){
+		if( $size > self::MAX_SIZE ){
 			$arr['status'] = 0;
 			$arr['msg'] = 'You have exceeded the size limit!';
 			return $arr;
@@ -97,12 +97,8 @@ class Image
 
 	/*
 	 * PHP function to resize an image maintaining aspect ratio
-	 * http://911-need-code-help.blogspot.com/2008/10/resize-images-using-phpgd-library.html
-	 *
-	 * Creates a resized (e.g. thumbnail, small, medium, large)
-	 * version of an image file and saves it as another file
 	 */
-	static function createThumb($source_image_path, $thumbnail_image_path, $max_width=150, $max_height=150)
+	static function fit($source_image_path,  $max_width, $max_height, $output_image_path = null)
 	{
 	    list($source_image_width, $source_image_height, $source_image_type) = getimagesize($source_image_path);
 
@@ -123,33 +119,36 @@ class Image
 	    }
 
 	    $source_aspect_ratio = $source_image_width / $source_image_height;
-	    $thumbnail_aspect_ratio = $max_width / $max_height;
+	    $fit_aspect_ratio = $max_width / $max_height;
 
 	    if ($source_image_width <= $max_width && $source_image_height <= $max_height) {
-	        $thumbnail_image_width = $source_image_width;
-	        $thumbnail_image_height = $source_image_height;
-	    } elseif ($thumbnail_aspect_ratio > $source_aspect_ratio) {
-	        $thumbnail_image_width = (int) ($max_height * $source_aspect_ratio);
-	        $thumbnail_image_height = $max_height;
+	        $fit_image_width = $source_image_width;
+	        $fit_image_height = $source_image_height;
+	    } elseif ($fit_aspect_ratio > $source_aspect_ratio) {
+	        $fit_image_width = (int) ($max_height * $source_aspect_ratio);
+	        $fit_image_height = $max_height;
 	    } else {
-	        $thumbnail_image_width = $max_width;
-	        $thumbnail_image_height = (int) ($max_width / $source_aspect_ratio);
+	        $fit_image_width = $max_width;
+	        $fit_image_height = (int) ($max_width / $source_aspect_ratio);
 	    }
 
-	    $thumbnail_gd_image = imagecreatetruecolor($thumbnail_image_width, $thumbnail_image_height);
+	    $fit_gd_image = imagecreatetruecolor($fit_image_width, $fit_image_height);
 
-	    imagecopyresampled($thumbnail_gd_image, $source_gd_image, 0, 0, 0, 0, $thumbnail_image_width, $thumbnail_image_height, $source_image_width, $source_image_height);
-	    imagejpeg($thumbnail_gd_image, $thumbnail_image_path, 90);
+	    imagecopyresampled($fit_gd_image, $source_gd_image, 0, 0, 0, 0, $fit_image_width, $fit_image_height, $source_image_width, $source_image_height);
+
+		$output_image_path = empty($output_image_path) ? $source_image_path : $output_image_path;
+	    $save_image = imagejpeg($fit_gd_image, $output_image_path, self::DEFAULT_JPG_QUALITY);
+
 	    imagedestroy($source_gd_image);
-	    imagedestroy($thumbnail_gd_image);
+	    imagedestroy($fit_gd_image);
 
-	    return true;
+	    return $save_image;
 	}
 
 	/*
 	 * PHP function to crop and resize an image of fixed dimensions
 	 */
-	static function crop( $source_image_path, $end_width = 200, $end_height = 200, $end_image_path=null ){
+	static function fill( $source_image_path, $output_width, $output_height, $output_image_path = null ){
 
 		$image = imagecreatefromjpeg($source_image_path);
 
@@ -157,35 +156,38 @@ class Image
 		$height = imagesy($image);
 
 		$original_aspect = $width / $height;
-		$end_aspect = $end_width / $end_height;
+		$output_aspect = $output_width / $output_height;
 
-		if ( $original_aspect >= $end_aspect )
+		if ( $original_aspect >= $output_aspect )
 		{
 		   // If image is wider than thumbnail (in aspect ratio sense)
-		   $new_height = $end_height;
-		   $new_width = $width / ($height / $end_height);
+		   $new_height = $output_height;
+		   $new_width = $width / ($height / $output_height);
 		}
 		else
 		{
 		   // If the thumbnail is wider than the image
-		   $new_width = $end_width;
-		   $new_height = $height / ($width / $end_width);
+		   $new_width = $output_width;
+		   $new_height = $height / ($width / $output_width);
 		}
 
-		$canvas_image = imagecreatetruecolor( $end_width, $end_height );
+		$canvas_image = imagecreatetruecolor( $output_width, $output_height );
 
 		// Resize and crop
 		imagecopyresampled($canvas_image,
 		                   $image,
-		                   0 - ($new_width - $end_width) / 2, // Center the image horizontally
-		                   0 - ($new_height - $end_height) / 2, // Center the image vertically
+		                   0 - ($new_width - $output_width) / 2, // Center the image horizontally
+		                   0 - ($new_height - $output_height) / 2, // Center the image vertically
 		                   0, 0,
 		                   $new_width, $new_height,
 		                   $width, $height);
-		$output_image_path = empty($end_image_path) ? $source_image_path : $end_image_path;
+		$output_image_path = empty($output_image_path) ? $source_image_path : $output_image_path;
 
-		return imagejpeg($canvas_image, $output_image_path, 80);
+		$save_image = imagejpeg($canvas_image, $output_image_path, self::DEFAULT_JPG_QUALITY);
+	    imagedestroy($canvas_image);
+	    imagedestroy($image);
 
+	    return $save_image;
 	}
 }
 
