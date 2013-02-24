@@ -2,6 +2,10 @@
 
 class File {
 
+    static function getExtension( $str ) {
+        return end(explode('.',$str));
+    }
+
     public static function upload($fileName, $uploadFolder = null) {
         if (isset($_FILES[$fileName])) {
             global $config;
