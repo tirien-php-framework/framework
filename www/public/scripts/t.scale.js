@@ -37,7 +37,7 @@ $.fn.scale = function(ops){
                     el.css({
                         width : '100%',
                         height : 'auto'
-                    });
+                    }).addClass('scale');
                     if (settings.center){
                         el.css({
                             position:'absolute',
@@ -51,7 +51,7 @@ $.fn.scale = function(ops){
                     el.css({
                         width : 'auto',
                         height : '100%'
-                    });
+                    }).addClass('scale-f');
                     if (settings.center){
                         el.css({
                             position:'absolute',
