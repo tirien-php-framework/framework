@@ -22,7 +22,7 @@ class DB
 		switch( self::$dbType ){
 
 			case 'sqlite':
-				$connectionString = self::$dbType.":application/databases/default.db";
+				$connectionString = self::$dbType.":".$db_config['file'];
 				break;
 
 			case 'mysql':
