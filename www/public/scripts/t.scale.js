@@ -31,13 +31,13 @@ $.fn.scale = function(ops){
             }
             else{
                 var b = (parentWidth / parentHeight) > (elementWidth / elementHeight);
-                var f = settings.type == 'fill';
-                if ( (b || !f) && (!b || f) )
+                var f = settings.type == 'fit';
+                if ( (b && !f) || (!b && f) )
                 {
                     el.css({
                         width : '100%',
                         height : 'auto'
-                    }).addClass('scale');
+                    });
                     if (settings.center){
                         el.css({
                             position:'absolute',
@@ -51,7 +51,7 @@ $.fn.scale = function(ops){
                     el.css({
                         width : 'auto',
                         height : '100%'
-                    }).addClass('scale-f');
+                    });
                     if (settings.center){
                         el.css({
                             position:'absolute',
@@ -60,6 +60,13 @@ $.fn.scale = function(ops){
                         });
                     }
                 }
+				
+				if(f){
+					el.addClass('scale-f');
+				}
+				else{
+					el.addClass('scale');
+				}
             }
         };
         tmpImg.src = el.prop('src');
