@@ -88,7 +88,16 @@ class DB
 
 	}
 
-	public static function insert( $table, $values ) {
+	public static function insert( $table, $values, $query=null ) {
+
+		if( !empty($query) ){
+			$prepared_statement = self::prepare( $query, $values );
+			if( $prepared_statement->execute() )
+				return self::$link->lastInsertId();
+			else
+				return FALSE;
+		}
+		
 		if( !self::$isInitiated ) self::init();
 		$columns = array();
 		$keys = array_keys( $values );
