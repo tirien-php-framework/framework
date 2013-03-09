@@ -41,12 +41,16 @@
 				return false;
 			}
 
-			$this->view_path = empty($this->view_path) ? './application/views/'.$this->controller_name.'/'.$this->action_name.'.php' : $this->view_path;
+			$this->view_path = './application/views/' . ( empty($this->view_path) ? $this->controller_name.'/'.$this->action_name.'.php' : $this->view_path );
 			
 			include($this->view_path);
 			return true;
 		}
 
+		public function setView($view_path){
+			$this->view_path = $view_path;
+		}
+		
 		public function disableView() {
 			$this->disable_view = true;
 		}
