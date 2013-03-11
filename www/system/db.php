@@ -9,11 +9,12 @@ class DB
 	private static $databaseName = '';
 	const prefix = 'w__';
 
-	private static function init() {
+	static function init( $db_name = null ) {
 		global $_config;
 		global $_debug;
 
 		$db_config = $_config['database'];
+		$db_config['file'] = !empty($db_name) && is_file($db_name) ? $db_name : $db_config['file'];
 		self::$isInitiated = true;
 		self::$globalDebug = $_debug;
 		self::$dbType = $db_config['type'];
