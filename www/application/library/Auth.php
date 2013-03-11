@@ -8,13 +8,17 @@ class Auth{
 	private static $entity_method;
 	private static $loginPageUrl;
 	private static $return_as_array;
+	private static $session_var_name;
 
 	function init(){
+		global $_config;
+		
 		// customize options here
 		self::$entity_object = new Model_User();
 		self::$entity_method = 'getUser';
 		self::$loginPageUrl = Path::urlBase('admin/login');
 		self::$return_as_array = true;
+		self::$session_var_name = 'AuthLib_user_data_'.md5($_config['application']['salt']);
 	}
 
 	static function login( $username, $password )
@@ -28,7 +32,7 @@ class Auth{
 			$rs = self::$entity_object->{self::$entity_method}( $data );
 			
 			if( !empty($rs) ) {
-				$_SESSION['AuthLib_user_data'] = $rs;
+				$_SESSION[self::$session_var_name] = $rs;
 				return true;
 			}
 			else{
@@ -45,7 +49,7 @@ class Auth{
 	
 	static function check()
 	{
-		if( !empty( $_SESSION['AuthLib_user_data'] ) ){
+		if( !empty( $_SESSION[self::$session_var_name] ) ){
 			return true;			
 		}
 		else{
@@ -55,12 +59,13 @@ class Auth{
 	
 	static function logout()
 	{
-		unset( $_SESSION['AuthLib_user_data'] );
+		unset( $_SESSION[self::$session_var_name] );
 		return true;	
 	}
 	
-	static function loginPage()
+	static function loginPage( $loginPageUrl = null )
 	{
+		self::$loginPageUrl = empty($loginPageUrl) ? self::$loginPageUrl : Path::urlBase($loginPageUrl);
 		header( "Location: " . self::$loginPageUrl );
 		die();
 	}
