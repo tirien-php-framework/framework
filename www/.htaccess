@@ -9,6 +9,8 @@ RewriteRule ^index\.php$ index.php [L]
 RewriteRule ^public/(.+)$ public/$1 [L]
 
 RewriteRule ^google([\w]+).html$ google$1.html [L]
+RewriteRule ^sitemap.xml$ sitemap.xml [L]
+RewriteRule ^robots.txt$ robots.txt [L]
 
 RewriteRule ^css/(.+\.(css|htc))$ public/css/$1 [L]
 RewriteRule ^docs/(.+\.(pdf|docx?))$ public/docs/$1 [L]
