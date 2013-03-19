@@ -4,6 +4,7 @@
 	
 		public static $controller;
 		public static $action;
+		public static $rq_action;
 		public static $param;
 		
 		public static function init()
@@ -21,6 +22,7 @@
 			
 			
 			self::$controller = str_replace( array('-','_'), '', self::$controller );
+			self::$rq_action = self::$action;
 			self::$action = str_replace( array('-','_'), '', self::$action );
 
 			
