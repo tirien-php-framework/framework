@@ -18,14 +18,14 @@ class Image
 	 *
 	 * @return array
 	 */
-	static function upload( $name, $dirname ) {
+	static function upload( $name, $dirname, $key = null ) {
 
 		$arr = array();
 		$arr['status'] = 1;
 		$arr['msg'] = 'Sucess';
 
 		//reads the name of the file the user submitted for uploading
-		$image = $_FILES[$name]['name'];
+		$image = !empty($key) ? $_FILES[$name]['name'][$key] : $_FILES[$name]['name'];
 
 		if( !$image ){
 			$arr['status'] = 0;
