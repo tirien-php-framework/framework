@@ -42,7 +42,7 @@ class Image
         }
 
 		//get the original name of the file from the clients machine
-		$filename = stripslashes( $_FILES[$name]['name'] );
+		$filename = !empty($key) ? stripslashes($_FILES[$name]['name'][$key]) : stripslashes($_FILES[$name]['name']);
 
 		//get the extension of the file in a lower case format
 		$extension = self::getExtension( $filename );
@@ -58,7 +58,7 @@ class Image
 		//get the size of the image in bytes
 		//$_FILES['image']['tmp_name'] is the temporary filename of the file
 		//in which the uploaded file was stored on the server
-		$size = filesize( $_FILES[$name]['tmp_name'] );
+		$size = !empty($key) ? filesize($_FILES[$name]['tmp_name'][$key]) : filesize($_FILES[$name]['tmp_name']);
 
 		//compare the size with the maxim size we defined and print error if bigger
 		if( $size > self::MAX_SIZE ){
@@ -83,8 +83,7 @@ class Image
 
 		$arr['img_name'] = $newname;
 
-		$copied = copy( $_FILES[$name]['tmp_name'], $newname );
-
+		$copied = !empty($key) ? copy($_FILES[$name]['tmp_name'][$key], $newname) : copy($_FILES[$name]['tmp_name'], $newname);
 
 		if( !$copied ){
 			$arr['status'] = 0;
