@@ -2,6 +2,7 @@
 	class Core
 	{
 		public $ajax = false;
+		public $apple = false;
 		public $disable_layout = false;
 		public $disable_view = false;
 		private $layout_name = '';
@@ -12,6 +13,10 @@
 				strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
 			) {
 				$this->ajax = true;
+			}
+
+			if(strstr($_SERVER['HTTP_USER_AGENT'],'iPhone') || strstr($_SERVER['HTTP_USER_AGENT'],'iPod') || strstr($_SERVER['HTTP_USER_AGENT'],'iPad')) {
+				$this->apple = true;
 			}
 		}
 
