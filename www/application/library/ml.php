@@ -27,13 +27,24 @@ Class ml {
         }
 
         // PARSE REQUEST PARAMS
-		if ( !empty($_REQUEST['rq_controller']) && in_array($_REQUEST['rq_controller'], $languages) ) {
+        if ( !empty($_REQUEST['rq_controller']) && in_array($_REQUEST['rq_controller'], $languages) ) {
+
             $_SESSION['active_language'] = $_REQUEST['rq_controller'];
             $_REQUEST['rq_controller'] = !empty($_REQUEST['rq_action']) ? $_REQUEST['rq_action'] : 'index';
-
-            if( !empty($_REQUEST['rq_param']) ){
-                $_REQUEST['rq_action'] = $_REQUEST['rq_param'];
-            }
+			
+			if( !empty($_REQUEST['rq_param']) ){
+				$rq_param = explode("/",$_REQUEST['rq_param']);
+				if( is_array($rq_param) ){
+					$_REQUEST['rq_action'] = array_shift($rq_param);
+					$_REQUEST['rq_param'] = implode('/',$rq_param);
+				}
+				else{
+					$_REQUEST['rq_action'] = $_REQUEST['rq_param'];
+				}
+			}
+			else {
+				$_REQUEST['rq_action'] = 'index';
+			}
 
         } 
         else {
