@@ -52,16 +52,21 @@ function __autoload( $class_name ) {
 }
 
 
+	
 /* DISABLE MAGIC QUOTES */
 disableMagicQuotes();
 
-/* Init routes */
+/* LOG SESSION */
+session_start(); 
+Log::session();	
+
+/* INIT MULTILANGUAGE */
+ml::init( array('en') ); 
+	
+/* INIT ROUTES */
 Path::init( dirname( $_SERVER['PHP_SELF'] ) );
 Router::init();
 
-/* LOG SESSION */
-session_start();
-Log::session();
 
 
 /* RUN SYSTEM */

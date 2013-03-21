@@ -1,22 +1,45 @@
 <?php
-
+/**
+ * Multilanguage Library
+ * Initiate with: 
+ * ml::init( array('en', 'fr', 'de') ); 
+ * where first element is default language
+ */
 Class ml {
 
     public static $active_language;
     private static $active_language_id;
-    private static $default_language = 'en';
+    private static $default_language;
     private static $default_language_id = 0;
-    public static $languages = array(0 => 'en', 1 => 'fr', 2 => 'de');
+    public static $languages;
     private static $csv_path;
     private static $csv_array = array();
-    static function init() {
-        self::$csv_path = file_exists(rtrim(Path::appRoot(), '/') . '\\framework') ? rtrim(Path::appRoot(), '/') . '\\framework\\assets\\ml.csv' : Path::appRoot() . 'framework/assets/ml.csv';
 
+    static function init( $languages ) {
+        self::$languages = $languages;
+        self::$default_language = $languages[self::$default_language_id];
+
+        self::$csv_path = 'application'.DIRECTORY_SEPARATOR.'library'.DIRECTORY_SEPARATOR.'ml.csv';
         self::loadCsv();
 
         if (!isset($_SESSION)) {
             session_start();
         }
+
+        // PARSE REQUEST PARAMS
+        if ( in_array($_REQUEST['rq_controller'], $languages) ) {
+
+            $_SESSION['active_language'] = $_REQUEST['rq_controller'];
+            $_REQUEST['rq_controller'] = !empty($_REQUEST['rq_action']) ? $_REQUEST['rq_action'] : 'index';
+
+            if( !empty($_REQUEST['rq_param']) ){
+                $_REQUEST['rq_action'] = $_REQUEST['rq_param'];
+            }
+
+        } 
+        else {
+            $_SESSION['active_language'] = self::$default_language;
+        }        
 
         self::$active_language = !empty($_SESSION['active_language']) ? $_SESSION['active_language'] : self::$default_language;
 
@@ -36,7 +59,7 @@ Class ml {
             }
             fclose($handle);
         } else {
-            trigger_error("Language file doesn't exist", E_USER_ERROR);
+            trigger_error("Multilanguage file doesn't exist", E_USER_ERROR);
         }
     }
 
