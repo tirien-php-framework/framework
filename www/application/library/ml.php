@@ -27,8 +27,7 @@ Class ml {
         }
 
         // PARSE REQUEST PARAMS
-        if ( in_array($_REQUEST['rq_controller'], $languages) ) {
-
+		if ( !empty($_REQUEST['rq_controller']) && in_array($_REQUEST['rq_controller'], $languages) ) {
             $_SESSION['active_language'] = $_REQUEST['rq_controller'];
             $_REQUEST['rq_controller'] = !empty($_REQUEST['rq_action']) ? $_REQUEST['rq_action'] : 'index';
 
