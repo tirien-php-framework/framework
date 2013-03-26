@@ -49,7 +49,7 @@ class Path{
 	}
 	
 	public static function appRoot($attachment=''){
-		return rtrim( self::$fwRoot.DIRECTORY_SEPARATOR.trim($attachment,'\/'), '\/');
+		return rtrim( self::$fwRoot.DIRECTORY_SEPARATOR.trim(str_replace(array('/','\\'), DIRECTORY_SEPARATOR, $attachment),'\/'), '\/');
 	}
 	
 	public static function urlBase($attachment=''){
