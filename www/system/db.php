@@ -89,7 +89,8 @@ class DB
 
 	}
 
-	public static function insert( $table, $values, $query=null ) {
+	public static function insert( $table, $values, $query = null ) {
+		if( !self::$isInitiated ) self::init();
 
 		if( !empty($query) ){
 			$prepared_statement = self::prepare( $query, $values );
@@ -99,7 +100,6 @@ class DB
 				return FALSE;
 		}
 		
-		if( !self::$isInitiated ) self::init();
 		$columns = array();
 		$keys = array_keys( $values );
 		foreach( $keys as $value ){
@@ -125,8 +125,17 @@ class DB
 
 	}
 
-	public static function update( $table, $set, $where = false ) {
+	public static function update( $table, $set, $where = false, $query = null  ) {
 		if( !self::$isInitiated ) self::init();
+
+		if( !empty($query) ){
+			$prepared_statement = self::prepare( $query, $where );
+			if( $prepared_statement->execute() )
+				return TRUE;
+			else
+				return FALSE;
+		}
+
 		$params = array();
 		$set_params = array();
 		$where_params = array();
