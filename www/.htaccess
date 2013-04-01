@@ -23,3 +23,5 @@ RewriteRule ^uploads/(.+\.(jpe?g|gif|png|pdf|docx?|mp4|m4v|flv))$ public/uploads
 RewriteRule ^([\w-]+)/([\w-]+)/(.+)$ index.php?rq_controller=$1&rq_action=$2&rq_param=$3 [L]
 RewriteRule ^([\w-]+)/([\w-]+)$ index.php?rq_controller=$1&rq_action=$2 [L]
 RewriteRule ^([\w-]+)/?$ index.php?rq_controller=$1 [L]
+
+RewriteRule ^(.+)$ application/views/403.htm [L]
