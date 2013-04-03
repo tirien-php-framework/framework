@@ -55,6 +55,10 @@ class Path{
 	public static function urlBase($attachment=''){
 		return rtrim(self::$urlBase.'/'.trim($attachment,'/'), '/');
 	}
+	
+	public static function urlUri(){
+		return trim( substr( self::$urlProtocol.'://'.$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"], strlen( self::$urlBase ) ), '/' );
+	}
 		
 }
 
