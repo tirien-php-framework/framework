@@ -1,4 +1,4 @@
-/* 
+﻿/* 
 *	Gallery jQuery Plugin
 *	Tirien.com
 *	$Rev$
@@ -151,7 +151,9 @@
             if($(prev)[0] !== $(next)[0]) {
                 if (plugin.settings.beforeChange(images, i)!==false){
                     if (captionField){
-                        captionField.html(next.data('caption'));
+                        captionField.fadeOut(function(){
+                            $(this).html('').html( next.data('caption') ).fadeIn();
+                        })
                     }
                     $element.find(plugin.settings.goToImage).removeClass('active').filter('[data-n=' + next.index() + ']').addClass('active');
                     plugin.settings.beforeAnimation(images, i);
@@ -179,6 +181,13 @@
             if (typeof next !== 'undefined')
             {
                 showImage(activeImage, next);
+
+            }
+        }
+        plugin.goTo = function(index) {
+            if (typeof index !== 'undefined')
+            {
+                goTo(index);
 
             }
         }
