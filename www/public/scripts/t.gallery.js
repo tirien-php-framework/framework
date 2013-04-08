@@ -100,8 +100,8 @@
                 captionField.html(activeImage.data('caption'));
             }
         }
-        var run = function() {
-            timer = setTimeout(nextImage, plugin.settings.duration);
+        var run = function() {            
+            timer = plugin.settings.autoPlay ? setTimeout(nextImage, plugin.settings.duration) : null;
         }
         var bindEvents = function() {
             $element.find(plugin.settings.goToImage).off('click.tgallery').on('click.tgallery', function(e){
@@ -122,14 +122,14 @@
             var next = $(images[imageNumber]);
             if(next.length) {
                 clearTimeout(timer);
-                timer = setTimeout(nextImage, plugin.settings.duration);
+                timer = plugin.settings.autoPlay ? setTimeout(nextImage, plugin.settings.duration) : null;
                 i = imageNumber;
                 showImage(activeImage, next);
             }
         }
         var nextImage = function() {
             clearTimeout(timer);
-            timer = setTimeout(nextImage, plugin.settings.duration);
+            timer = plugin.settings.autoPlay ? setTimeout(nextImage, plugin.settings.duration) : null;
             var next = $(images[++i]);
             if(!next.length) {
                 i = 0
@@ -139,7 +139,7 @@
         }
         var prevImage = function() {
             clearTimeout(timer);
-            timer = setTimeout(prevImage, plugin.settings.duration);
+            timer = plugin.settings.autoPlay ? setTimeout(prevImage, plugin.settings.duration) : null;
             var prev = $(images[--i]);
             if(!prev.length) {
                 i = images.length - 1;
@@ -188,7 +188,6 @@
             if (typeof index !== 'undefined')
             {
                 goTo(index);
-
             }
         }
         plugin.init();
