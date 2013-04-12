@@ -11,7 +11,7 @@ $.fn.customSelectbox = function(config) {
         var inputSelect = $(el);
 
         if(inputSelect.data('placeholder')!=undefined){
-            inputSelect.prepend('<option>'+inputSelect.data('placeholder')+'</option>');
+            inputSelect.prepend('<option value="">'+inputSelect.data('placeholder')+'</option>');
         }
 
         var customSelectbox;
