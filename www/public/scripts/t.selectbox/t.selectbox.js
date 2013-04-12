@@ -9,6 +9,11 @@
 $.fn.customSelectbox = function(config) {
     return this.each(function(ind, el) {
         var inputSelect = $(el);
+
+        if(inputSelect.data('placeholder')!=undefined){
+            inputSelect.prepend('<option>'+inputSelect.data('placeholder')+'</option>');
+        }
+
         var customSelectbox;
         createCustomSelectbox();
         var select = customSelectbox.children(".cs-select");
