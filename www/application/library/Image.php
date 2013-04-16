@@ -9,6 +9,8 @@ class Image
 		return end(explode('.',$str));
 	}
 
+
+
 	/**
 	 *
 	 * Upload image
@@ -94,6 +96,8 @@ class Image
 		return $arr;
 	}
 
+
+
 	/*
 	 * PHP function to resize an image maintaining aspect ratio
 	 */
@@ -110,6 +114,9 @@ class Image
 	            break;
 	        case IMAGETYPE_PNG:
 	            $source_gd_image = imagecreatefrompng($source_image_path);
+	            break;
+	        case IMAGETYPE_BMP:
+	            $source_gd_image = imagecreatefromwbmp($source_image_path);
 	            break;
 	    }
 
@@ -136,7 +143,21 @@ class Image
 	    imagecopyresampled($fit_gd_image, $source_gd_image, 0, 0, 0, 0, $fit_image_width, $fit_image_height, $source_image_width, $source_image_height);
 
 		$output_image_path = empty($output_image_path) ? $source_image_path : $output_image_path;
-	    $save_image = imagejpeg($fit_gd_image, $output_image_path, self::DEFAULT_JPG_QUALITY);
+
+        switch ($source_image_type) {
+            case IMAGETYPE_GIF:
+                $save_image = imagegif($fit_gd_image, $output_image_path);
+                break;
+            case IMAGETYPE_JPEG:
+                $save_image = imagejpeg($fit_gd_image, $output_image_path, self::DEFAULT_JPG_QUALITY);
+                break;
+            case IMAGETYPE_PNG:
+                $save_image = imagepng($fit_gd_image, $output_image_path);
+                break;
+            case IMAGETYPE_BMP :
+                $save_image = image2wbmp($fit_gd_image, $output_image_path);
+                break;
+        }
 
 	    imagedestroy($source_gd_image);
 	    imagedestroy($fit_gd_image);
@@ -144,12 +165,33 @@ class Image
 	    return $save_image;
 	}
 
+
+
 	/*
 	 * PHP function to crop and resize an image of fixed dimensions
 	 */
 	static function fill( $source_image_path, $output_width, $output_height, $output_image_path = null ){
 
-		$image = imagecreatefromjpeg($source_image_path);
+	    list($source_image_width, $source_image_height, $source_image_type) = getimagesize($source_image_path);
+
+	    switch ($source_image_type) {
+	        case IMAGETYPE_GIF:
+	            $image = imagecreatefromgif($source_image_path);
+	            break;
+	        case IMAGETYPE_JPEG:
+	            $image = imagecreatefromjpeg($source_image_path);
+	            break;
+	        case IMAGETYPE_PNG:
+	            $image = imagecreatefrompng($source_image_path);
+	            break;
+	        case IMAGETYPE_BMP:
+	            $image = imagecreatefromwbmp($source_image_path);
+	            break;
+	    }
+
+	    if ($image === false) {
+	        return false;
+	    }
 
 		$width = imagesx($image);
 		$height = imagesy($image);
@@ -182,12 +224,88 @@ class Image
 		                   $width, $height);
 		$output_image_path = empty($output_image_path) ? $source_image_path : $output_image_path;
 
-		$save_image = imagejpeg($canvas_image, $output_image_path, self::DEFAULT_JPG_QUALITY);
+        switch ($source_image_type) {
+            case IMAGETYPE_GIF:
+                $save_image = imagegif($canvas_image, $output_image_path);
+                break;
+            case IMAGETYPE_JPEG:
+                $save_image = imagejpeg($canvas_image, $output_image_path, self::DEFAULT_JPG_QUALITY);
+                break;
+            case IMAGETYPE_PNG:
+                $save_image = imagepng($canvas_image, $output_image_path);
+                break;
+            case IMAGETYPE_BMP :
+                $save_image = image2wbmp($canvas_image, $output_image_path);
+                break;
+        }
+
 	    imagedestroy($canvas_image);
 	    imagedestroy($image);
 
 	    return $save_image;
 	}
+
+
+
+	/*
+	 * PHP function to convert image to grayscale
+	 */
+   static function grayScale ($path, $output_path = null){
+
+        if ( empty($output_path) ) {
+            $output_path = $path;
+        }
+
+        $tmp = explode('.', $path);
+        $pom = end($tmp);
+
+        if ($pom == 'gif') {
+            $image = imagecreatefromgif($path);
+        }
+        else if ($pom == 'png') {
+            $image = imagecreatefrompng($path);
+        }
+        else if ($pom == 'bmp') {
+            $image = imagecreatefromwbmp($path);
+        }
+        else if ($pom == 'jpg'  ||  $pom == 'jpeg') {
+            $image = imagecreatefromjpeg($path);
+        }
+        else{   
+            trigger_error("Format not supported", E_USER_ERROR);
+            return false;           
+        }
+        
+        $filter = imagefilter($image, IMG_FILTER_GRAYSCALE);
+
+        if ($filter) {
+            if ($pom == 'gif') {
+                $save_image = imagegif($image, $output_path);
+            }
+            else if ($pom == 'png') {
+                $save_image = imagepng($image, $output_path);
+            }
+            else if ($pom == 'bmp') {
+                $save_image = imagewbmp($image, $output_path);
+            }
+            else if ($pom == 'jpg'  ||  $pom == 'jpeg') {
+                $save_image = imagejpeg($image, $output_path, self::DEFAULT_JPG_QUALITY);
+            }
+            else{   
+                trigger_error("Error saving extension", E_USER_ERROR);
+                return false;           
+            }
+            
+            imagedestroy($image);
+
+            return $save_image;
+
+        }else{
+
+            return false;
+        }
+    }
+
 }
 
 ?>
