@@ -2,15 +2,15 @@
     Validate jQuery Plugin
     Tirien.com
     $Rev: 78 $
-	
-	This is optional:
-	options = {
-		activeColor: 'white',
-		inactiveColor: 'white'
-	};
-	
-	To initiate use:
-	$("#contact-form").tValidate(options);
+    
+    This is optional:
+    options = {
+        activeColor: 'white',
+        inactiveColor: 'white'
+    };
+    
+    To initiate use:
+    $("#contact-form").tValidate(options);
 */
 
 (function($) {
@@ -18,8 +18,11 @@
         var settings = {
             activeColor: 'black',
             inactiveColor: 'gray',
-            requiredColor: 'red',
-			placeholders: true
+            errorInputFontColor: 'red',
+            errorInputBorderColor: 'red',
+            validInputFontColor: 'green',
+            validInputBorderColor: 'green',
+            placeholders: true
         }
 
         settings = $.extend({}, settings, options);
@@ -31,12 +34,12 @@
             if( typeof( $(this).data('placeholder') ) == "undefined" ){
                 $(this).data('placeholder', $(this).val());
             }
-			else if( $(this).val() == '' && settings.placeholders ){
-				$(this).val( $(this).data('placeholder') );
-			}
+            else if( $(this).val() == '' && settings.placeholders ){
+                $(this).val( $(this).data('placeholder') );
+            }
         });
 
-        inputs.css('color', settings.inactiveColor).focus(function(){
+        inputs.not('[type="submit"]').css('color', settings.inactiveColor).focus(function(){
             if( $(this).val() == $(this).data('placeholder') && settings.placeholders ){
                 $(this).val('');
                 $(this).css('color', settings.activeColor);
@@ -44,19 +47,20 @@
         }).blur(function(){
             if( $(this).val()=='' ){
                 $(this).css('color', settings.inactiveColor);
-				if( settings.placeholders ){
-					$(this).val( $(this).data('placeholder') );
-				}
+                if( settings.placeholders ){
+                    $(this).val( $(this).data('placeholder') );
+                }
             }
         });
 
         // validation
         form.submit(function(){
             var valid = true;
+            inputs.filter(".required").css({borderColor:settings.validInputBorderColor, color:settings.validInputFontColor});
 
             inputs.filter(".required").each(function(){
                 if( $(this).val()=='' || ( $(this).val()==$(this).data("placeholder") && settings.placeholders ) ){
-                    $(this).css({borderColor:settings.requiredColor, color:settings.requiredColor});
+                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     valid = false;
                 }
             });
