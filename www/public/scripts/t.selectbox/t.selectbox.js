@@ -9,9 +9,11 @@
 $.fn.customSelectbox = function(config) {
     return this.each(function(ind, el) {
         var inputSelect = $(el);
+        var firstIsEmptyText = true;
 
         if(inputSelect.data('placeholder')!=undefined){
-            inputSelect.prepend('<option value="">'+inputSelect.data('placeholder')+'</option>');
+            inputSelect.prepend('<option value="0">'+inputSelect.data('placeholder')+'</option>');
+            firstIsEmptyText = true;
         }
 
         var customSelectbox;
@@ -21,8 +23,7 @@ $.fn.customSelectbox = function(config) {
         var options = dropdown.children();
         var selected = select.children(".cs-selected");
         var isOpened = false;
-		var firstIsEmptyText = true;
-
+        
         init();
 
         function inputChanged() {
