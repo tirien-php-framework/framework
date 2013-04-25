@@ -3,6 +3,7 @@
 	{
 		public $ajax = false;
 		public $apple = false;
+		public $iphone = false;
 		public $disable_layout = false;
 		public $disable_view = false;
 		private $layout_name = '';
@@ -15,9 +16,14 @@
 				$this->ajax = true;
 			}
 
-			if(strstr($_SERVER['HTTP_USER_AGENT'],'iPhone') || strstr($_SERVER['HTTP_USER_AGENT'],'iPod') || strstr($_SERVER['HTTP_USER_AGENT'],'iPad')) {
+			if( strstr($_SERVER['HTTP_USER_AGENT'],'iPhone') || strstr($_SERVER['HTTP_USER_AGENT'],'iPod') || strstr($_SERVER['HTTP_USER_AGENT'],'iPad') ) {
 				$this->apple = true;
 			}
+			
+			if( strstr($_SERVER['HTTP_USER_AGENT'],'iPhone') ) {
+				$this->iphone = true;
+			}
+			
 		}
 
 		public function init() {
