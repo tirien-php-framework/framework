@@ -61,12 +61,12 @@ $.fn.scale = function(ops){
                     }
                 }
 				
-				if(f){
-					el.addClass('scale-f');
-				}
-				else{
-					el.addClass('scale');
-				}
+                if(f){
+                    el.removeClass("scale").addClass('scale-f');
+                }
+                else{
+                    el.removeClass("scale-f").addClass('scale');
+                }
             }
         };
         tmpImg.src = el.prop('src');
