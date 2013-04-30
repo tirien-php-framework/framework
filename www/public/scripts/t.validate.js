@@ -3,6 +3,8 @@
     Tirien.com
     $Rev: 78 $
     
+    Use class 'required' on inputs that is mandatory and class 'email' to validate email.
+    
     This is optional:
     options = {
         activeColor: 'white',
@@ -28,6 +30,7 @@
         settings = $.extend({}, settings, options);
         form = $(element);
         inputs = form.find("input,textarea");
+        errorMsg = "Required fields can not be empty";
 
         // placeholders
         inputs.each(function(){
@@ -59,17 +62,26 @@
             inputs.filter(".required").css({borderColor:settings.validInputBorderColor, color:settings.validInputFontColor});
 
             inputs.filter(".required").each(function(){
+
+                var emailPattern = /^[-\w\.]+@([-\w\.]+\.)[-\w]{2,4}$/;
+                
                 if( $(this).val()=='' || ( $(this).val()==$(this).data("placeholder") && settings.placeholders ) ){
                     $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     valid = false;
                 }
+                else if( $(this).val()!='' && $(this).hasClass("email") && !emailPattern.test($(this).val()) ){
+                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                    errorMsg = "Email is not valid";
+                    valid = false;
+                }
+
             });
             
             if( valid ){
                 return true;
             }
             else{
-                alert("Required fields can not be empty");
+                alert(errorMsg);
                 return false;
             }
         });
