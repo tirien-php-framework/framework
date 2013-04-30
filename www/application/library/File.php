@@ -1,5 +1,5 @@
 <?php
-
+// TODO:ako ima vise fajlova mora da se hendla key 
 class File {
 
     static function getExtension( $str ) {
