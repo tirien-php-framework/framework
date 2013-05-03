@@ -10,7 +10,7 @@ Class ml {
     public static $active_language;
     private static $active_language_id;
     private static $default_language;
-    private static $default_language_id = 0;
+    private static $default_language_id = 0; // column used as argument calling t() function
     public static $languages;
     private static $csv_path;
     private static $csv_array = array();
