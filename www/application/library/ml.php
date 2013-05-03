@@ -10,8 +10,10 @@ Class ml {
     public static $active_language;
     private static $active_language_id;
     private static $default_language;
-    private static $default_language_id = 0; // column used as argument calling t() function
+    private static $default_language_id = 0;
+    private static $csv_assoc_language_id = 0;
     public static $languages;
+    private static $collect = false;
     private static $csv_path;
     private static $csv_array = array();
 
@@ -65,7 +67,7 @@ Class ml {
             $handle = fopen(self::$csv_path, "r");
 
             while (($row = fgetcsv($handle, 500, ",")) !== FALSE) {
-                self::$csv_array[$row[self::$default_language_id]] = $row;
+                self::$csv_array[$row[self::$csv_assoc_language_id]] = $row;
             }
             fclose($handle);
         } else {
@@ -77,7 +79,7 @@ Class ml {
         if (!empty(self::$csv_array[$word][self::$active_language_id])) {
             return self::$csv_array[$word][self::$active_language_id];
         } else {
-            if (!isset(self::$csv_array[$word])) {
+            if ( !isset(self::$csv_array[$word]) && self::$collect ) {
                 if (file_exists(self::$csv_path)) {
                     $handle = fopen(self::$csv_path, "a");
                     fputcsv($handle, array($word,'',''));
