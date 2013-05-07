@@ -7,13 +7,13 @@
  */
 Class ml {
 
+    public static $languages;
     public static $active_language;
     private static $active_language_id;
-    private static $default_language;
+    public static $default_language;
     private static $default_language_id = 0;
     private static $csv_assoc_language_id = 0;
-    public static $languages;
-    private static $collect = false;
+    private static $collect = true;
     private static $csv_path;
     private static $csv_array = array();
 
