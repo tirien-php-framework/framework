@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Multilanguage Library
  * Initiate with: 
@@ -31,7 +31,7 @@ Class ml {
         // PARSE REQUEST PARAMS
         if ( !empty($_REQUEST['rq_controller']) && in_array($_REQUEST['rq_controller'], $languages) ) {
 
-            $_SESSION['active_language'] = $_REQUEST['rq_controller'];
+            self::$active_language = $_REQUEST['rq_controller'];
             $_REQUEST['rq_controller'] = !empty($_REQUEST['rq_action']) ? $_REQUEST['rq_action'] : 'index';
 			
 			if( !empty($_REQUEST['rq_param']) ){
@@ -50,13 +50,11 @@ Class ml {
 
         } 
         else {
-            $_SESSION['active_language'] = self::$default_language;
+            self::$active_language = self::$default_language;
         }        
 
-        self::$active_language = !empty($_SESSION['active_language']) ? $_SESSION['active_language'] : self::$default_language;
-
         if (!empty($_REQUEST['set_language'])) {
-            self::$active_language = $_SESSION['active_language'] = $_REQUEST['set_language'];
+            self::$active_language = $_REQUEST['set_language'];
         }
 
         self::$active_language_id = array_search(self::$active_language, self::$languages);
@@ -80,7 +78,7 @@ Class ml {
             return self::$csv_array[$word][self::$active_language_id];
         } else {
             if ( !isset(self::$csv_array[$word]) && self::$collect ) {
-                if (file_exists(self::$csv_path)) {
+                if ( file_exists(self::$csv_path) ) {
                     $handle = fopen(self::$csv_path, "a");
                     fputcsv($handle, array($word,'',''));
                     fclose($handle);
