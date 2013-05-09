@@ -80,7 +80,7 @@
             captionField = $element.find(plugin.settings.caption);
         }
         var applyInitSettings = function() {
-            images.filter(':not(:eq(0))').css({
+            images.css({
                 position : 'absolute',
                 left : 0,
                 top : 0,
