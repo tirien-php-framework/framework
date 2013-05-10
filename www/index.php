@@ -57,7 +57,9 @@ function __autoload( $class_name ) {
 disableMagicQuotes();
 
 /* LOG SESSION */
-session_start(); 
+if( empty($_SESSION) ){
+	session_start(); 
+}
 Log::session();	
 
 /* INIT MULTILANGUAGE */
