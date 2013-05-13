@@ -17,9 +17,9 @@ class Path{
 	public static function init( $index_uri ){
 		global $_fwRoot;
 		global $_config;
-		$index_uri = trim($index_uri, "/");
+		$index_uri = trim($index_uri, "/\\");
 		
-		self::$urlProtocol = ( empty($_SERVER['HTTPS']) ? 'http' : 'https' );
+		self::$urlProtocol = empty($_SERVER['HTTPS']) || $_SERVER['HTTPS']=='off' ? 'http' : 'https';
 		self::$urlPort = $_SERVER['SERVER_PORT']=='80' ? '' : $_SERVER['SERVER_PORT'];
 
 		self::$urlBase = self::$urlProtocol . '://' . trim($_SERVER['HTTP_HOST'], "/") . ( empty($index_uri) ? '' : '/'.$index_uri );
