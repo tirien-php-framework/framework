@@ -18,6 +18,7 @@
             imageWrapper: null,
             autoPlay : true,
             lockSize: true,
+            transition: 'crossfade',
             beforeChange: function(){},
             afterChange: function(){},
             beforeAnimation: function(){},
@@ -150,26 +151,43 @@
         var showImage = function(prev, next, direction) {
             if($(prev)[0] !== $(next)[0]) {
                 if (plugin.settings.beforeChange(images, i)!==false){
+
                     if (captionField){
                         captionField.fadeOut(function(){
                             $(this).html('').html( next.data('caption') ).fadeIn();
                         })
                     }
+
                     $element.find(plugin.settings.goToImage).removeClass('active').filter('[data-n=' + next.index() + ']').addClass('active');
                     plugin.settings.beforeAnimation(images, i);
-                    transitionFade(prev,next,direction, plugin.settings.afterChange(images, i));
+
+                    if( plugin.settings.transition == 'crossfade' ){
+                        transitionCrossFade(prev,next,direction, plugin.settings.afterChange(images, i));
+                    }
+                    else if( plugin.settings.transition == 'fade' ){
+                        transitionFade(prev,next,direction, plugin.settings.afterChange(images, i));
+                    }
+                    else if( plugin.settings.transition == 'slide' ){
+                        transitionSlide(prev,next,direction, plugin.settings.afterChange(images, i));
+                    }
+
                     activeImage = next;
                 }
             }
         }
+        var transitionCrossFade = function(prev,next,direction,callback){
+            prev.fadeOut(plugin.settings.speed);
+            next.fadeIn( plugin.settings.speed, callback );
+        }
         var transitionFade = function(prev,next,direction,callback){
-                    prev.fadeOut(plugin.settings.speed);
-                    next.fadeIn(plugin.settings.speed, callback );
+            prev.fadeOut( plugin.settings.speed, function(){
+                next.fadeIn( plugin.settings.speed, callback );
+            });
         }
         var transitionSlide = function(prev,next,direction,callback){
-            prev.css({zIndex: 5});
             var left = direction === 'next';
-            next.css({zIndex: 10, left: left ? 100 : -100}).show().animate({left: 0},250,callback);
+            prev.css({zIndex: 5}).animate( {left: left ? "-50%" : "150%"}, plugin.settings.speed, function(){$(this).hide()} );
+            next.css({zIndex:10, left: left ? "150%" : "-50%", marginLeft:-next.width()/2}).show().animate( {left:"50%"}, plugin.settings.speed, callback );
         }
         plugin.nextImage = function() {
             nextImage();
