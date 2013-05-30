@@ -39,13 +39,13 @@ $.fn.scale = function(ops){
         {
             el.css({
                 width : '100%',
-                height : parentWidth / elementRatio
+                height : Math.round( parentWidth / elementRatio )
             });
         }
         else
         {
             el.css({
-                width : parentHeight * elementRatio,
+                width : Math.round( parentHeight * elementRatio ),
                 height : '100%'
             });
         }
