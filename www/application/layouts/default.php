@@ -8,9 +8,10 @@
 	<meta name="description" content="">
 	
 	<link rel="stylesheet" href="css/reset.css" type="text/css">
-	<link rel="stylesheet" href="css/general.css" type="text/css">
+	<link rel="stylesheet" href="css/global.css" type="text/css">
 	
 	<script src="//code.jquery.com/jquery-latest.min.js"></script>
+	<script src="scripts/global.js"></script>
 	
 </head>
 <body>
