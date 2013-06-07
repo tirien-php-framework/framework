@@ -105,15 +105,15 @@
             timer = plugin.settings.autoPlay ? setTimeout(nextImage, plugin.settings.duration) : null;
         }
         var bindEvents = function() {
-            $element.find(plugin.settings.goToImage).off('click.tgallery').on('click.tgallery', function(e){
+            $(plugin.settings.goToImage).off('click.tgallery').on('click.tgallery', function(e){
                 e.preventDefault();
                 goTo($(this).data('n'));
             });
-            $element.find(plugin.settings.nextImage).off('click.tgallery').on('click.tgallery', function(e) {
+            $(plugin.settings.nextImage).off('click.tgallery').on('click.tgallery', function(e) {
                 e.preventDefault();
                 nextImage();
             });
-            $element.find(plugin.settings.prevImage).off('click.tgallery').on('click.tgallery', function(e) {
+            $(plugin.settings.prevImage).off('click.tgallery').on('click.tgallery', function(e) {
                 e.preventDefault();
                 prevImage();
             });
