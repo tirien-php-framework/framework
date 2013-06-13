@@ -61,10 +61,10 @@ $.fn.scale = function(ops){
         }       
 
         if(f){
-            el.removeClass("scale").addClass('scale-f');
+            el.removeClass("scale").addClass('scale-f scale-done');
         }
         else{
-            el.removeClass("scale-f").addClass('scale');
+            el.removeClass("scale-f").addClass('scale scale-done');
         }
 
         return true;
