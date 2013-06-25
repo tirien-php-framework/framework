@@ -1,6 +1,7 @@
 <?php
 	class Core
 	{
+		public $view;
 		public $ajax = false;
 		public $apple = false;
 		public $iphone = false;
@@ -9,6 +10,9 @@
 		private $layout_name = '';
 		
 		public function __construct() {
+
+			$this->view = new stdClass();
+
 			if(
 				!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
 				strtolower($_SERVER['HTTP_X_REQUESTED_WITH']) == 'xmlhttprequest'
