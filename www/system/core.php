@@ -3,6 +3,7 @@
 	{
 		public $view;
 		public $ajax = false;
+		public $mobile = false;
 		public $apple = false;
 		public $iphone = false;
 		public $disable_layout = false;
@@ -27,7 +28,11 @@
 			if( strstr($_SERVER['HTTP_USER_AGENT'],'iPhone') ) {
 				$this->iphone = true;
 			}
-			
+
+			if( preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|tablet|up\.browser|up\.link|webos|wos)/i", $_SERVER["HTTP_USER_AGENT"]) ) {
+				$this->mobile = true;
+			}
+
 		}
 
 		public function init() {
