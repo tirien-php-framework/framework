@@ -185,7 +185,7 @@
             });
         }
         var transitionSlide = function(prev,next,direction,callback){
-            var left = direction === 'next';
+            var left = direction === 'next' || next.index()>prev.index();
             prev.css({zIndex: 5}).animate( {left: left ? "-50%" : "150%"}, plugin.settings.speed, function(){$(this).hide()} );
             next.css({zIndex:10, left: left ? "150%" : "-50%", marginLeft:-next.width()/2}).show().animate( {left:"50%"}, plugin.settings.speed, callback );
         }
