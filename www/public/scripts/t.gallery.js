@@ -158,7 +158,7 @@
                         })
                     }
 
-                    $element.find(plugin.settings.goToImage).removeClass('active').filter('[data-n=' + next.index() + ']').addClass('active');
+                    $element.find(plugin.settings.goToImage).removeClass('current').filter('[data-n=' + next.index() + ']').addClass('current');
                     plugin.settings.beforeAnimation(images, i);
 
                     if( plugin.settings.transition == 'crossfade' ){
