@@ -78,7 +78,7 @@
             else{
                 imageWrapper = $element.find(plugin.settings.imageWrapper);
             }
-            captionField = $element.find(plugin.settings.caption);
+            captionField = $(plugin.settings.caption);
         }
         var applyInitSettings = function() {
             images.css({
@@ -88,7 +88,7 @@
                 display : 'none'
             });
 
-            $element.find(plugin.settings.goToImage).filter('[data-n=0]').addClass('active');
+            $(plugin.settings.goToImage).filter('[data-n=0]').addClass('active');
             var pos = imageWrapper.css('position');
             if (pos=='static'){
                 if (plugin.settings.lockSize){
@@ -158,7 +158,7 @@
                         })
                     }
 
-                    $element.find(plugin.settings.goToImage).removeClass('current').filter('[data-n=' + next.index() + ']').addClass('current');
+                    $(plugin.settings.goToImage).removeClass('current').filter('[data-n=' + next.index() + ']').addClass('current');
                     plugin.settings.beforeAnimation(images, i);
 
                     if( plugin.settings.transition == 'crossfade' ){
