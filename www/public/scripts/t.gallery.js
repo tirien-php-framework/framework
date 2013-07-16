@@ -88,7 +88,7 @@
                 display : 'none'
             });
 
-            $(plugin.settings.goToImage).filter('[data-n=0]').addClass('active');
+            $(plugin.settings.goToImage).filter('[data-n=0]').addClass('current');
             var pos = imageWrapper.css('position');
             if (pos=='static'){
                 if (plugin.settings.lockSize){
