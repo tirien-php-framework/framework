@@ -1,7 +1,7 @@
 ﻿/* 
-*	Gallery jQuery Plugin
-*	Tirien.com
-*	$Rev$
+*   Gallery jQuery Plugin
+*   Tirien.com
+*   $Rev$
 */
 
 (function($){
@@ -162,32 +162,33 @@
                     plugin.settings.beforeAnimation(images, i);
 
                     if( plugin.settings.transition == 'crossfade' ){
-                        transitionCrossFade(prev,next,direction, plugin.settings.afterChange(images, i));
+                        transitionCrossFade(prev,next,direction);
                     }
                     else if( plugin.settings.transition == 'fade' ){
-                        transitionFade(prev,next,direction, plugin.settings.afterChange(images, i));
+                        transitionFade(prev,next,direction);
                     }
                     else if( plugin.settings.transition == 'slide' ){
-                        transitionSlide(prev,next,direction, plugin.settings.afterChange(images, i));
+                        transitionSlide(prev,next,direction);
                     }
 
                     activeImage = next;
                 }
             }
         }
-        var transitionCrossFade = function(prev,next,direction,callback){
+        var transitionCrossFade = function(prev,next,direction){
             prev.fadeOut(plugin.settings.speed);
-            next.fadeIn( plugin.settings.speed, callback );
+            next.fadeIn( plugin.settings.speed, plugin.settings.afterChange );
         }
-        var transitionFade = function(prev,next,direction,callback){
+        var transitionFade = function(prev,next,direction){
             prev.fadeOut( plugin.settings.speed, function(){
-                next.fadeIn( plugin.settings.speed, callback );
+                next.fadeIn( plugin.settings.speed, plugin.settings.afterChange );
             });
         }
-        var transitionSlide = function(prev,next,direction,callback){
+        var transitionSlide = function(prev,next,direction){
             var left = direction === 'next' || next.index()>prev.index();
             prev.css({zIndex: 5}).animate( {left: left ? "-50%" : "150%"}, plugin.settings.speed, function(){$(this).hide()} );
-            next.css({zIndex:10, left: left ? "150%" : "-50%", marginLeft:-next.width()/2}).show().animate( {left:"50%"}, plugin.settings.speed, callback );
+            next.css({zIndex:10, left: left ? "150%" : "-50%", marginLeft:-next.width()/2}).show();
+            next.animate( {left:"50%"}, plugin.settings.speed, plugin.settings.afterChange );
         }
         plugin.nextImage = function() {
             nextImage();
