@@ -1,7 +1,7 @@
 /*
     Custom Selectbox jQuery Plugin
     Tirien.com
-    $Rev$
+    $Rev:$
     
     $("#select").customSelectbox();
 */
