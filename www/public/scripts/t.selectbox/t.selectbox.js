@@ -1,7 +1,7 @@
 /*
     Custom Selectbox jQuery Plugin
     Tirien.com
-    $Rev: 80 $
+    $Rev$
     
     $("#select").customSelectbox();
 */
@@ -13,7 +13,7 @@ $.fn.customSelectbox = function(userConfig) {
             firstIsEmptyText: true
         }
 
-        $.extend(config, userConfig);
+        $.extend(config, userConfig); 
 
         if(inputSelect.data('placeholder')!=undefined){
             inputSelect.prepend('<option value="0">'+inputSelect.data('placeholder')+'</option>');
