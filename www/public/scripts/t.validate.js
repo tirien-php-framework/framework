@@ -1,7 +1,7 @@
 /*  
     Validate jQuery Plugin
     Tirien.com
-    $Rev: 78 $
+    $Rev$
     
     Use class 'required' on inputs that is mandatory and class 'email' to validate email.
     

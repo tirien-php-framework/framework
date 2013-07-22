@@ -1,7 +1,7 @@
 /*  
 	Tooltips jQuery Plugin
 	Tirien.com
-	$Rev: 84 $
+	$Rev$
 	
 	tooltipsData = [ 
 		{ x:10, y:50, content:'text'" }, 
