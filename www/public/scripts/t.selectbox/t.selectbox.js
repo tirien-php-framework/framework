@@ -1,19 +1,23 @@
 /*
-	Custom Selectbox jQuery Plugin
-	Tirien.com
-	$Rev: 80 $
-	
-	$("#select").customSelectbox();
+    Custom Selectbox jQuery Plugin
+    Tirien.com
+    $Rev: 80 $
+    
+    $("#select").customSelectbox();
 */
 
-$.fn.customSelectbox = function(config) {
+$.fn.customSelectbox = function(userConfig) {
     return this.each(function(ind, el) {
         var inputSelect = $(el);
-        var firstIsEmptyText = true;
+        var config = {
+            firstIsEmptyText: true
+        }
+
+        $.extend(config, userConfig);
 
         if(inputSelect.data('placeholder')!=undefined){
             inputSelect.prepend('<option value="0">'+inputSelect.data('placeholder')+'</option>');
-            firstIsEmptyText = true;
+            config.firstIsEmptyText = true;
         }
 
         var customSelectbox;
@@ -141,14 +145,14 @@ $.fn.customSelectbox = function(config) {
             {
                 var v = o.attr('value');
                 var other_options = o.attr('selected', true).addClass('cs-hilighted').siblings();
-				other_options.attr('selected', false).removeClass('cs-hilighted');
+                other_options.attr('selected', false).removeClass('cs-hilighted');
 
                 selected.attr('value', v);
                 selected.text(o.text());
                 if (inputSelect.val() !== v){
-					if(firstIsEmptyText) {
-						other_options.first().hide();
-					}
+                    if(config.firstIsEmptyText) {
+                        other_options.first().hide();
+                    }
                     inputSelect.val(v).trigger('change');
                 }
             }
