@@ -59,6 +59,10 @@ class Path{
 	public static function urlUri(){
 		return trim( substr( self::$urlProtocol.'://'.$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"], strlen( self::$urlBase ) ), '/' );
 	}
+	
+	public static function pageUrl(){
+		return  self::urlBase().'/'.self::urlUri();
+	}
 		
 }
 
