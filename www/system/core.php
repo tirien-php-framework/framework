@@ -14,6 +14,14 @@
 		public function __construct() {
 
 			$this->view = new stdClass();
+			
+			$this->view->head = array(
+				'title' => '',
+				'description' => '',
+				'og_title' => '',
+				'og_description' => '',
+				'og_image' => ''
+				);
 
 			if(
 				!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
