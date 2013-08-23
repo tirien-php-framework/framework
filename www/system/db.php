@@ -70,6 +70,10 @@ class DB
 		return $newArray;
 	}
 
+	public static function queryRow( $prepared, $values = array() ) {
+		return self::query( $prepared, $values, true );
+	}
+
 	public static function query( $prepared, $values = array(), $fetchRow = false ) {
 		if( !self::$isInitiated ) self::init();
 		if( self::$globalDebug && self::$printOutput ){
