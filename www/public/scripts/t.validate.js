@@ -2,7 +2,7 @@
     Validate jQuery Plugin
     Tirien.com
     $Rev$
-    
+
     Use class 'required' on inputs that is mandatory and class 'email' to validate email.
     
     This is optional:
@@ -24,7 +24,7 @@
             errorInputBorderColor: 'red',
             validInputFontColor: 'green',
             validInputBorderColor: 'green',
-            placeholders: true
+            placeholders: false
         }
 
         settings = $.extend({}, settings, options);
@@ -35,7 +35,7 @@
         // placeholders
         inputs.each(function(){
             if( typeof( $(this).data('placeholder') ) == "undefined" ){
-                $(this).data('placeholder', $(this).val());
+                $(this).data('placeholder', $(this).attr("name"));
             }
             else if( $(this).val() == '' && settings.placeholders ){
                 $(this).val( $(this).data('placeholder') );
@@ -68,11 +68,13 @@
                 if( $(this).val()=='' || ( $(this).val()==$(this).data("placeholder") && settings.placeholders ) ){
                     $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     valid = false;
+                    console.dir($(this).val())
                 }
                 else if( $(this).val()!='' && $(this).hasClass("email") && !emailPattern.test($(this).val()) ){
                     $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     errorMsg = "Email is not valid";
                     valid = false;
+                    console.dir($(this).val())
                 }
 
             });
