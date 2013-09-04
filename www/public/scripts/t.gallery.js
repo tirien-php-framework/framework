@@ -121,11 +121,16 @@
         }
         var goTo = function(imageNumber) {
             var next = $(images[imageNumber]);
+            var direction = 'prev';
+
             if(next.length) {
                 clearTimeout(timer);
                 timer = plugin.settings.autoPlay ? setTimeout(nextImage, plugin.settings.duration) : null;
                 i = imageNumber;
-                showImage(activeImage, next);
+                if( imageNumber > $(plugin.settings.goToImage +'.active').data('n') ){
+                    direction = 'next'
+                }
+                showImage(activeImage, next, direction);
             }
         }
         var nextImage = function() {
