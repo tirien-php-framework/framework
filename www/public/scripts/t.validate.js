@@ -68,13 +68,11 @@
                 if( $(this).val()=='' || ( $(this).val()==$(this).data("placeholder") && settings.placeholders ) ){
                     $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     valid = false;
-                    console.dir($(this).val())
                 }
                 else if( $(this).val()!='' && $(this).hasClass("email") && !emailPattern.test($(this).val()) ){
                     $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     errorMsg = "Email is not valid";
                     valid = false;
-                    console.dir($(this).val())
                 }
 
             });
