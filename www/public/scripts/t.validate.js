@@ -18,8 +18,8 @@
 (function($) {
     $.tValidate = function(element, options) {
         var settings = {
-            activeColor: 'black',
-            inactiveColor: 'gray',
+            activeColor: '#222',
+            inactiveColor: '#777',
             errorInputFontColor: 'red',
             errorInputBorderColor: 'red',
             validInputFontColor: 'green',
@@ -34,25 +34,28 @@
 
         // placeholders
         inputs.each(function(){
-            if( typeof( $(this).data('placeholder') ) == "undefined" ){
+
+            $(this).css('color', settings.activeColor);
+
+            if( typeof( $(this).data('placeholder') ) == "undefined" && settings.placeholders ){
                 $(this).data('placeholder', $(this).attr("name"));
             }
-            else if( $(this).val() == '' && settings.placeholders ){
-                $(this).val( $(this).data('placeholder') );
+
+            if( $(this).val() == '' && settings.placeholders ){
+                $(this).val( $(this).data('placeholder') ).css('color', settings.inactiveColor);;
             }
+
         });
 
-        inputs.not('[type="submit"]').css('color', settings.inactiveColor).focus(function(){
+        inputs.focus(function(){
+            $(this).css('color', settings.activeColor);
             if( $(this).val() == $(this).data('placeholder') && settings.placeholders ){
                 $(this).val('');
-                $(this).css('color', settings.activeColor);
             }
         }).blur(function(){
-            if( $(this).val()=='' ){
+            if( $(this).val()=='' && settings.placeholders ){
                 $(this).css('color', settings.inactiveColor);
-                if( settings.placeholders ){
-                    $(this).val( $(this).data('placeholder') );
-                }
+                $(this).val( $(this).data('placeholder') );
             }
         });
 
@@ -66,7 +69,8 @@
                 var emailPattern = /^[-\w\.]+@([-\w\.]+\.)[-\w]{2,4}$/;
                 
                 if( $(this).val()=='' || ( $(this).val()==$(this).data("placeholder") && settings.placeholders ) ){
-                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                    $(this).css({color:settings.errorInputFontColor});
+                    $(this).parent().css({borderColor:settings.errorInputBorderColor});
                     valid = false;
                 }
                 else if( $(this).val()!='' && $(this).hasClass("email") && !emailPattern.test($(this).val()) ){
