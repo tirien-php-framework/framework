@@ -69,8 +69,7 @@
                 var emailPattern = /^[-\w\.]+@([-\w\.]+\.)[-\w]{2,4}$/;
                 
                 if( $(this).val()=='' || ( $(this).val()==$(this).data("placeholder") && settings.placeholders ) ){
-                    $(this).css({color:settings.errorInputFontColor});
-                    $(this).parent().css({borderColor:settings.errorInputBorderColor});
+                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     valid = false;
                 }
                 else if( $(this).val()!='' && $(this).hasClass("email") && !emailPattern.test($(this).val()) ){
