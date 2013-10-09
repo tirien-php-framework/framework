@@ -10,7 +10,7 @@ $.fn.customSelectbox = function(userConfig) {
     return this.each(function(ind, el) {
         var inputSelect = $(el);
         var config = {
-            firstIsEmptyText: true
+            firstIsEmptyText: false
         }
 
         $.extend(config, userConfig); 
