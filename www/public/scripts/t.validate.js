@@ -45,7 +45,7 @@
 
 
             if( $(this).val() == '' && settings.placeholders ){
-                $(this).val( $(this).data('placeholder') ).css('color', settings.inactiveColor);;
+                $(this).val( $(this).data('placeholder') ).css('color', settings.inactiveColor);
             }
 
         });
@@ -85,7 +85,15 @@
             });
             
             if( valid ){
+
+                inputs.each(function(){
+                    if( $(this).val() == $(this).data('placeholder') && settings.placeholders ){
+                        $(this).val("");
+                    }
+                });
+               
                 return true;
+                
             }
             else{
                 alert(settings.errorMessage);
