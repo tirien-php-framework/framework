@@ -2,7 +2,7 @@
     Validate jQuery Plugin
     Tirien.com
     $Rev$
-
+    
     Use class 'required' on inputs that is mandatory and class 'email' to validate email.
     
     This is optional:
@@ -18,28 +18,31 @@
 (function($) {
     $.tValidate = function(element, options) {
         var settings = {
-            activeColor: '#222',
-            inactiveColor: '#777',
+            inactiveColor: 'gray',
             errorInputFontColor: 'red',
             errorInputBorderColor: 'red',
             validInputFontColor: 'green',
             validInputBorderColor: 'green',
-            placeholders: false
+            enableValidColors: false,
+            errorMessage: 'Required fields can not be empty',
+            placeholders: true
         }
 
-        settings = $.extend({}, settings, options);
-        form = $(element);
-        inputs = form.find("input,textarea");
-        errorMsg = "Required fields can not be empty";
+        var settings = $.extend({}, settings, options);
+        var form = $(element);
+        var inputs = form.find("input,textarea").not("[type='submit']");
+
 
         // placeholders
         inputs.each(function(){
 
-            $(this).css('color', settings.activeColor);
-
-            if( typeof( $(this).data('placeholder') ) == "undefined" && settings.placeholders ){
-                $(this).data('placeholder', $(this).attr("name"));
+            settings.activeColor = $(this).css('color');
+            
+            if( !settings.enableValidColors ){
+                settings.validInputFontColor = $(this).css('color');
+                settings.validInputBorderColor = $(this).css('border-color');
             }
+
 
             if( $(this).val() == '' && settings.placeholders ){
                 $(this).val( $(this).data('placeholder') ).css('color', settings.inactiveColor);;
@@ -62,6 +65,7 @@
         // validation
         form.submit(function(){
             var valid = true;
+
             inputs.filter(".required").css({borderColor:settings.validInputBorderColor, color:settings.validInputFontColor});
 
             inputs.filter(".required").each(function(){
@@ -74,7 +78,7 @@
                 }
                 else if( $(this).val()!='' && $(this).hasClass("email") && !emailPattern.test($(this).val()) ){
                     $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
-                    errorMsg = "Email is not valid";
+                    settings.errorMessage = "Email is not valid";
                     valid = false;
                 }
 
@@ -84,7 +88,7 @@
                 return true;
             }
             else{
-                alert(errorMsg);
+                alert(settings.errorMessage);
                 return false;
             }
         });
