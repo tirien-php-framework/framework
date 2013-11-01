@@ -5,7 +5,6 @@ class Path{
 	public static $urlPort;
 	public static $urlBase;
 	public static $assetsVersion;
-	private static $fwRoot;
 	private static $folders = Array(
 		'css'		=> '/public/css',
 		'docs'		=> '/public/docs',
@@ -14,18 +13,13 @@ class Path{
 		'scripts'	=> '/public/scripts'
 	);
 	
-	public static function init( $index_uri ){
-		global $_fwRoot;
-		global $_config;
+	public static function init( $index_uri, $assetsVersion = '' ){
 		$index_uri = trim($index_uri, "/\\");
 		
 		self::$urlProtocol = empty($_SERVER['HTTPS']) || $_SERVER['HTTPS']=='off' ? 'http' : 'https';
 		self::$urlPort = $_SERVER['SERVER_PORT']=='80' ? '' : $_SERVER['SERVER_PORT'];
-
 		self::$urlBase = self::$urlProtocol . '://' . trim($_SERVER['HTTP_HOST'], "/") . ( empty($index_uri) ? '' : '/'.$index_uri );
-		
-		self::$fwRoot = $_fwRoot;
-		self::$assetsVersion = empty($_config['application']['assets_version']) ? '' : '?v='.$_config['application']['assets_version'];
+		self::$assetsVersion = empty($assetsVersion) ? '' : '?v='.$assetsVersion;
 	}
 	
 	public static function script($attachment=''){

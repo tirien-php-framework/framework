@@ -1,1 +1,1 @@
-Welcome to Tirien Framework!
+Welcome to Tirien Web Framework!

@@ -21,7 +21,7 @@ Class ml {
         self::$languages = $languages;
         self::$default_language = $languages[self::$default_language_id];
 
-        self::$csv_path = 'application'.DIRECTORY_SEPARATOR.'library'.DIRECTORY_SEPARATOR.'ml.csv';
+        self::$csv_path = dirname(__FILE__).DIRECTORY_SEPARATOR.'ml.csv';
         self::loadCsv();
 
         if (!isset($_SESSION)) {

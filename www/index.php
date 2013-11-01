@@ -5,9 +5,7 @@
 /* $Rev$ */
 /* www.tirien.com */
 
-$_config = parse_ini_file( 'application/configs/application.ini', true );
-$_fwRoot = dirname( __FILE__ );
-
+$_config = parse_ini_file( 'application'.DIRECTORY_SEPARATOR.'configs'.DIRECTORY_SEPARATOR.'application.ini', true );
 $_debug = $_config['system']['debug'] && in_array( $_SERVER['REMOTE_ADDR'], $_config['system']['development_ip'] ) ? true : false;
 
 if( $_debug ){
@@ -25,29 +23,33 @@ if(
 	$_config['system']['maintenance'] &&
 	!in_array( $_SERVER['REMOTE_ADDR'], $_config['system']['development_ip'] )
 ){
-	include( 'application/views/maintenance.htm' );
+	include( 'application'.DIRECTORY_SEPARATOR.'views'.DIRECTORY_SEPARATOR.'maintenance.htm' );
 	die();
 }
 
 
 /* GET ALL INCLUDES */
-$folder_names = array( 'system', 'application/functions' );
+$folder_names = array( 'system', 'application'.DIRECTORY_SEPARATOR.'functions' );
 
 foreach( $folder_names as $folder_name ){
-	foreach( glob( $folder_name."/*.php" ) as $class ){
+	foreach( glob( $folder_name.DIRECTORY_SEPARATOR.'*.php' ) as $class ){
 		require_once ( $class );
 	}
 }
 
 function __autoload( $class_name ) {
-	if( strpos( $class_name, "Model_" ) !== FALSE ){
-		include 'application/models/'.str_replace("Model_", "", $class_name).'.php';
+	$foreign_class = 'application'.DIRECTORY_SEPARATOR.'library'.DIRECTORY_SEPARATOR . str_replace( array('\\', '_'), DIRECTORY_SEPARATOR, trim($class_name,'\\_')) . '.php';
+	if( strpos( $class_name, "Model_" ) !== false ){
+		include 'application'.DIRECTORY_SEPARATOR.'models'.DIRECTORY_SEPARATOR.str_replace("Model_", "", $class_name).'.php';
 	}
-	else if( strpos( $class_name, "Library_" ) !== FALSE ){
-		include 'application/library/'.str_replace("Library_", "", $class_name).'.php';
+	else if( strpos( $class_name, "Library_" ) !== false ){
+		include 'application'.DIRECTORY_SEPARATOR.'library'.DIRECTORY_SEPARATOR.''.str_replace("Library_", "", $class_name).'.php';
+	}
+	else if( file_exists($foreign_class) ){
+		include $foreign_class;
 	}
 	else{
-		include 'application/library/'.$class_name.'.php';
+		include 'application'.DIRECTORY_SEPARATOR.'library'.DIRECTORY_SEPARATOR.$class_name.'.php';
 	}
 }
 
@@ -66,14 +68,15 @@ Log::session();
 ml::init( array('en') ); 
 	
 /* INIT ROUTES */
-Path::init( dirname( $_SERVER['PHP_SELF'] ) );
+Path::init( dirname(__FILE__), $_config['application']['assets_version'] );
 Router::init();
 
 
 
 /* RUN SYSTEM */
-if( file_exists( 'application/controllers/'.Router::$controller.'.php' ) ){
-	require_once( 'application/controllers/'.Router::$controller.'.php' );
+$main_controller_path = 'application'.DIRECTORY_SEPARATOR.'controllers'.DIRECTORY_SEPARATOR.Router::$controller.'.php';
+if( file_exists($main_controller_path) ){
+	require_once($main_controller_path);
 	$system_rq_controller = ucfirst( Router::$controller ).'Controller';
 	$system_rq_action = Router::$action.'Action';
 	$system = new $system_rq_controller;
