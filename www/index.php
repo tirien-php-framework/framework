@@ -68,7 +68,7 @@ Log::session();
 ml::init( array('en') ); 
 	
 /* INIT ROUTES */
-Path::init( dirname(__FILE__), $_config['application']['assets_version'] );
+Path::init( dirname($_SERVER['PHP_SELF']), dirname(__FILE__), $_config['application']['assets_version'] );
 Router::init();
 
 

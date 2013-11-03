@@ -5,6 +5,7 @@ class Path{
 	public static $urlPort;
 	public static $urlBase;
 	public static $assetsVersion;
+	public static $appRoot;
 	private static $folders = Array(
 		'css'		=> '/public/css',
 		'docs'		=> '/public/docs',
@@ -13,8 +14,9 @@ class Path{
 		'scripts'	=> '/public/scripts'
 	);
 	
-	public static function init( $index_uri, $assetsVersion = '' ){
+	public static function init( $index_uri, $index_path, $assetsVersion = '' ){
 		$index_uri = trim($index_uri, "/\\");
+		self::$appRoot = trim($index_path, "/\\");
 		
 		self::$urlProtocol = empty($_SERVER['HTTPS']) || $_SERVER['HTTPS']=='off' ? 'http' : 'https';
 		self::$urlPort = $_SERVER['SERVER_PORT']=='80' ? '' : $_SERVER['SERVER_PORT'];
@@ -43,7 +45,7 @@ class Path{
 	}
 	
 	public static function appRoot($attachment=''){
-		return rtrim( self::$fwRoot.DIRECTORY_SEPARATOR.trim(str_replace(array('/','\\'), DIRECTORY_SEPARATOR, $attachment),'\/'), '\/');
+		return rtrim( self::$appRoot.DIRECTORY_SEPARATOR.trim(str_replace(array('/','\\'), DIRECTORY_SEPARATOR, $attachment),'\/'), '\/');
 	}
 	
 	public static function urlBase($attachment=''){
