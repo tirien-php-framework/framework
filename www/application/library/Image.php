@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class Image
 {
@@ -27,8 +27,8 @@ class Image
 		$arr['msg'] = 'Sucess';
 
 		//reads the name of the file the user submitted for uploading
-		$image = !empty($key) ? $_FILES[$name]['name'][$key] : $_FILES[$name]['name'];
-
+		$image = $key !== null ? $_FILES[$name]['name'][$key] : $_FILES[$name]['name'];
+		
 		if( !$image ){
 			$arr['status'] = 0;
 			$arr['msg'] = 'False';
@@ -44,7 +44,8 @@ class Image
         }
 
 		//get the original name of the file from the clients machine
-		$filename = !empty($key) ? stripslashes($_FILES[$name]['name'][$key]) : stripslashes($_FILES[$name]['name']);
+
+		$filename = $key !== null ? stripslashes($_FILES[$name]['name'][$key]) : stripslashes($_FILES[$name]['name']);
 
 		//get the extension of the file in a lower case format
 		$extension = self::getExtension( $filename );
@@ -60,7 +61,7 @@ class Image
 		//get the size of the image in bytes
 		//$_FILES['image']['tmp_name'] is the temporary filename of the file
 		//in which the uploaded file was stored on the server
-		$size = !empty($key) ? filesize($_FILES[$name]['tmp_name'][$key]) : filesize($_FILES[$name]['tmp_name']);
+		$size = $key !== null ? filesize($_FILES[$name]['tmp_name'][$key]) : filesize($_FILES[$name]['tmp_name']);
 
 		//compare the size with the maxim size we defined and print error if bigger
 		if( $size > self::MAX_SIZE ){
@@ -73,19 +74,20 @@ class Image
 		$image_name = date( "YmdHis", time() ).'-'.$filename;
 
 		//the new name will be containing the full path where will be stored (images folder)
-		$newname = $dirname.DIRECTORY_SEPARATOR.$image_name;
-
+		$newname = $dirname."/".$image_name;
+		
         $i = 1;
         while (file_exists($newname)) {
             $fileParts = pathinfo($newname);
             $targetFileName = $fileParts['filename'] . "_$i." . $fileParts['extension'];
-            $newname = $fileParts['dirname'] . DIRECTORY_SEPARATOR . $targetFileName;
+            $newname = $fileParts['dirname'] . "/" . $targetFileName;
             $i++;
         }
 
-		$arr['img_name'] = $newname;
+		$arr['img_uri'] = $newname;
+		$arr['img_name'] = $image_name;
 
-		$copied = !empty($key) ? copy($_FILES[$name]['tmp_name'][$key], $newname) : copy($_FILES[$name]['tmp_name'], $newname);
+		$copied = $key !== null ? copy($_FILES[$name]['tmp_name'][$key], $newname) : copy($_FILES[$name]['tmp_name'], $newname);
 
 		if( !$copied ){
 			$arr['status'] = 0;
