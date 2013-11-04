@@ -10,7 +10,7 @@ class Auth{
 	private static $return_as_array;
 	private static $session_var_name;
 
-	function init(){
+	static function init(){
 		global $_config;
 		
 		// customize options here
