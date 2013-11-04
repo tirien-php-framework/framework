@@ -101,7 +101,7 @@ class Image
 	/*
 	 * PHP function to resize an image maintaining aspect ratio
 	 */
-	static function fit($source_image_path,  $max_width, $max_height, $output_image_path = null)
+	static function fit($source_image_path, $max_width, $max_height, $output_image_path = null)
 	{
 	    list($source_image_width, $source_image_height, $source_image_type) = getimagesize($source_image_path);
 
