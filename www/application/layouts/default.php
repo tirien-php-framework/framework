@@ -20,10 +20,10 @@
 	
 </head>
 <body>
-
+<!-- VIEW -->
 <?php
 	$this->viewContent();
 ?>		
-	
+<!-- VIEW END -->	
 </body>
 </html>
