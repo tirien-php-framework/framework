@@ -29,6 +29,8 @@ if(
 
 
 /* GET ALL INCLUDES */
+require_once ('application/_beforeanyaction.php');
+
 $folder_names = array( 'system', 'application'.DIRECTORY_SEPARATOR.'functions' );
 
 foreach( $folder_names as $folder_name ){
