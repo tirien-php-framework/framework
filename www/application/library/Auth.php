@@ -75,7 +75,11 @@ class Auth{
 		$salt = isset($_config['application']['salt']) ? $_config['application']['salt'] : '';
 		return sha1($salt.$string);	
 	}
-			
+
+	static function data(){	
+		return !empty( $_SESSION[self::$session_var_name] ) ? $_SESSION[self::$session_var_name] : null;
+	}		
+		
 }
 
 Auth::init();
