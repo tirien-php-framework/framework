@@ -1,10 +1,5 @@
 <?php
 class Log {
-	private static $db = null;
-	
-	public static function init() {
-		self::$db = new DB;
-	}
 	
 	public static function session(){
 		global $_config;
@@ -12,10 +7,8 @@ class Log {
 		if ($_config['system']['log_session']){
 		
 			if( empty($_SESSION['sls_id']) ) {
-			
-				if (empty($db)) self::init();
-				
-				$_SESSION['sls_id'] = self::$db->insert('sys_log_session',array(
+							
+				$_SESSION['sls_id'] = DB::insert('sys_log_session',array(
 					'session_id'=>session_id(),
 					'http_cookie'		=>	!isset($_SERVER['HTTP_COOKIE']) ? null : $_SERVER['HTTP_COOKIE'],
 					'http_host'			=>	!isset($_SERVER['HTTP_HOST']) ? null : $_SERVER['HTTP_HOST'],
@@ -34,7 +27,7 @@ class Log {
 					'server_software'	=>	!isset($_SERVER['SERVER_SOFTWARE']) ? null : $_SERVER['SERVER_SOFTWARE'],
 					'request_time'		=>	!isset($_SERVER['REQUEST_TIME']) ? null : $_SERVER['REQUEST_TIME'],
 					'argc'				=>	!isset($_SERVER['argc']) ? null : $_SERVER['argc'],
-					'dti'				=>date('Y-m-d H:i:s')
+					'dti'				=>	date('Y-m-d H:i:s')
 				));
 				
 			}
