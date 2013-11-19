@@ -24,7 +24,6 @@
             validInputFontColor: 'green',
             validInputBorderColor: 'green',
             enableValidColors: false,
-            errorMessage: 'Required fields can not be empty',
             placeholders: true
         }
 
@@ -74,6 +73,7 @@
                 
                 if( $(this).val()=='' || ( $(this).val()==$(this).data("placeholder") && settings.placeholders ) ){
                     $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                    settings.errorMessage = "Required fields can not be empty";
                     valid = false;
                 }
                 else if( $(this).val()!='' && $(this).hasClass("email") && !emailPattern.test($(this).val()) ){
