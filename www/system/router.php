@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 	class Router
 	{
 	
@@ -82,12 +82,11 @@
 		
 		public static function go( $uri )
 		{
-			header( "Location: ".Path::$urlBase."/".$uri );
+			header( "Location: " . ( strpos($uri,"http") === 0 ? $uri : Path::$urlBase."/".$uri ) );
 			die();
 		}
 
 		public static function pageNotFound() {
-			sleep( 5 );
 			header( 'Content-type: text/html' );
 			header( $_SERVER["SERVER_PROTOCOL"]." 404 Not Found" );
 			include( 'application/views/404.htm' );
@@ -95,7 +94,6 @@
 		}
 
 		public static function pageForbidden() {
-			sleep( 5 );
 			header( 'Content-type: text/html' );
 			header( $_SERVER["SERVER_PROTOCOL"]." 403 Forbidden" );
 			include( 'application/views/403.htm' );

@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Authorization Library
  */
@@ -36,7 +36,6 @@ class Auth{
 				return true;
 			}
 			else{
-				sleep(5);
 				return false;
 			}
 			

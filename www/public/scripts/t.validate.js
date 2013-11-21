@@ -1,4 +1,4 @@
-/*  
+﻿/*  
     Validate jQuery Plugin
     Tirien.com
     $Rev$
@@ -65,13 +65,25 @@
         form.submit(function(){
             var valid = true;
 
-            inputs.filter(".required").css({borderColor:settings.validInputBorderColor, color:settings.validInputFontColor});
+            inputs.css({borderColor:settings.validInputBorderColor, color:settings.validInputFontColor});
 
-            inputs.filter(".required").each(function(){
+            inputs.each(function(){
 
                 var emailPattern = /^[-\w\.]+@([-\w\.]+\.)[-\w]{2,4}$/;
+                var postcodePattern = /^\d{5}$/;
+                var phonePattern = /^[\d-\/ ]+$/;
+                var numberPattern = /^[\d]+$/;
                 
-                if( $(this).val()=='' || ( $(this).val()==$(this).data("placeholder") && settings.placeholders ) ){
+                if( 
+                    $(this).hasClass("required") && 
+                    ( 
+                        $(this).val()=='' || 
+                        ( 
+                            $(this).val()==$(this).data("placeholder") && 
+                            settings.placeholders 
+                            )
+                        )    
+                    ){
                     $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Required fields can not be empty";
                     valid = false;
@@ -79,6 +91,21 @@
                 else if( $(this).val()!='' && $(this).hasClass("email") && !emailPattern.test($(this).val()) ){
                     $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Email is not valid";
+                    valid = false;
+                }
+                else if( $(this).val()!='' && $(this).hasClass("phone") && !phonePattern.test($(this).val()) ){
+                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                    settings.errorMessage = "Phone is not valid";
+                    valid = false;
+                }
+                else if( $(this).val()!='' && $(this).hasClass("postcode") && !postcodePattern.test($(this).val()) ){
+                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                    settings.errorMessage = "Postcode is not valid";
+                    valid = false;
+                }
+                else if( $(this).val()!='' && $(this).hasClass("number") && !numberPattern.test($(this).val()) ){
+                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                    settings.errorMessage = "Only numbers allowed";
                     valid = false;
                 }
 
