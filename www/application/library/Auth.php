@@ -75,9 +75,14 @@ class Auth{
 		return sha1($salt.$string);	
 	}
 
-	static function data(){	
-		return !empty( $_SESSION[self::$session_var_name] ) ? $_SESSION[self::$session_var_name] : null;
-	}		
+	static function data( $field = null )
+	{
+		if ($field !== null) {
+			return isset( $_SESSION[self::$session_var_name][$field] ) ? $_SESSION[self::$session_var_name][$field] : null;
+		} else {
+			return isset( $_SESSION[self::$session_var_name] ) ? $_SESSION[self::$session_var_name] : null;
+		}
+	}
 		
 }
 
