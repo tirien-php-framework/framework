@@ -7,6 +7,7 @@
 $.fn.scale = function(ops){
 
     function Scale(el){
+
         var parent, elementWidth, elementHeight, elementRatio;
 
         if (typeof settings.parent !== 'undefined'){
@@ -19,6 +20,9 @@ $.fn.scale = function(ops){
         var parentWidth = parent.width();
         var parentHeight = parent.height();
 
+        hiddenParents = el.parents(':hidden');
+        hiddenParents.show();
+
         if( el.data("original-width")!=undefined && el.data("original-height")!=undefined ){
             elementWidth = el.data("original-width");
             elementHeight = el.data("original-height");
@@ -29,9 +33,11 @@ $.fn.scale = function(ops){
             el.data("original-width", elementWidth);
             el.data("original-height", elementHeight);
         }
+        
+        hiddenParents.hide();
 
         elementRatio = elementWidth/elementHeight;
-
+        
         var b = (parentWidth / parentHeight) > (elementWidth / elementHeight);
         var f = settings.type == 'fit';
 
@@ -48,15 +54,22 @@ $.fn.scale = function(ops){
                 width : Math.round( parentHeight * elementRatio ),
                 height : '100%'
             });
+
         }
+
+        hiddenParents.show();
+        elementWidth = el.width();
+        elementHeight = el.height();
+        hiddenParents.hide();
+
 
         if (settings.center){
             el.css({
                 position:'absolute',
                 left: '50%',
-                marginLeft: -el.width() / 2,
+                marginLeft: - elementWidth / 2,
                 top: '50%',
-                marginTop: -el.height() / 2,
+                marginTop: - elementHeight / 2,
             });
         }       
 
@@ -89,8 +102,18 @@ $.fn.scale = function(ops){
 };
 
 $(window).load(function(){
-    $('.scale').scale();
-    $('.scale-f').scale({
+    $('img.scale,img.scale-f').load(function(){
+        $(this).filter('.scale').scale();
+        $(this).filter('.scale-f').scale({
+            type: 'fit'
+        });
+        
+    }).each(function(index, el) {
+       if ( el.complete ) $(el).load(); 
+    });
+
+    $('.scale').not('img').scale();
+    $('.scale-f').not('img').scale({
         type: 'fit'
     });
 });
