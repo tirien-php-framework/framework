@@ -6,24 +6,21 @@
 .cs-select{
 	position:relative;
 }
-.cs-selected, .cs-option{
-	background-color: white;
-	color: black;
-	padding: 7px 8px;
-	display:block;
-}
 .cs-dropdown{
 	position: absolute;
 	width: 100%;
 	z-index: 999;
 }
-.cs-option{
-	background-color: lightgray;
-	text-decoration: none;
-}
-.cs-option, .cs-selected{
+.cs-selected, .cs-option{
+	background-color: white;
+	color: black;
+	padding: 7px 8px;
+	display:block;
 	height: 10px;
 	text-decoration: none;
+}
+.cs-option{
+	background-color: lightgray;
 }
 .cs-option:hover{
 	background-color: gray;

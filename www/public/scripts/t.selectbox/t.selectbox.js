@@ -6,7 +6,7 @@
     $("#select").customSelectbox();
 */
 
-$.fn.customSelectbox = function(userConfig) {
+$.fn.tSelectbox = function(userConfig) {
     return this.each(function(ind, el) {
         var inputSelect = $(el);
         var config = {
