@@ -1,7 +1,12 @@
 .custom-combobox{
 	width: 200px;
 	position: relative;
-	float: left;
+	background: #e0e0e0;
+	color: #777;
+	font-size: 15px;
+	line-height: 1em;
+	border-radius: 5px;
+	display: inline-block;
 }
 .cs-select{
 	position:relative;
@@ -11,18 +16,23 @@
 	width: 100%;
 	z-index: 999;
 }
-.cs-selected, .cs-option{
-	background-color: white;
-	color: black;
-	padding: 7px 8px;
-	display:block;
-	height: 10px;
+.cs-option, .cs-selected{
+	color: #777;
+	padding: 12px 20px;
+	display:block;	
 	text-decoration: none;
+	outline: none;
 }
 .cs-option{
-	background-color: lightgray;
+	background-color: #e0e0e0;
 }
-.cs-option:hover{
+.cs-option:first-child{
+		border-radius: 5px 5px 0 0;
+}
+.cs-option:last-child{
+		border-radius: 0 0 5px 5px;
+}
+.cs-option:hover, .cs-hilighted{
 	background-color: gray;
 	color: white;
 }
@@ -30,8 +40,8 @@
 	position: absolute;
 	background: url('drop-down-arrow.png') no-repeat;
 	width: 11px;
-	height: 11px;
-	right: 6px;
-	top: 8px;
+	height: 6px;
+	right: 15px;
+	top: 19px;
 	cursor: pointer;
 }
