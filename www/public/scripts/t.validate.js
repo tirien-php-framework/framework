@@ -18,6 +18,7 @@
 (function($) {
     $.tValidate = function(element, options) {
         var settings = {
+            activeColor: 'black',
             inactiveColor: 'gray',
             errorInputFontColor: 'red',
             errorInputBorderColor: 'red',
@@ -34,14 +35,12 @@
 
         // placeholders
         inputs.each(function(){
-
-            settings.activeColor = $(this).css('color');
             
             if( !settings.enableValidColors ){
-                settings.validInputFontColor = $(this).css('color');
-                settings.validInputBorderColor = $(this).css('border-color');
+                $(this).data('activeColor', $(this).css('color') );
+                $(this).data('validInputFontColor', $(this).css('color') );
+                $(this).data('validInputBorderColor', $(this).css('border-color') );
             }
-
 
             if( $(this).val() == '' && settings.placeholders ){
                 $(this).val( $(this).data('placeholder') ).css('color', settings.inactiveColor);
@@ -50,7 +49,14 @@
         });
 
         inputs.focus(function(){
-            $(this).css('color', settings.activeColor);
+
+            if( !settings.enableValidColors ){
+                $(this).css('color', $(this).data('activeColor') );
+            }
+            else{
+                $(this).css('color', settings.activeColor);
+            }
+
             if( $(this).val() == $(this).data('placeholder') && settings.placeholders ){
                 $(this).val('');
             }
@@ -64,8 +70,7 @@
         // validation
         form.submit(function(){
             var valid = true;
-
-            inputs.css({borderColor:settings.validInputBorderColor, color:settings.validInputFontColor});
+            var form = $(this);
 
             inputs.each(function(){
 
@@ -73,7 +78,18 @@
                 var postcodePattern = /^\d{5}$/;
                 var phonePattern = /^[\d-\/ ]+$/;
                 var numberPattern = /^[\d]+$/;
-                
+
+
+                if( !settings.enableValidColors ){
+                    settings.validInputFontColor = $(this).data('validInputFontColor');
+                    settings.validInputBorderColor = $(this).data('validInputBorderColor');
+                }
+
+                $(this).css({
+                    borderColor:settings.validInputBorderColor, 
+                    color:settings.validInputFontColor
+                });
+
                 if( 
                     $(this).hasClass("required") && 
                     ( 
@@ -106,6 +122,16 @@
                 else if( $(this).val()!='' && $(this).hasClass("number") && !numberPattern.test($(this).val()) ){
                     $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Only numbers allowed";
+                    valid = false;
+                }
+                else if( $(this).hasClass("terms") && !$(this).prop('checked') ){
+                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                    settings.errorMessage = "You have to accept Terms and Conditions to continue";
+                    valid = false;
+                }
+                else if( form.find("input[name='password']").val() != form.find("input[name='repeat_password']").val() ){
+                    $("input[name='password'], input[name='repeat_password']").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                    settings.errorMessage = "Passwords must match";
                     valid = false;
                 }
 
