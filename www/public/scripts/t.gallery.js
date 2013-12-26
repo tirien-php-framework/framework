@@ -98,7 +98,8 @@
                 imageWrapper.css({position : 'relative'});
             }
             if (captionField){
-                captionField.html(activeImage.data('caption'));
+                captionField.html(activeImage.find('[data-caption]').data('caption'));
+                
             }
         }
         var run = function() {            
@@ -159,7 +160,7 @@
 
                     if (captionField){
                         captionField.fadeOut(function(){
-                            $(this).html('').html( next.data('caption') ).fadeIn();
+                            $(this).html('').html( next.find('[data-caption]').data('caption') ).fadeIn();
                         })
                     }
 
