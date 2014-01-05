@@ -49,7 +49,7 @@ Class Pagination{
 	
 	}
 
-	public function links( $base = '' ){
+	public function links( $base = '', $get = '' ){
 
 		$links = '';
 
@@ -58,7 +58,7 @@ Class Pagination{
 		for ($i=1; $i <= $this->page_count; $i++) { 
 			$current = $i==$this->current_page ? ' current' : '';
 			$key = empty($this->key) ? '' : '['.$this->key.']';
-			$links .= '<li><a class="pagination-page-link'.$current.'" href="'.$base.'?page'.$key.'='.$i.'">'.$i.'</a></li>';
+			$links .= '<li><a class="pagination-page-link'.$current.'" href="'.$base.'?page'.$key.'='.$i.'&'.$get.'">'.$i.'</a></li>';
 		}
 
 		$links = '<ul class="pagination">'.$links.'</ul>';

@@ -78,7 +78,9 @@
                 var postcodePattern = /^\d{5}$/;
                 var phonePattern = /^\+?[\d-\/ ]+$/;
                 var numberPattern = /^[\d]+$/;
+                var textPattern = /^[-'\sa-zA-Z\u0400-\u04FF\u00C0-\u02AF]+$/;
 
+                var inputValid = false;
 
                 if( !settings.enableValidColors ){
                     settings.validInputFontColor = $(this).data('validInputFontColor');
@@ -100,32 +102,30 @@
                             )
                         )    
                     ){
-                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Required fields can not be empty";
                     valid = false;
                 }
                 else if( $(this).val()!='' && $(this).hasClass("email") && !emailPattern.test($(this).val()) ){
-                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Email is not valid";
                     valid = false;
                 }
                 else if( $(this).val()!='' && $(this).hasClass("phone") && !phonePattern.test($(this).val()) ){
-                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Phone is not valid";
                     valid = false;
                 }
                 else if( $(this).val()!='' && $(this).hasClass("postcode") && !postcodePattern.test($(this).val()) ){
-                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Postcode is not valid";
                     valid = false;
                 }
                 else if( $(this).val()!='' && $(this).hasClass("number") && !numberPattern.test($(this).val()) ){
-                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Only numbers allowed";
                     valid = false;
                 }
+                else if( $(this).val()!='' && $(this).hasClass("text") && !textPattern.test($(this).val()) ){
+                    settings.errorMessage = "Only letters allowed";
+                    valid = false;
+                }
                 else if( $(this).hasClass("terms") && !$(this).prop('checked') ){
-                    $(this).css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "You have to accept Terms and Conditions to continue";
                     valid = false;
                 }
@@ -133,6 +133,16 @@
                     $("input[name='password'], input[name='repeat_password']").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Passwords must match";
                     valid = false;
+                }
+                else{
+                    inputValid = true;
+                }
+
+                if (!inputValid) {
+                    $(this).css({
+                        borderColor:settings.errorInputBorderColor, 
+                        color:settings.errorInputFontColor
+                    });
                 }
 
             });
