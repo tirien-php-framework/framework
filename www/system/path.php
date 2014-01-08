@@ -52,12 +52,20 @@ class Path{
 		return rtrim(self::$urlBase.'/'.trim($attachment,'/'), '/');
 	}
 	
-	public static function urlUri(){
-		return trim( substr( self::$urlProtocol.'://'.$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"], strlen( self::$urlBase ) ), '/' );
+	public static function urlUri($strip_query=false){
+
+		$uri = trim( substr( self::$urlProtocol.'://'.$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"], strlen( self::$urlBase ) ), '/' );
+
+		if (strpos($uri,'?')!==false && $strip_query) {
+			$uri = substr($uri, 0, strpos($uri,'?'));
+		}
+
+		return $uri;
+		
 	}
 	
-	public static function pageUrl(){
-		return  self::urlBase().'/'.self::urlUri();
+	public static function pageUrl($strip_query=false){
+		return  self::urlBase().'/'.self::urlUri($strip_query);
 	}
 		
 }
