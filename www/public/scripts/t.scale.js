@@ -4,6 +4,8 @@
 *   $Rev$
 */
 
+(function($){
+
 $.fn.scale = function(ops){
 
     function Scale(el){
@@ -123,3 +125,5 @@ $(window).resize(function(){
         type: 'fit'
     });
 });
+
+})(jQuery);
