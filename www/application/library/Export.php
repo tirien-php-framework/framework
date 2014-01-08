@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 Class Export
 {
     public static function toXLS( $data, $columns, $file_name = false )
@@ -26,6 +26,8 @@ Class Export
 
 
         $out.="</table>";
+
+        $out = '<html><head><meta http-equiv="Content-Type" content="text/html;" charset="utf-8"></head><body>'.$out.'</body></html>';
  
 
         // export
@@ -35,7 +37,7 @@ Class Export
             $file_name = "export_{$now}.xls";    
         }
 
-        header("Content-type: application/octet-stream");
+        header("Content-type: application/vnd-ms-excel; charset=UTF-8");
         header("Content-Disposition: attachment; filename='".$file_name."'");
         header("Pragma: no-cache");
         header("Expires: 0");
