@@ -40,7 +40,9 @@
 			if(is_array(self::$param)) self::$param = self::$param[0];
 			self::$param = explode("?",self::$param);
 			if(is_array(self::$param)) self::$param = self::$param[0];
-			
+			self::$param = explode("/",self::$param);
+			self::$param = is_array(self::$param) ? self::$param : array(self::$param);
+
 
 			$request_url = trim( Path::$urlProtocol.'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], "/" );
 			
