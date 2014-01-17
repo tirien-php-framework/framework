@@ -35,6 +35,10 @@ $.fn.scale = function(ops){
             el.data("original-width", elementWidth);
             el.data("original-height", elementHeight);
         }
+
+        if (elementWidth==0 || elementHeight==0 || parentWidth==0 || parentHeight==0) {
+            return false;
+        }
         
         hiddenParents.hide();
 
