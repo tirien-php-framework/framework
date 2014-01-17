@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 
 Class Pagination{
 
@@ -9,13 +9,15 @@ Class Pagination{
 	private $page_count;
 	private $items_per_page = 10;
 	private $offset;
+	private $count;
 
 	function Pagination( $data, $key = null, $items_per_page = null ){
 
 		$this->key = $key;
 		$this->data = $data;
 		$this->items_per_page = empty($items_per_page) ? $this->items_per_page : $items_per_page;
-		$this->page_count = ceil( count($this->data) / $this->items_per_page );
+		$this->count = count($this->data);
+		$this->page_count = ceil( $this->count / $this->items_per_page );
 
 		if( 
 			empty($this->key) 
@@ -45,7 +47,7 @@ Class Pagination{
 
 	public function count(){
 
-		return count($this->current_page_data);
+		return $this->count;
 	
 	}
 
