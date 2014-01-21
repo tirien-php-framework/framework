@@ -25,7 +25,12 @@ $.fn.scale = function(ops){
         hiddenParents = el.parents(':hidden');
         hiddenParents.show();
 
-        if( el.data("original-width")!=undefined && el.data("original-height")!=undefined ){
+        if( 
+            el.data("original-width")!=undefined && 
+            el.data("original-height")!=undefined && 
+            el.data("original-width")!=0 && 
+            el.data("original-height")!=0 
+            ){
             elementWidth = el.data("original-width");
             elementHeight = el.data("original-height");
         }
@@ -35,11 +40,11 @@ $.fn.scale = function(ops){
             el.data("original-width", elementWidth);
             el.data("original-height", elementHeight);
         }
-
+        
         if (elementWidth==0 || elementHeight==0 || parentWidth==0 || parentHeight==0) {
             return false;
         }
-        
+
         hiddenParents.hide();
 
         elementRatio = elementWidth/elementHeight;
