@@ -5,8 +5,6 @@
 /* $Rev$ */
 /* www.tirien.com */
 
-date_default_timezone_set("Europe/Belgrade");
-
 $_config = parse_ini_file( 'application'.DIRECTORY_SEPARATOR.'configs'.DIRECTORY_SEPARATOR.'application.ini', true );
 $_debug = $_config['system']['debug'] && in_array( $_SERVER['REMOTE_ADDR'], $_config['system']['development_ip'] ) ? true : false;
 
