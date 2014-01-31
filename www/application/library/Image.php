@@ -3,7 +3,7 @@
 class Image
 {
 	const DEFAULT_JPG_QUALITY = 80;
-	const MAX_SIZE = 1048576; // 1MB
+	const MAX_SIZE = 10485760; // 10MiB
 
 	static function getExtension( $str ) {
 		return end(explode('.',$str));
