@@ -54,7 +54,10 @@ Class Pagination{
 	public function links( $base = '', $get = '' ){
 
 		$links = '';
-		$base = $base=='' ? $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] : $base;
+
+		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+
+		$base = $base=='' ? strstr($protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], '?', true) : $base;
 
 		if( $this->page_count < 2 ) return $links;
 
