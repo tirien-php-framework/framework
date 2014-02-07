@@ -54,6 +54,7 @@ Class Pagination{
 	public function links( $base = '', $get = '' ){
 
 		$links = '';
+		$base = $base=='' ? $_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'] : $base;
 
 		if( $this->page_count < 2 ) return $links;
 
