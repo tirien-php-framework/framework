@@ -31,7 +31,8 @@ class File {
 
             }
             else{
-                return self::uploadSingle($_FILES[$fileName], $uploadFolder, $uploadFileName);
+                $return[0] = self::uploadSingle($_FILES[$fileName], $uploadFolder, $uploadFileName);
+                return $return;
             }
 
         } else {
