@@ -15,6 +15,10 @@ class File {
 
                 foreach ($_FILES[$fileName]["name"] as $key => $value) {
 
+                    if ( empty($_FILES[$fileName]["name"][$key]) ) {
+                        continue;
+                    }
+
                     $file = array(
                         "name" => $_FILES[$fileName]["name"][$key],
                         "type" => $_FILES[$fileName]["type"][$key],
@@ -31,12 +35,17 @@ class File {
 
             }
             else{
+
+                if ( empty($_FILES[$fileName]["name"]) ) {
+                    return array();
+                }
+              
                 $return[0] = self::uploadSingle($_FILES[$fileName], $uploadFolder, $uploadFileName);
                 return $return;
             }
 
         } else {
-            return false;
+            return array();
         }
     }
 
@@ -47,16 +56,17 @@ class File {
             $uploadFolder = 'public'.DIRECTORY_SEPARATOR.'uploads'.DIRECTORY_SEPARATOR;
         }
 
-        $targetFolder = Path::appRoot( trim($uploadFolder, '/') );
+        $uploadFolder = trim($uploadFolder, '\/');
+        $targetFolder = Path::appRoot($uploadFolder);
 
         if (!is_dir($targetFolder)) {
             if (!mkdir($targetFolder)) {
-                return false;
+                return null;
             }
         }
 
         if ($file["error"] > 0) {
-            return false;
+            return null;
         } 
         else {
 

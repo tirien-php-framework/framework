@@ -71,7 +71,8 @@ class Image
 		}
 
 		//we will give an unique name, for example the time in unix time format
-		$image_name = date( "YmdHis", time() ).'-'.$filename;
+		// $image_name = date( "YmdHis", time() ).'-'.$filename;
+		$image_name = $filename;
 
 		//the new name will be containing the full path where will be stored (images folder)
 		$newname = $dirname."/".$image_name;
@@ -79,7 +80,7 @@ class Image
         $i = 1;
         while (file_exists($newname)) {
             $fileParts = pathinfo($newname);
-            $targetFileName = $fileParts['filename'] . "_$i." . $fileParts['extension'];
+            $targetFileName = rtrim($fileParts['filename'], "_".($i-1)) . "_$i." . $fileParts['extension'];
             $newname = $fileParts['dirname'] . "/" . $targetFileName;
             $i++;
         }
