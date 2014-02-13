@@ -6,24 +6,23 @@ class File {
         return end(explode('.',$str));
     }
 
-    public static function upload( $key, $uploadFolder = null, $uploadFileName = null ) {
-        if (isset($_FILES[$key])) {
-
-            if ( is_array($_FILES[$key]["name"]) ) {
+    public static function upload( $file_key, $uploadFolder = null, $uploadFileName = null ) {
+        if (isset($_FILES[$file_key])) {
+            if ( is_array($_FILES[$file_key]["name"]) ) {
                 $return = array();
 
-                foreach ($_FILES[$key]["name"] as $key => $value) {
+                foreach ($_FILES[$file_key]["name"] as $key => $value) {
 
-                    if ( empty($_FILES[$key]["name"][$key]) ) {
+                    if ( empty($_FILES[$file_key]["name"][$key]) ) {
                         continue;
                     }
 
                     $file = array(
-                        "name" => $_FILES[$key]["name"][$key],
-                        "type" => $_FILES[$key]["type"][$key],
-                        "tmp_name" => $_FILES[$key]["tmp_name"][$key],
-                        "error" => $_FILES[$key]["error"][$key],
-                        "size" => $_FILES[$key]["size"][$key]
+                        "name" => $_FILES[$file_key]["name"][$key],
+                        "type" => $_FILES[$file_key]["type"][$key],
+                        "tmp_name" => $_FILES[$file_key]["tmp_name"][$key],
+                        "error" => $_FILES[$file_key]["error"][$key],
+                        "size" => $_FILES[$file_key]["size"][$key]
                         );
                     $return[$key] = self::uploadSingle($file, $uploadFolder, $uploadFileName);
 
@@ -34,11 +33,11 @@ class File {
             }
             else{
 
-                if ( empty($_FILES[$key]["name"]) ) {
+                if ( empty($_FILES[$file_key]["name"]) ) {
                     return array();
                 }
               
-                $return[0] = self::uploadSingle($_FILES[$key], $uploadFolder, $uploadFileName);
+                $return[0] = self::uploadSingle($_FILES[$file_key], $uploadFolder, $uploadFileName);
                 return $return;
             }
 
