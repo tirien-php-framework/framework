@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 function vd( $var, $die = false ) {
 	global $_debug;
@@ -72,14 +72,14 @@ function disableMagicQuotes() {
 function pageNotFound() {
 	header( 'Content-type: text/html' );
 	header( $_SERVER["SERVER_PROTOCOL"]." 404 Not Found" );
-	include( 'application/views/404.htm' );
+	include( 'views/404.htm' );
 	die();
 }
 
 function pageForbidden() {
 	header( 'Content-type: text/html' );
 	header( $_SERVER["SERVER_PROTOCOL"]." 403 Forbidden" );
-	include( 'application/views/403.htm' );
+	include( 'views/403.htm' );
 	die();
 }
 

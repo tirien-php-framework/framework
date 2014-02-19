@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	class Core
 	{
 		public $view;
@@ -64,7 +64,7 @@
 				$this->viewContent();
 			}
 			else {
-				include('./application/layouts/'.$this->layout_name.'.php');
+				include('layouts/'.$this->layout_name.'.php');
 			}
 		}
 
@@ -74,7 +74,7 @@
 				return false;
 			}
 
-			$this->view_path = './application/views/' . ( empty($this->view_path) ? $this->controller_name.'/'.$this->action_name.'.php' : $this->view_path );
+			$this->view_path = 'views/' . ( empty($this->view_path) ? $this->controller_name.'/'.$this->action_name.'.php' : $this->view_path );
 			
 			include($this->view_path);
 			return true;

@@ -1,4 +1,4 @@
-<?php 
+﻿<?php 
 	class Router
 	{
 	
@@ -61,7 +61,7 @@
 			
 			
 			// REDIRECTIONS
-			$redirects = parse_ini_file('./application/configs/redirects.ini', true);
+			$redirects = parse_ini_file('configs/redirects.ini', true);
 			
 			foreach($redirects as &$redirect){
 				if( !empty($redirect['uri']) ){
@@ -85,20 +85,6 @@
 		public static function go( $uri )
 		{
 			header( "Location: " . ( strpos($uri,"http") === 0 ? $uri : Path::$urlBase."/".$uri ) );
-			die();
-		}
-
-		public static function pageNotFound() {
-			header( 'Content-type: text/html' );
-			header( $_SERVER["SERVER_PROTOCOL"]." 404 Not Found" );
-			include( 'application/views/404.htm' );
-			die();
-		}
-
-		public static function pageForbidden() {
-			header( 'Content-type: text/html' );
-			header( $_SERVER["SERVER_PROTOCOL"]." 403 Forbidden" );
-			include( 'application/views/403.htm' );
 			die();
 		}
 		
