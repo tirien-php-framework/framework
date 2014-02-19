@@ -87,6 +87,12 @@
 			header( "Location: " . ( strpos($uri,"http") === 0 ? $uri : Path::$urlBase."/".$uri ) );
 			die();
 		}
+
+		public static function back( $query = null )
+		{
+			header( "Location: ".$_SERVER['HTTP_REFERER'] . (!empty($query) ? '?'.$query : '') );
+			die();
+		}
 		
 	}
 ?>
