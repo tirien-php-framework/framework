@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 function vd( $var, $die = false ) {
 	global $_debug;
