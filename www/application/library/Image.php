@@ -80,8 +80,8 @@ class Image
         $i = 1;
         while (file_exists($newname)) {
             $fileParts = pathinfo($newname);
-            $targetFileName = rtrim($fileParts['filename'], "_".($i-1)) . "_$i." . $fileParts['extension'];
-            $newname = $fileParts['dirname'] . "/" . $targetFileName;
+            $image_name = rtrim($fileParts['filename'], "_".($i-1)) . "_$i." . $fileParts['extension'];
+            $newname = $fileParts['dirname'] . "/" . $image_name;
             $i++;
         }
 
