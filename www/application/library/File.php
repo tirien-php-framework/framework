@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class File {
 
@@ -87,7 +87,7 @@ class File {
             }
 
             move_uploaded_file($file["tmp_name"], $targetFile);
-            return $uploadFolder. DIRECTORY_SEPARATOR . $uploadFileName;
+            return $uploadFolder. '/' . $uploadFileName;
             
         }
 
