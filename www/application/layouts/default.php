@@ -3,8 +3,8 @@
 <head>
 
 	<title><?php echo $this->view->head['title'] ?></title>
-	<base href="<?php echo Path::urlBase(); ?>/">
-	<meta http-equiv="Content-Type" content="text/html;" charset="utf-8">
+	<base href="<?php echo Path::urlBase(); ?>/"/>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" charset="utf-8"/>
 	<meta name="description" content="<?php echo $this->view->head['description'] ?>">
 
 	<meta property="og:title" content="<?php echo empty($this->view->head['og_title']) ? $this->view->head['title'] : $this->view->head['og_title'] ?>"/>

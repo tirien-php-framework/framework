@@ -30,7 +30,7 @@
 
         var settings = $.extend({}, settings, options);
         var form = $(element);
-        var inputs = form.find("input,textarea").not("[type='submit']");
+        var inputs = form.find("input,textarea,select").not("[type='submit']");
 
 
         // placeholders
