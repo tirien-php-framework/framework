@@ -3,7 +3,7 @@
     Tirien.com
     $Rev$
     
-    $("#select").customSelectbox();
+    $("#select").tSelectbox([options]);
 */
 
 $.fn.tSelectbox = function(userConfig) {
@@ -13,17 +13,17 @@ $.fn.tSelectbox = function(userConfig) {
             firstIsEmptyText: false
         }
 
-        $.extend(config, userConfig); 
+        $.extend(config, userConfig);
 
         if(inputSelect.data('placeholder')!=undefined){
             inputSelect.prepend('<option value="0">'+inputSelect.data('placeholder')+'</option>');
             config.firstIsEmptyText = true;
         }
 
-        var customSelectbox;
-        createCustomSelectbox();
-        var select = customSelectbox.children(".cs-select");
-        var dropdown = customSelectbox.children(".cs-dropdown");
+        var tSelectbox;
+        createSelectbox();
+        var select = tSelectbox.children(".cs-select");
+        var dropdown = tSelectbox.children(".cs-dropdown");
         var options = dropdown.children();
         var selected = select.children(".cs-selected");
         var isOpened = false;
@@ -53,15 +53,15 @@ $.fn.tSelectbox = function(userConfig) {
         function closeAll() {
             $(".cs-dropdown").slideUp();
         }
-        function createCustomSelectbox()
+        function createSelectbox()
         {
             var options = "";
             inputSelect.children("option").each(function(ind, el) {
                 var e = $(el);
                 options += '<a href="#" class="cs-option" value="' + e.prop('value') + '" >' + e.text() + '</a>';
             });
-            customSelectbox = $('<div class="custom-combobox"><div class="cs-select"><span class="cs-left"></span><a href="#" class="cs-selected">select</a><span class="cs-right"></span><div class="cs-clear"></div></div><div style="display:none" class="cs-dropdown">' + options + '</div></div>');
-            inputSelect.after(customSelectbox);
+            tSelectbox = $('<div class="custom-combobox"><div class="cs-select"><span class="cs-left"></span><a href="#" class="cs-selected">select</a><span class="cs-right"></span><div class="cs-clear"></div></div><div style="display:none" class="cs-dropdown">' + options + '</div></div>');
+            inputSelect.after(tSelectbox);
         }
         function toggleDropdown() {
 
@@ -79,7 +79,7 @@ $.fn.tSelectbox = function(userConfig) {
             }
 
         }
-        customSelectbox.click(function(e) {
+        tSelectbox.click(function(e) {
             e.preventDefault();
             e.stopPropagation();
             toggleDropdown();
