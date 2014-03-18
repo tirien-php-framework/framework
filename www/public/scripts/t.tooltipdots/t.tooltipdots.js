@@ -24,7 +24,9 @@ function drawTooltips( wrapSelector, data ){
 	if( $(wrapSelector).find("img").length > 0 ){
 		$(wrapSelector).find("img").load(function(){
 			$(".tooltipPoint").fadeIn("slow");
-		});		
+		}).each(function(index, el) {
+			if ( this.complete ) $(this).load();
+		});			
 	}
 	else{
 		$(".tooltipPoint").fadeIn("slow");
