@@ -3,11 +3,14 @@
 /**
  * APPLICATION ALERT HANDLING CLASS
  * 
- * Use to set arbitrarily types of alerts with: 
+ * Use to set arbitrarily types of alerts:
  * Alerts::set("error", "Error occured");
  * 
- * Print block of alerts with:
- * Alerts::show();
+ * Print block of alerts:
+ * Alerts::show(); 
+ * 
+ * Clear all alerts:
+ * Alerts::clear();
  */
 
 class Alerts {
