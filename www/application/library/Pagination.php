@@ -7,7 +7,7 @@ Class Pagination{
 	private $current_page_data;
 	private $current_page = 1;
 	private $page_count;
-	private $items_per_page = 10;
+	private $items_per_page = 20;
 	private $offset;
 	private $count;
 
@@ -57,14 +57,21 @@ Class Pagination{
 
 		$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
 
-		$base = $base=='' ? strstr($protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], '?', true) : $base;
+		$default_base = $protocol.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'];
+
+		if (strpos($default_base, '?')!==false) {
+			$default_base = strstr($default_base, '?', true);
+		}
+
+		$base = $base=='' ? $default_base : $base;
 
 		if( $this->page_count < 2 ) return $links;
 
 		for ($i=1; $i <= $this->page_count; $i++) { 
-			$current = $i==$this->current_page ? ' current' : '';
+			$current = $i==$this->current_page ? ' class="current"' : '';
 			$key = empty($this->key) ? '' : '['.$this->key.']';
-			$links .= '<li><a class="pagination-page-link'.$current.'" href="'.$base.'?page'.$key.'='.$i.'&'.$get.'">'.$i.'</a></li>';
+			$href = $i==1 ? $base . '?' . $get : $base . '?page'.$key.'='.$i . '&' . $get;
+			$links .= '<li'.$current.'><a class="pagination-page-link" href="'.trim($href,'&?').'">'.$i.'</a></li>';
 		}
 
 		$links = '<ul class="pagination">'.$links.'</ul>';
