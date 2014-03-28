@@ -10,24 +10,22 @@ Class Export
         // header
         $out .= '<tr bgcolor="#666666">';
         foreach ($columns as $value) {
-            $out.= '<th><font color="#FFFFFF">'.$value.'</font></th>';
+            $out.= '<th><font color="#FFFFFF">' . $value . '</font></th>';
         }
         $out .=  '</tr>';
 
 
         // rows
         foreach ($data as $row) {
-            $out.="<tr>";           
+            $out .= "<tr>";           
             foreach ($row as $value) {
-                $out.="<td>".$value."</td>";
+                $out .= "<td>" . $value . "</td>";
             }
-            $out.="</tr>";
+            $out .= "</tr>";
         }
 
 
-        $out.="</table>";
-
-        $out = '<html><head><meta http-equiv="Content-Type" content="text/html;" charset="utf-8"></head><body>'.$out.'</body></html>';
+        $out .= "</table>";
  
 
         // export
@@ -37,10 +35,11 @@ Class Export
             $file_name = "export_{$now}.xls";    
         }
 
-        header("Content-type: application/vnd-ms-excel; charset=UTF-8");
+        header("Content-type: application/vnd.ms-excel");
         header("Content-Disposition: attachment; filename='".$file_name."'");
         header("Pragma: no-cache");
         header("Expires: 0");
+        echo "\xEF\xBB\xBF";
         echo $out;
     }    
 }
