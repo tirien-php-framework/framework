@@ -9,11 +9,11 @@ class DB
 	private static $databaseName = '';
 	const prefix = 'w__';
 
-	static function init( $db_name = null ) {
+	static function init( $config = array() ) {
 		global $_config;
 		global $_debug;
 
-		$db_config = $_config['database'];
+		$db_config = array_merge($_config['database'], $config);
 		$db_config['file'] = !empty($db_name) && is_file($db_name) ? $db_name : $db_config['file'];
 		self::$isInitiated = true;
 		self::$globalDebug = $_debug;
