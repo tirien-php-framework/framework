@@ -119,8 +119,8 @@ $(window).load(function(){
             type: 'fit'
         });
         
-    }).each(function(index, el) {
-       if ( el.complete ) $(el).load(); 
+    }).each(function() {
+       if ( this.complete ) $(this).load(); 
     });
 
     $('.scale').not('img').scale();
