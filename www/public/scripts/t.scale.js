@@ -128,6 +128,7 @@ $(window).load(function(){
         type: 'fit'
     });
 });
+
 $(window).resize(function(){
     $('.scale').scale();
     $('.scale-f').scale({
