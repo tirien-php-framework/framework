@@ -4,16 +4,16 @@
  * APPLICATION ALERT HANDLING CLASS
  * 
  * Use to set arbitrarily types of alerts:
- * Alerts::set("error", "Error occured");
+ * Alert::set("error", "Error occured");
  * 
  * Print block of alerts:
- * Alerts::show(); 
+ * Alert::show(); 
  * 
  * Clear all alerts:
- * Alerts::clear();
+ * Alert::clear();
  */
 
-class Alerts {
+class Alert {
 
     static function show() {
 
