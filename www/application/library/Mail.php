@@ -9,6 +9,7 @@
  * Dependency: PHPMailer
  * 
  * Use: Mail::send($options);
+ * Names are not obligatory.
  * 
  * @param array $options(array $to, $subject, $body, [array $from]) mandatory fields for PHPMailer Class
  * @return boolan
@@ -31,9 +32,12 @@ class Mail {
 			$mailer->setFrom('tiriendev@gmail.com', 'Tirien Development');
 		}
 		
-		$mailer->AddAddress( $options['to']['email'], $options['to']['name'] );
 		$mailer->Subject = $options['subject'];
 		$mailer->msgHTML($options['body']);
+
+		foreach ($options['to'] as $to) {
+			$mailer->AddAddress( $to['email'], empty($to['name']) ? '' : $to['name']);
+		}
 
 		if (isset($options['from'])) {
 			$mailer->setFrom( $options['from']['email'], $options['from']['name'] );
