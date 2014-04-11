@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /* Tirien Web Framework */
 /* Version 1 */
@@ -50,24 +50,42 @@ foreach( $folder_names as $folder_name ){
 	}
 }
 
-function __autoload( $class_name ) {
-	$foreign_class = 'application'.DIRECTORY_SEPARATOR.'library'.DIRECTORY_SEPARATOR . str_replace( array('\\', '_'), DIRECTORY_SEPARATOR, trim($class_name,'\\_')) . '.php';
-	if( strpos( $class_name, "Model_" ) !== false ){
-		include 'models'.DIRECTORY_SEPARATOR.str_replace("Model_", "", $class_name).'.php';
+
+
+/* AUTOLOAD */
+function TirienFWAutoload( $classname ) {
+	$foreign_class = 'application'.DIRECTORY_SEPARATOR.'library'.DIRECTORY_SEPARATOR . str_replace( array('\\', '_'), DIRECTORY_SEPARATOR, trim($classname,'\\_')) . '.php';
+	if( strpos( $classname, "Model_" ) !== false ){
+		include 'models'.DIRECTORY_SEPARATOR.str_replace("Model_", "", $classname).'.php';
 	}
-	else if( strpos( $class_name, "Library_" ) !== false ){
-		include 'library'.DIRECTORY_SEPARATOR.''.str_replace("Library_", "", $class_name).'.php';
+	else if( strpos( $classname, "Library_" ) !== false ){
+		include 'library'.DIRECTORY_SEPARATOR.''.str_replace("Library_", "", $classname).'.php';
 	}
 	else if( file_exists($foreign_class) ){
 		include $foreign_class;
 	}
 	else{
-		include 'library'.DIRECTORY_SEPARATOR.$class_name.'.php';
+		include 'library'.DIRECTORY_SEPARATOR.$classname.'.php';
 	}
 }
 
 
+if (version_compare(PHP_VERSION, '5.1.2', '>=')) {
+    if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
+        spl_autoload_register('TirienFWAutoload', true, true);
+    } else {
+        spl_autoload_register('TirienFWAutoload');
+    }
+} else {
+    // Autoload for old PHP versions
+    function __autoload($classname)
+    {
+        TirienFWAutoload($classname);
+    }
+}
+
 	
+
 /* DISABLE MAGIC QUOTES */
 disableMagicQuotes();
 
