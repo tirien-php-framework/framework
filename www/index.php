@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 
 /* Tirien Web Framework */
 /* Version 1 */
