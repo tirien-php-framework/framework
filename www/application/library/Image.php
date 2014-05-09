@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 class Image
 {
@@ -75,7 +75,7 @@ class Image
 		$image_name = $filename;
 
 		//the new name will be containing the full path where will be stored (images folder)
-		$newname = $dirname."/".$image_name;
+		$newname = $dirname."/".strtolower(str_replace(" ", "-", $image_name));
 		
         $i = 1;
         while (file_exists($newname)) {
@@ -260,7 +260,7 @@ class Image
         }
 
         $tmp = explode('.', $path);
-        $pom = end($tmp);
+        $pom = strtolower( end($tmp) );
 
         if ($pom == 'gif') {
             $image = imagecreatefromgif($path);
