@@ -72,10 +72,10 @@ class Image
 
 		//we will give an unique name, for example the time in unix time format
 		// $image_name = date( "YmdHis", time() ).'-'.$filename;
-		$image_name = $filename;
+		$image_name = strtolower(str_replace(" ", "-", $filename));
 
 		//the new name will be containing the full path where will be stored (images folder)
-		$newname = $dirname."/".strtolower(str_replace(" ", "-", $image_name));
+		$newname = $dirname."/".$image_name;
 		
         $i = 1;
         while (file_exists($newname)) {
