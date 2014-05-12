@@ -66,6 +66,13 @@
             clearTimeout(timer);
             plugin.init();
         }
+        plugin.next = function(){
+            nextImage();
+        }
+        plugin.prev = function(){
+            prevImage();
+        }
+
         var findElements = function() {
             images = $element.find(plugin.settings.imageSelector);
             i = plugin.settings.startImage;
