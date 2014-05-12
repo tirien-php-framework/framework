@@ -4,6 +4,7 @@
 	
 		public static $controller;
 		public static $action;
+		public static $rq_controller;
 		public static $rq_action;
 		public static $param;
 		
@@ -21,8 +22,10 @@
 			self::$param = !isset($_REQUEST['rq_param']) ? null : strtolower(trim($_REQUEST['rq_param']));
 			
 			
-			self::$controller = str_replace( array('-','_'), '', self::$controller );
+			self::$rq_controller = self::$controller;
 			self::$rq_action = self::$action;
+			
+			self::$controller = str_replace( array('-','_'), '', self::$controller );
 			self::$action = str_replace( array('-','_'), '', self::$action );
 
 			
