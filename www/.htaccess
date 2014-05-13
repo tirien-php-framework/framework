@@ -15,10 +15,10 @@ RewriteRule ^robots\.txt$ robots.txt [L]
 
 RewriteRule ^css/(.+\.(css|htc|jpe?g|gif|png))$ public/css/$1 [L]
 RewriteRule ^docs/(.+\.(pdf|docx?))$ public/docs/$1 [L]
-RewriteRule ^fonts/(.+\.(ttf|woff|eot|css))$ public/fonts/$1 [L]
+RewriteRule ^fonts/(.+\.(otf|ttf|woff|eot|css))$ public/fonts/$1 [L]
 RewriteRule ^videos/(.+\.(mp4|m4v|flv))$ public/videos/$1 [L]
 RewriteRule ^images/(.+\.(jpe?g|gif|png|ico))$ public/images/$1 [L]
-RewriteRule ^scripts/(.+\.(jpe?g|gif|png|css|js))$ public/scripts/$1 [L]
+RewriteRule ^scripts/(.+\.(jpe?g|gif|png|css|js|svg|otf|ttf|woff))$ public/scripts/$1 [L]
 RewriteRule ^uploads/(.+\.(jpe?g|gif|png|pdf|docx?|mp4|m4v|flv))$ public/uploads/$1 [L]
 
 RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/(.+)$ index.php?rq_controller=$1&rq_action=$2&rq_param=$3 [L]
