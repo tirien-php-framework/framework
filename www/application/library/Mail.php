@@ -42,6 +42,12 @@ class Mail {
 		if (isset($options['from'])) {
 			$mailer->setFrom( $options['from']['email'], $options['from']['name'] );
 		}
+		
+		if(!empty($options['attachments'])){
+			foreach ($options['attachments'] as $a) {
+				$mailer->AddAttachment($a["tmp_name"], $a["name"]);
+			}
+		}
 
 		$send = $mailer->send();
 
