@@ -15,13 +15,22 @@
 
 			$this->view = new stdClass();
 			
-			$this->view->head = array(
-				'title' => '',
-				'description' => '',
-				'og_title' => '',
-				'og_description' => '',
-				'og_image' => ''
-				);
+			// PAGE META
+			$page_uri = Path::urlUri(true);
+
+			if( $page_uri === '' ){
+				$page_meta = DB::query("SELECT * FROM page_meta WHERE uri IS NULL", array(), true);	
+			}
+			else{
+				$page_meta = DB::query("SELECT * FROM page_meta WHERE uri=?", $page_uri, true);	
+			}
+
+			if (!empty($page_meta)) {
+				$this->view->head['title'] = $page_meta['title'];
+				$this->view->head['description'] = $page_meta['description'];
+				$this->view->head['keywords'] = $page_meta['keywords'];
+			}
+			// END PAGE META
 
 			if(
 				!empty($_SERVER['HTTP_X_REQUESTED_WITH']) && 
