@@ -95,7 +95,7 @@
                 display : 'none'
             });
 
-            $(plugin.settings.goToImage).filter('[data-n=0]').addClass('current');
+            $(plugin.settings.goToImage).filter('[data-n='+plugin.settings.startImage+']').addClass('current');
             var pos = imageWrapper.css('position');
             if (pos=='static'){
                 if (plugin.settings.lockSize){
