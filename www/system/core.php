@@ -16,14 +16,7 @@
 			$this->view = new stdClass();
 			
 			// PAGE META
-			$page_uri = Path::urlUri(true);
-
-			if( $page_uri === '' ){
-				$page_meta = DB::query("SELECT * FROM page_meta WHERE uri IS NULL", array(), true);	
-			}
-			else{
-				$page_meta = DB::query("SELECT * FROM page_meta WHERE uri=?", $page_uri, true);	
-			}
+			$page_meta = DB::query("SELECT * FROM page_meta WHERE IFNULL(uri,'') = ?", Path::urlUri(true), true);	
 
 			if (!empty($page_meta)) {
 				$this->view->head['title'] = $page_meta['title'];
