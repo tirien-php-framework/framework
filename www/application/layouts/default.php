@@ -11,6 +11,7 @@
 	<meta property="og:title" content="<?php echo empty($this->view->head['og_title']) ? @$this->view->head['title'] : $this->view->head['og_title'] ?>"/>
 	<meta property="og:description" content="<?php echo empty($this->view->head['og_description']) ? @$this->view->head['description'] : $this->view->head['og_description'] ?>"/>
 	<meta property="og:image" content="<?php echo @$this->view->head['og_image'] ?>"/>
+	<meta property="og:type" content="website" /> 
 
 	<meta name="format-detection" content="telephone=no">
 	<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
