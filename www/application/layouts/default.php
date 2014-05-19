@@ -12,6 +12,7 @@
 	<meta property="og:description" content="<?php echo empty($this->view->head['og_description']) ? @$this->view->head['description'] : $this->view->head['og_description'] ?>"/>
 	<meta property="og:image" content="<?php echo @$this->view->head['og_image'] ?>"/>
 	<meta property="og:type" content="website" /> 
+	<meta property="og:url" content="<?php echo Path::pageUrl() ?>" /> 
 
 	<meta name="format-detection" content="telephone=no">
 	<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
