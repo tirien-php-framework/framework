@@ -82,7 +82,7 @@ $.fn.scale = function(ops){
                 top: '50%',
                 marginTop: - elementHeight / 2,
             });
-        }       
+        } 
 
         if(f){
             el.removeClass("scale").addClass('scale-f scale-done');
