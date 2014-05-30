@@ -17,17 +17,16 @@
 	<meta name="format-detection" content="telephone=no">
 	<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
 	
-	<?php if($this->mobile) { ?>
-		<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<?php } ?>
-
-	
 	<link rel="stylesheet" href="css/reset.css" type="text/css">
 	<link rel="stylesheet" href="css/global.css" type="text/css">
 	
 	<script src="//code.jquery.com/jquery-latest.min.js"></script>
 	<script src="scripts/global.js"></script>
 	
+	<?php if($this->mobile) { ?>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<?php } ?>
+
 </head>
 <body>
 <!-- VIEW -->
