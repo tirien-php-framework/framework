@@ -42,33 +42,45 @@
 
         plugin.init = function() {
             plugin.settings = $.extend({}, defaults, options);
-
             findElements();      //vraca sve potrebne elemente
             applyInitSettings(); //postavlja pocetne stilove
             bindEvents();        //binduje eventove za goto next i prev image
             activeImage.show();
-            if (plugin.settings.autoPlay)
-            {
+
+            if (plugin.settings.autoPlay){
                 run();
             }
+
+            if(plugin.settings.transition == 'slide'){
+                $(window).resize(plugin.slideResizeFix);
+            }
+
             plugin.settings.onInit(images, i);
         }
-
 
         plugin.startPlaying = function() {
             clearTimeout(timer);
             run();
         }
+
         plugin.stopPlaying = function() {
             clearTimeout(timer);
         }
+
         plugin.refresh = function(){
             clearTimeout(timer);
             plugin.init();
         }
+
+        plugin.slideResizeFix = function(){
+            options.startImage = activeImage.index();
+            plugin.refresh();
+        }
+
         plugin.next = function(){
             nextImage();
         }
+
         plugin.prev = function(){
             prevImage();
         }
@@ -87,7 +99,9 @@
             }
             captionField = $(plugin.settings.caption);
         }
+
         var applyInitSettings = function() {
+
             images.css({
                 position : 'absolute',
                 left : 0,
@@ -96,7 +110,14 @@
             });
 
             $(plugin.settings.goToImage).filter('[data-n='+plugin.settings.startImage+']').addClass('current');
+
+            if( plugin.settings.transition == 'slide' ){
+                $(plugin.settings.imageSelector).eq(plugin.settings.startImage).css({position:"absolute",'margin-left':-$element.width()/2,left:'50%'});
+                $(plugin.settings.imageSelector).css({overflow: "hidden"});
+            }
+
             var pos = imageWrapper.css('position');
+
             if (pos=='static'){
                 if (plugin.settings.lockSize){
                     imageWrapper.css({width: imageWrapper.width(), height: imageWrapper.height()});
@@ -104,14 +125,17 @@
                 }
                 imageWrapper.css({position : 'relative'});
             }
+
             if (captionField){
                 captionField.html(activeImage.find('[data-caption]').data('caption'));
-                
             }
+
         }
+
         var run = function() {            
             timer = plugin.settings.autoPlay ? setTimeout(nextImage, plugin.settings.duration) : null;
         }
+
         var bindEvents = function() {
             $(plugin.settings.goToImage).off('click.tgallery').on('click.tgallery', function(e){
                 e.preventDefault();
@@ -125,8 +149,8 @@
                 e.preventDefault();
                 prevImage();
             });
-
         }
+
         var goTo = function(imageNumber) {
             var next = $(images[imageNumber]);
             var direction = 'prev';
@@ -141,6 +165,7 @@
                 showImage(activeImage, next, direction);
             }
         }
+
         var nextImage = function() {
             clearTimeout(timer);
             timer = plugin.settings.autoPlay ? setTimeout(nextImage, plugin.settings.duration) : null;
@@ -151,6 +176,7 @@
             }
             showImage(activeImage, next, 'next');
         }
+
         var prevImage = function() {
             clearTimeout(timer);
             timer = plugin.settings.autoPlay ? setTimeout(prevImage, plugin.settings.duration) : null;
@@ -161,6 +187,7 @@
             }
             showImage(activeImage, prev, 'prev');
         }
+
         var showImage = function(prev, next, direction) {
             if($(prev)[0] !== $(next)[0]) {
                 if (plugin.settings.beforeChange(images, i)!==false){
@@ -188,27 +215,33 @@
                 }
             }
         }
+
         var transitionCrossFade = function(prev,next,direction){
             prev.fadeOut(plugin.settings.speed);
             next.fadeIn( plugin.settings.speed, plugin.settings.afterChange );
         }
+
         var transitionFade = function(prev,next,direction){
             prev.fadeOut( plugin.settings.speed, function(){
                 next.fadeIn( plugin.settings.speed, plugin.settings.afterChange );
             });
         }
+
         var transitionSlide = function(prev,next,direction){
             var left = direction === 'next' || next.index()>prev.index();
             prev.css({zIndex: 5}).animate( {left: left ? "-50%" : "150%"}, plugin.settings.speed, function(){$(this).hide()} );
             next.css({zIndex:10, left: left ? "150%" : "-50%", marginLeft:-next.width()/2}).show();
             next.animate( {left:"50%"}, plugin.settings.speed, plugin.settings.afterChange );
         }
+
         plugin.nextImage = function() {
             nextImage();
         }
+
         plugin.prevImage = function() {
             prevImage();
         }
+
         plugin.showImage = function(next) {
             if (typeof next !== 'undefined')
             {
@@ -216,12 +249,14 @@
 
             }
         }
+
         plugin.goTo = function(index) {
             if (typeof index !== 'undefined')
             {
                 goTo(index);
             }
         }
+
         plugin.init();
 
     }
