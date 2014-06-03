@@ -54,10 +54,9 @@ class File {
         }
 
         $uploadFolder = trim($uploadFolder, '\/');
-        $targetFolder = Path::appRoot($uploadFolder);
 
-        if (!is_dir($targetFolder)) {
-            if (!mkdir($targetFolder)) {
+        if (!is_dir($uploadFolder)) {
+            if (!mkdir($uploadFolder)) {
                 return null;
             }
         }
@@ -76,7 +75,7 @@ class File {
             }
 
             $uploadFileName = self::sanitizeFilename($uploadFileName);
-            $targetFile = $targetFolder . DIRECTORY_SEPARATOR . $uploadFileName;
+            $targetFile = $uploadFolder . DIRECTORY_SEPARATOR . $uploadFileName;
 
             $i = 1;
             while (file_exists($targetFile)) {
