@@ -9,7 +9,7 @@ RewriteEngine On
 RewriteRule ^index\.php$ index.php [L]
 RewriteRule ^public/(.+)$ public/$1 [L]
 
-RewriteRule ^google([\w]+)\.html$ google$1.html [L]
+RewriteRule ^google([a-zA-Z0-9_-]+)\.html$ google$1.html [L]
 RewriteRule ^sitemap\.xml$ sitemap.xml [L]
 RewriteRule ^robots\.txt$ robots.txt [L]
 
