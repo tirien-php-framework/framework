@@ -67,6 +67,15 @@ class Path{
 	public static function pageUrl($strip_query=false){
 		return  self::urlBase().'/'.self::urlUri($strip_query);
 	}
+
+	public static function stingToUri( $string ){
+		$uri = trim($string);
+		$uri = str_replace(' ', '-', $uri);
+		$uri = preg_replace("/[^a-z0-9-_]+/i", "", $uri);
+		$uri = strtolower($uri);
+
+		return $uri;
+	}
 		
 }
 
