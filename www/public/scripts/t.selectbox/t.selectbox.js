@@ -7,21 +7,20 @@
 */
 
 $.fn.tSelectbox = function(userConfig) {
+
     return this.each(function(ind, el) {
+
         var inputSelect = $(el);
+
         var config = {
             firstIsEmptyText: false
         }
 
         $.extend(config, userConfig);
 
-        if(inputSelect.data('placeholder')!=undefined){
-            inputSelect.prepend('<option value="0">'+inputSelect.data('placeholder')+'</option>');
-            config.firstIsEmptyText = true;
-        }
-
         var tSelectbox;
         createSelectbox();
+
         var select = tSelectbox.children(".cs-select");
         var dropdown = tSelectbox.children(".cs-dropdown");
         var options = dropdown.children();
@@ -31,38 +30,58 @@ $.fn.tSelectbox = function(userConfig) {
         init();
 
         function inputChanged() {
+
             var changedValue = $(this).val();
+
             options.each(function() {
+
                 var t = $(this);
+
                 if (t.attr('value') == changedValue) {
                     selectOption(t);
                 }
+
             });
+
         }
 
         function init() {
+
             inputSelect.css({position: 'absolute', left: -9999, top: -9999, visibility: 'hidden'});
             inputSelect.change(inputChanged);
-            if (inputSelect.find(':selected').length){
-                selectOption(options.filter('[value="'+inputSelect.find(':selected').val()+'"]'));
-            }else{
+ 
+            if (inputSelect.find('[selected]').length){
+                selectOption(options.filter('[value="'+inputSelect.find('[selected]').val()+'"]'));
+            }
+            else if(config.firstIsEmptyText){
                 selectOption(options.filter(':first-child'));
             }
+
             $(document).click(closeAll);
+
         }
+
         function closeAll() {
             $(".cs-dropdown").slideUp();
         }
+
         function createSelectbox()
         {
             var options = "";
+            var selectedText = inputSelect.data('placeholder')!=undefined ? inputSelect.data('placeholder') : 'select';
+
             inputSelect.children("option").each(function(ind, el) {
                 var e = $(el);
-                options += '<a href="#" class="cs-option" value="' + e.prop('value') + '" >' + e.text() + '</a>';
+                var data = "";
+                data += e.data('url') ? ' data-url = "'+ e.data('url')+'"' : "";
+                options += '<a '+ data +' href="#" class="cs-option" value="' + e.prop('value') + '" >' + e.text() + '</a>';
             });
-            tSelectbox = $('<div class="custom-combobox"><div class="cs-select"><span class="cs-left"></span><a href="#" class="cs-selected">select</a><span class="cs-right"></span><div class="cs-clear"></div></div><div style="display:none" class="cs-dropdown">' + options + '</div></div>');
+
+            tSelectbox = $('<div class="custom-combobox"><div class="cs-select"><span class="cs-left"></span><a href="#" class="cs-selected">' + selectedText + '</a><span class="cs-right"></span><div class="cs-clear"></div></div><div style="display:none" class="cs-dropdown">' + options + '</div></div>');
+            
             inputSelect.after(tSelectbox);
         }
+
         function toggleDropdown() {
 
             if ((isOpened = !dropdown.is(':visible')))
@@ -70,23 +89,25 @@ $.fn.tSelectbox = function(userConfig) {
                 closeAll();
                 dropdown.slideDown();
                 focusOption(null, options.filter('[selected]'));
-
             }
             else
             {
                 closeAll();
-
             }
 
         }
+
         tSelectbox.click(function(e) {
             e.preventDefault();
             e.stopPropagation();
             toggleDropdown();
         });
+
         selected.keydown(function(e) {
+
             var s = options.filter("[selected]");
             var t = $(this);
+
             switch (e.which)
             {
                 case 38: //up arrow
@@ -105,12 +126,14 @@ $.fn.tSelectbox = function(userConfig) {
                     }
                     break;
             }
+
         });
+
         options.keydown(function(e) {
 
             var t = $(this);
-            switch (e.which)
-            {
+
+            switch (e.which)            {
                 case 38:
                     e.preventDefault();
                     var n = t.prev();
@@ -121,17 +144,25 @@ $.fn.tSelectbox = function(userConfig) {
                     var n = t.next();
                     focusOption(t, n);
                     break;
-
             }
+
         });
+
         options.click(function(e) {
 
             e.preventDefault();
             selectOption($(this));
             $(".cs-focused").removeClass('cs-focused');
             selected.focus();
+            
+            if ( $(this).data('url') !==undefined) {
+                window.location = $(this).data('url');
+            } 
+
         });
+
         function focusOption(p, n) {
+
             if (n.length)
             {
                 if (p !== null) {
@@ -139,10 +170,12 @@ $.fn.tSelectbox = function(userConfig) {
                 }
                 n.focus().addClass("cs-focused");
             }
+
         }
+
         function selectOption(o) {
-            if (o.length)
-            {
+
+            if (o.length)            {
                 var v = o.attr('value');
                 var other_options = o.attr('selected', true).addClass('cs-hilighted').siblings();
                 other_options.attr('selected', false).removeClass('cs-hilighted');
@@ -156,6 +189,8 @@ $.fn.tSelectbox = function(userConfig) {
                     inputSelect.val(v).trigger('change');
                 }
             }
+
         }
+
     });
 }
