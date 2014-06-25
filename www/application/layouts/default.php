@@ -20,7 +20,7 @@
 	<link rel="stylesheet" href="css/reset.css" type="text/css">
 	<link rel="stylesheet" href="css/global.css" type="text/css">
 	
-	<script src="//code.jquery.com/jquery-latest.min.js"></script>
+	<script src="scripts/jquery-1.11.1.min.js"></script>
 	<script src="scripts/global.js"></script>
 	
 	<?php if($this->mobile) { ?>
