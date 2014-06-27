@@ -20,6 +20,7 @@ class Mail {
     static function send($options) {
 
 		$mailer = new PHPMailer;
+		$mailer->CharSet = 'UTF-8';
 
 		if ( $_SERVER['SERVER_NAME'] == 'localhost' ) {
 			$mailer->isSMTP();
