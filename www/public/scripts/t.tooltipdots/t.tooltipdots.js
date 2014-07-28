@@ -20,6 +20,13 @@ function drawTooltips( wrapSelector, data ){
 		className = typeof(data[i].className)=="undefined" ? "" : data[i].className;
 		$(wrapSelector).append('<div class="tooltipPoint ' + className + '" style="left:' + data[i].x + '%; top:' + data[i].y + '%;" ><div style="position:relative;z-index:100;"><div class="tooltipBox">' + data[i].content + '</div></div></div>')
 	}
+
+	$(wrapSelector).find(".tooltipPoint").each(function(index, el) {
+		$(this).css({
+			marginTop: -$(this).height()/2,
+			marginLeft: -$(this).width()/2
+		});	
+	});
 	
 	if( $(wrapSelector).find("img").length > 0 ){
 		$(wrapSelector).find("img").load(function(){
@@ -37,4 +44,24 @@ function drawTooltips( wrapSelector, data ){
 			$(this).find(".tooltipBox").stop(true, true).fadeToggle();
 		}
 	);
+
+	// mouse coords tooltip
+	$(".locations-tooltip").hide();
+	
+	$('.tooltipsWrap > img').on('mousemove', function(e) {
+
+		var x = e.pageX - $(this).offset().left;
+		var y = e.pageY - $(this).offset().top;
+
+		var xp = x*100/$(this).width();
+		var yp = y*100/$(this).height();
+
+		$(".locations-tooltip").css({top:y+15, left:x+15}).html("<b>X: </b>" + xp.toFixed(1) + " <br> <b>Y</b>: " + yp.toFixed(1)).show();
+
+	});
+
+	$('.tooltipsWrap > img').on('mouseout', function(e) {
+		$(".locations-tooltip").hide();
+	});
+
 }
