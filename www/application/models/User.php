@@ -24,6 +24,22 @@
 				return false;
 			}
 		}
+
+		public function changePassword($data){
+
+			if( !empty($data['username']) && !empty($data['password']) ) {
+				
+				$set['password_hash'] = Auth::hash( $data['password'] );
+				return DB::update("user", $set, array("username" => $data['username']));
+
+			}
+			else{
+
+				return false;
+
+			}
+
+		}
 		
 	}
 ?>
