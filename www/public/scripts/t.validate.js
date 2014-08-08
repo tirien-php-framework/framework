@@ -25,7 +25,9 @@
             validInputFontColor: 'green',
             validInputBorderColor: 'green',
             enableValidColors: false,
-            placeholders: true
+            placeholders: true,
+            autoSubmit: true,
+            onValidForm: function(){}
         }
 
         var settings = $.extend({}, settings, options);
@@ -129,9 +131,14 @@
                     settings.errorMessage = "You have to accept Terms and Conditions to continue";
                     valid = false;
                 }
-                else if( form.find("input[name='password']").val() != form.find("input[name='repeat_password']").val() ){
+                else if( $(this).hasClass('repeat_password') && form.find("input[name='password']").val() != $(this).val() ){
                     $("input[name='password'], input[name='repeat_password']").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Passwords must match";
+                    valid = false;
+                }
+                else if( $(this).hasClass('repeat_email') && form.find(".email").val().toLowerCase() != $(this).val().toLowerCase() ){
+                    $("input[name='email'], input[name='repeat_email']").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                    settings.errorMessage = "Emails must match";
                     valid = false;
                 }
                 else{
@@ -155,7 +162,8 @@
                     }
                 });
                
-                return true;
+                settings.onValidForm();
+                return settings.autoSubmit ? true : false;
                 
             }
             else{
