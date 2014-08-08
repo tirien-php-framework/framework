@@ -44,6 +44,14 @@ button {
 	cursor: pointer;
 }
 
+button,
+input,
+textarea
+{
+	border-radius: 0;
+	-webkit-appearance: none;
+
+}
 
 .cf:before,
 .cf:after {
