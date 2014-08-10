@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 Class Export
 {
     public static function toXLS( $data, $columns, $file_name = false )
