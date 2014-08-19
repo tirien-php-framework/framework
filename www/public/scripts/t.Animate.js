@@ -1,7 +1,9 @@
-/* 
+/** 
 *   Scroll Animation jQuery Plugin
 *   Tirien.com
 *   $Rev: 33 $
+*   
+*   NOTE: for desktop use CSS transitions to simulate inertia
 */
 
 tAnimate = new function (){
