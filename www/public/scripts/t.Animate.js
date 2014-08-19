@@ -3,6 +3,12 @@
 *   Tirien.com
 *   $Rev: 33 $
 *   
+*   Initialize
+*   tAnimate.init(animation_wrap_selector, screen_height_multiplier);
+*   
+*   Add tweens
+*   tAnimate.tween(selector, startPercent, endPercent, startCss, endCss);
+*   
 *   NOTE: for desktop use CSS transitions to simulate inertia
 */
 
