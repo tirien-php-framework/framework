@@ -3,16 +3,18 @@
 *   Tirien.com
 *   $Rev: 33 $
 *   
-*   Initialize
-*   tAnimate.init(animation_wrap_selector, screen_height_multiplier);
-*   
-*   Add tweens
-*   tAnimate.tween(selector, startPercent, endPercent, startCss, endCss);
-*   
-*   NOTE: for desktop use CSS transitions to simulate inertia
+*   NOTE: for desktop use CSS transitions to simulate inertia (disable this for mobile and MacOS), i.e.:
+*   .tween, body
+*   {
+*   	-webkit-transition: all 600ms;
+*   	-moz-transition: all 600ms;
+*   	-o-transition: all 600ms;
+*   	transition: all 600ms;
+*   }
+*   	
 */
 
-tAnimate = new function (){
+var tAnimate = new function (){
 
 	this.progress = 0;
 	this.tweens = [];
@@ -43,10 +45,10 @@ tAnimate = new function (){
 		endPercent = endPercent/100;
 
 		this.tweens.push({
-			'selector':selector, 
-			'startPercent':startPercent, 
-			'endPercent':endPercent, 
-			'startCss':startCss, 
+			'selector': selector, 
+			'startPercent': startPercent, 
+			'endPercent': endPercent, 
+			'startCss': startCss, 
 			'endCss': typeof endCss == "undefined" ? null : endCss
 		});
 
@@ -94,30 +96,39 @@ tAnimate = new function (){
 
 							switch(rule){
 
-								case "top" || "bottom" || "height":
-								startCss = window.innerHeight * startCss.replace(/%$/,'') / 100;
+								case "top":
+								case "bottom":
+								case "height":
+									startCss = window.innerHeight * startCss.replace(/%$/,'') / 100;
 									break;
-								
-								case "left" || "right" || "width":
-								startCss = window.innerWidth * startCss.replace(/%$/,'') / 100;
+
+
+								case "left":
+								case "right":
+								case "width":
+									startCss = window.innerWidth * startCss.replace(/%$/,'') / 100;
 									break;
 								
 							}
 						}
 
 						if( /px$/.test(startCss) ){
-							startCss = startCss.replace(/px$/,'')
+							startCss = parseFloat(startCss.replace(/px$/,''));
 						}
 
 						if( /%$/.test(endCss) ){
 
 							switch(rule){
 
-								case "top" || "bottom" || "height":
+								case "top":
+								case "bottom":
+								case "height":
 								endCss = window.innerHeight * endCss.replace(/%$/,'') / 100;
 									break;
 								
-								case "left" || "right" || "width":
+								case "left":
+								case "right":
+								case "width":
 								endCss = window.innerWidth * endCss.replace(/%$/,'') / 100;
 									break;
 								
@@ -126,7 +137,7 @@ tAnimate = new function (){
 						}
 
 						if( /px$/.test(endCss) ){
-							endCss = endCss.replace(/px$/,'')
+							endCss = parseFloat(endCss.replace(/px$/,''));
 						}
 
 						newValue = startCss + (endCss - startCss) * tweenProgress;
@@ -142,14 +153,90 @@ tAnimate = new function (){
 		}
 	}
 
+	this.inertia = new function(){
+
+		this.touches = [];
+		this.redrawInterval;
+		var speed, lastTouch, oldScrolltop, distance;
+		var duration = 800; //ms
+		var inertiaRatio = 1/20; // speed dependence of distance
+
+		this.redraw = function(){
+
+			var timePassed = typeof lastTouch == "undefined" ? new Date().getTime() : new Date().getTime() - lastTouch.timeStamp;
+
+			newScrolltop = easeOutExpo(timePassed, oldScrolltop, distance, duration).toFixed();
+
+			if(newScrolltop != oldScrolltop + distance){
+				$(".animation-wrap").scrollTop(newScrolltop);
+				tAnimate.refresh();
+				return true;
+			}
+			else{
+				clearInterval(tAnimate.inertia.redrawInterval);
+				speed = lastTouch = oldScrolltop = distance = undefined;
+				return false;
+			}
+			
+		}		
+
+		this.start = function(){
+
+			if(tAnimate.inertia.redrawInterval){
+				clearInterval(tAnimate.inertia.redrawInterval);
+			}
+
+			// calculate speed in px/s
+			lastTouch = tAnimate.inertia.touches[tAnimate.inertia.touches.length-1];
+			var beforeLastTouch = tAnimate.inertia.touches[tAnimate.inertia.touches.length-2];
+			
+			if(typeof beforeLastTouch == "undefined"){
+			    return false;
+			}
+
+			speed = (lastTouch.pageY - beforeLastTouch.pageY)*1000/(lastTouch.timeStamp - beforeLastTouch.timeStamp);
+
+			oldScrolltop = $(".animation-wrap").scrollTop();
+			distance = -(speed * inertiaRatio).toFixed();
+
+			// reset touches
+			tAnimate.inertia.touches = [];
+			tAnimate.inertia.redraw();
+
+			tAnimate.inertia.redrawInterval = setInterval(tAnimate.inertia.redraw,20);
+				
+		}		
+
+	}	
+
 }
 
 
 if(_mobile){
+
 	$(window).on('touchmove', function(event) {
+
 		tAnimate.refresh();
+
+		tAnimate.inertia.touches.push({
+			pageY: event.originalEvent.changedTouches[0].pageY, 
+			timeStamp: event.originalEvent.timeStamp 
+		});
+			
 	})
+
+	$(window).on('touchend touchcancel', function(event) {
+		tAnimate.inertia.start();
+	})
+
 }
 else{
+
 	$(window).on("scroll", tAnimate.refresh);
+
+}
+
+function easeOutExpo(t, b, c, d) {
+	// t: current time, b: begining value, c: change value, d: duration
+	return (t==d) ? b+c : c * (-Math.pow(2, -10 * t/d) + 1) + b;
 }
