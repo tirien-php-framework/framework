@@ -211,30 +211,33 @@ var tAnimate = new function (){
 
 }
 
+$(function(){
 
-if(_mobile){
+	if(_mobile){
 
-	$(window).on('touchmove', function(event) {
+		$(window).on('touchmove', function(event) {
 
-		tAnimate.refresh();
+			tAnimate.refresh();
 
-		tAnimate.inertia.touches.push({
-			pageY: event.originalEvent.changedTouches[0].pageY, 
-			timeStamp: event.originalEvent.timeStamp 
-		});
-			
-	})
+			tAnimate.inertia.touches.push({
+				pageY: event.originalEvent.changedTouches[0].pageY, 
+				timeStamp: event.originalEvent.timeStamp 
+			});
+				
+		})
 
-	$(window).on('touchend touchcancel', function(event) {
-		tAnimate.inertia.start();
-	})
+		$(window).on('touchend touchcancel', function(event) {
+			tAnimate.inertia.start();
+		})
 
-}
-else{
+	}
+	else{
 
-	$(window).on("scroll", tAnimate.refresh);
+		$(window).on("scroll", tAnimate.refresh);
 
-}
+	}
+	
+})
 
 function easeOutExpo(t, b, c, d) {
 	// t: current time, b: begining value, c: change value, d: duration
