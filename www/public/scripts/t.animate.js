@@ -64,6 +64,8 @@ var tAnimate = new function (){
 
 		for (var i = 0; i < tAnimate.tweens.length; i++) {
 
+			$(tAnimate.tweens[i].selector).css("position","fixed");
+
 			if( 
 				tAnimate.tweens[i].startPercent <= tAnimate.progress && 
 				tAnimate.tweens[i].endPercent >= tAnimate.progress 
