@@ -207,9 +207,24 @@ var tAnimate = new function (){
 
 			tAnimate.inertia.redrawInterval = setInterval(tAnimate.inertia.redraw,20);
 				
-		}		
+		}	
 
-	}	
+	}
+
+	this.goTo = function(progressValue){
+	
+		if(_mobile){
+		    $(".animation-wrap").scrollTop( progressValue * Math.abs( $(".animation").height() - $(".animation-wrap").height() ) );
+		}
+		else{
+			$(window).scrollTop( progressValue * Math.abs( $(document).height() - window.innerHeight ) );
+		}
+
+		tAnimate.inertia.redraw();
+
+	}
+
+
 
 }
 
