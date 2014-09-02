@@ -1,4 +1,4 @@
-/** 
+﻿/** 
 *   Scroll Animation jQuery Plugin
 *   Tirien.com
 *   $Rev: 33 $
@@ -18,11 +18,13 @@ var tAnimate = new function (){
 
 	this.progress = 0;
 	this.tweens = [];
+	this.animationHeight = 0;
 
 	this.init = function(animation, m){
 
 		m = typeof m == "undefined" ? m = 10 : m;
-		$(animation).height( window.innerHeight * m );
+		this.animationHeight = window.innerHeight * m;
+		$(animation).height(this.animationHeight);
 
 		if(_mobile){
 		    
@@ -63,8 +65,6 @@ var tAnimate = new function (){
 		// console.dir(tAnimate.progress);
 
 		for (var i = 0; i < tAnimate.tweens.length; i++) {
-
-			$(tAnimate.tweens[i].selector).css("position","fixed");
 
 			if( 
 				tAnimate.tweens[i].startPercent <= tAnimate.progress && 
@@ -159,15 +159,15 @@ var tAnimate = new function (){
 
 		this.touches = [];
 		this.redrawInterval;
+		this.redrawManualInterval;
 		var speed, lastTouch, oldScrolltop, distance;
 		var duration = 800; //ms
-		var inertiaRatio = 1/20; // speed dependence of distance
+		var inertiaRatio = 1/5; // speed dependence of distance
 
 		this.redraw = function(){
 
 			var timePassed = typeof lastTouch == "undefined" ? new Date().getTime() : new Date().getTime() - lastTouch.timeStamp;
-
-			newScrolltop = easeOutExpo(timePassed, oldScrolltop, distance, duration).toFixed();
+			var newScrolltop = easeOutExpo(timePassed, oldScrolltop, distance, duration).toFixed();
 
 			if(newScrolltop != oldScrolltop + distance){
 				$(".animation-wrap").scrollTop(newScrolltop);
@@ -182,17 +182,39 @@ var tAnimate = new function (){
 			
 		}		
 
+		this.redrawManual = function(startScrollTop, endScrollTop, timeStart, manualDuration){
+
+			var timePassed = new Date().getTime() - timeStart;
+			var manualDistance = endScrollTop.toFixed() - startScrollTop.toFixed();
+			var newScrolltop = easeOutExpo(timePassed, startScrollTop, manualDistance, manualDuration).toFixed();
+
+			if(newScrolltop != startScrollTop + manualDistance){
+				$(".animation-wrap").scrollTop(newScrolltop);
+				tAnimate.refresh();
+				return true;
+			}
+			else{
+				clearInterval(tAnimate.inertia.redrawManualInterval);
+				return false;
+			}
+			
+		}		
+
 		this.start = function(){
 
 			if(tAnimate.inertia.redrawInterval){
 				clearInterval(tAnimate.inertia.redrawInterval);
 			}
 
+			if(tAnimate.inertia.redrawManualInterval){
+				clearInterval(tAnimate.inertia.redrawManualInterval);
+			}
+
 			// calculate speed in px/s
 			lastTouch = tAnimate.inertia.touches[tAnimate.inertia.touches.length-1];
 			var beforeLastTouch = tAnimate.inertia.touches[tAnimate.inertia.touches.length-2];
 			
-			if(typeof beforeLastTouch == "undefined"){
+			if(typeof beforeLastTouch == "undefined" || typeof lastTouch == "undefined"){
 			    return false;
 			}
 
@@ -214,17 +236,25 @@ var tAnimate = new function (){
 	this.goTo = function(progressValue){
 	
 		if(_mobile){
-		    $(".animation-wrap").scrollTop( progressValue * Math.abs( $(".animation").height() - $(".animation-wrap").height() ) );
+
+		    var startScrollTop = $(".animation-wrap").scrollTop();
+		    var endScrollTop = progressValue * Math.abs( $(".animation").height() - $(".animation-wrap").height() );
+		    var timeStart = new Date().getTime();
+		    var duration = 1000;
+
+			tAnimate.inertia.redrawManualInterval = setInterval(function(){
+				tAnimate.inertia.redrawManual( startScrollTop, endScrollTop, timeStart, duration );	
+			},20);
+
 		}
 		else{
-			$(window).scrollTop( progressValue * Math.abs( $(document).height() - window.innerHeight ) );
-		}
 
-		tAnimate.inertia.redraw();
+			$(window).scrollTop( progressValue * Math.abs( $(document).height() - window.innerHeight ) );
+			tAnimate.refresh();
 
 	}
 
-
+	}
 
 }
 
