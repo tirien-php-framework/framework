@@ -78,8 +78,14 @@
 
 			$this->view_path = 'views/' . ( empty($this->view_path) ? $this->controller_name.'/'.$this->action_name.'.php' : $this->view_path );
 			
-			include($this->view_path);
-			return true;
+			if (file_exists('application/'.$this->view_path)) {
+				include($this->view_path);
+				return true;
+			}
+			else{
+				pageNotFound();
+			}
+
 		}
 
 		public function setView($view_path){
