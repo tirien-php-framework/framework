@@ -2,11 +2,9 @@
 class DB
 {
 	private static $link;
-	private static $dbType;
 	private static $globalDebug;
 	private static $printOutput = false;
 	private static $isInitiated = false;
-	private static $databaseName = '';
 	const prefix = 'w__';
 
 	static function init( $config = array() ) {
@@ -14,22 +12,20 @@ class DB
 		global $_debug;
 
 		$db_config = array_merge($_config['database'], $config);
-		$db_config['file'] = !empty($db_name) && is_file($db_name) ? $db_name : $db_config['file'];
 		self::$isInitiated = true;
 		self::$globalDebug = $_debug;
-		self::$dbType = $db_config['type'];
 		$connectionString = '';
 
-		switch( self::$dbType ){
+		switch( $db_config['type'] ){
 
 			case 'sqlite':
-				$connectionString = self::$dbType.":".$db_config['file'];
+				$connectionString = $db_config['type'].":".$db_config['file'];
 				break;
 
 			case 'mysql':
 				$db_config = $_config['database'];
 				$connectionString =
-					self::$dbType.':'
+					$db_config['type'].':'
 						.'host='.$db_config['host'].';'
 						.'dbname='.$db_config['name'];
 				break;
@@ -38,7 +34,7 @@ class DB
 
 
 		try{
-			self::$link = self::$dbType == 'mysql' ? new PDO( $connectionString, $db_config['user'], $db_config['pass'] ) : new PDO( $connectionString );
+			self::$link = $db_config['type'] == 'mysql' ? new PDO( $connectionString, $db_config['user'], $db_config['pass'] ) : new PDO( $connectionString );
 			if( self::$globalDebug ){
 				self::$link->setAttribute( PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION );
 			}
@@ -54,7 +50,7 @@ class DB
 			die();
 		}
 
-		if( self::$dbType == 'mysql' ){
+		if( $db_config['type'] == 'mysql' ){
 			self::$link->exec( "SET NAMES utf8" );
 			self::$link->exec( "SET CHARACTER SET utf8" );
 			self::$link->exec( "SET COLLATION_CONNECTION='utf8_general_ci'" );
@@ -110,7 +106,7 @@ class DB
 			$columns[] = "`$value`";
 		}
 
-		$statement = sprintf( 'INSERT INTO %s`%s` (%s) VALUES (%s);', self::$databaseName, $table, implode( ',', $columns ), implode( ',', self::addPrefix( array_keys( $values ), ':' ) ) );
+		$statement = sprintf( 'INSERT INTO `%s` (%s) VALUES (%s);', $table, implode( ',', $columns ), implode( ',', self::addPrefix( array_keys( $values ), ':' ) ) );
 		if( self::$globalDebug && self::$printOutput ){
 			$stmt = self::prepare( $statement, $values );
 			print_r( $stmt );
@@ -175,7 +171,7 @@ class DB
 			$where_part = 'WHERE '.implode( ' AND ', $where_params );
 
 		}
-		$statement = sprintf( 'UPDATE %s`%s` SET %s %s;', self::$databaseName, $table, $set_part, $where_part );
+		$statement = sprintf( 'UPDATE `%s` SET %s %s;', $table, $set_part, $where_part );
 
 		if( self::$globalDebug && self::$printOutput ){
 			$stmt = self::prepare( $statement, $params );
@@ -211,7 +207,7 @@ class DB
 
 		}
 
-		$statement = sprintf( 'DELETE FROM %s`%s` WHERE %s;', self::$databaseName, $table, $where_part );
+		$statement = sprintf( 'DELETE FROM `%s` WHERE %s;', $table, $where_part );
 
 		if( self::$globalDebug && self::$printOutput ){
 			$stmt = self::prepare( $statement, $where );
