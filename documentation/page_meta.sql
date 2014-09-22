@@ -1,27 +1,33 @@
 /*
-Navicat SQLite Data Transfer
+Navicat MySQL Data Transfer
 
-Source Server         : Rewind
-Source Server Version : 30623
-Source Host           : localhost:0
+Source Server         : localhost
+Source Server Version : 50524
+Source Host           : localhost:3306
+Source Database       : filmly
 
-Target Server Type    : SQLite
-Target Server Version : 30623
+Target Server Type    : MYSQL
+Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-09-22 10:23:08
+Date: 2014-09-22 10:28:27
 */
 
-PRAGMA foreign_keys = OFF;
+SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for "main"."page_meta"
+-- Table structure for `page_meta`
 -- ----------------------------
-DROP TABLE "main"."page_meta";
-CREATE TABLE "page_meta" (
-"id"  INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
-"uri"  TEXT,
-"title"  TEXT,
-"description"  TEXT,
-"keywords"  TEXT
-);
+DROP TABLE IF EXISTS `page_meta`;
+CREATE TABLE `page_meta` (
+  `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
+  `uri` varchar(0) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(0) COLLATE utf8_unicode_ci NOT NULL,
+  `description` text COLLATE utf8_unicode_ci,
+  `keywords` varchar(0) COLLATE utf8_unicode_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+
+-- ----------------------------
+-- Records of page_meta
+-- ----------------------------
