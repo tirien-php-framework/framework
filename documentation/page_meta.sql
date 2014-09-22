@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50524
 File Encoding         : 65001
 
-Date: 2014-09-22 10:28:27
+Date: 2014-09-22 10:31:06
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -21,12 +21,12 @@ SET FOREIGN_KEY_CHECKS=0;
 DROP TABLE IF EXISTS `page_meta`;
 CREATE TABLE `page_meta` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
-  `uri` varchar(0) COLLATE utf8_unicode_ci NOT NULL,
-  `title` varchar(0) COLLATE utf8_unicode_ci NOT NULL,
+  `uri` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
+  `title` varchar(255) COLLATE utf8_unicode_ci NOT NULL,
   `description` text COLLATE utf8_unicode_ci,
-  `keywords` varchar(0) COLLATE utf8_unicode_ci DEFAULT NULL,
+  `keywords` varchar(255) COLLATE utf8_unicode_ci DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COLLATE=utf8_unicode_ci;
 
 -- ----------------------------
 -- Records of page_meta
