@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Authorization Library
  */
@@ -82,6 +82,18 @@ class Auth{
 		} else {
 			return isset( $_SESSION[self::$session_var_name] ) ? $_SESSION[self::$session_var_name] : null;
 		}
+	}
+		
+	static function checkCSRF(){
+		
+		if( !empty($_SESSION[self::$session_var_name]['csrf_token']) && !empty($_POST) ){
+			if( empty($_POST['csrf_token']) || ($_POST['csrf_token'] != $_SESSION[self::$session_var_name]['csrf_token']) ){
+				
+				mail("mladen@tirien.com", "Possible CSRF Attack", json_encode($_POST).json_encode($_SERVER));
+				
+			}
+		}
+		
 	}
 		
 }

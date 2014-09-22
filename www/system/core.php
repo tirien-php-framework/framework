@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	class Core
 	{
 		public $view;
@@ -16,12 +16,16 @@
 			$this->view = new stdClass();
 			
 			// PAGE META
+			if ( !empty($_config['system']['page_meta_table']) ) {
+	
 			$page_meta = DB::query("SELECT * FROM page_meta WHERE IFNULL(uri,'') = ?", Path::urlUri(true), true);	
 
 			if (!empty($page_meta)) {
 				$this->view->head['title'] = $page_meta['title'];
 				$this->view->head['description'] = $page_meta['description'];
 				$this->view->head['keywords'] = $page_meta['keywords'];
+			}
+	
 			}
 			// END PAGE META
 

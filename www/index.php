@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 
 /* Tirien Web Framework */
 /* Version 1 */
@@ -93,10 +93,15 @@ disableMagicQuotes();
 if( empty($_SESSION) ){
 	session_start(); 
 }
+
+if ($_config['system']['log_session']){
 Log::session();	
+}
 
 /* INIT MULTILANGUAGE */
+if (!empty($_config['system']['multilanguage'])) {
 ml::init( array('en') ); 
+}
 	
 /* INIT ROUTES */
 Path::init( dirname($_SERVER['PHP_SELF']), dirname(__FILE__), $_config['application']['assets_version'] );
