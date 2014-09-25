@@ -1,6 +1,8 @@
 ﻿<?php
 /**
- * Authorization Library
+ *	Authorization Library
+ *	Tirien.com
+ *	$Rev$
  */
 class Auth{
 	//todo:srediti docs za ovaj lib
@@ -32,8 +34,15 @@ class Auth{
 			$rs = self::$entity_object->{self::$entity_method}( $data );
 			
 			if( !empty($rs) ) {
+
 				$_SESSION[self::$session_var_name] = $rs;
+				$_SESSION[self::$session_var_name]['csrf_token'] = sha1(time().rand());
+
+				// for JS CSRF use set cookie
+				setcookie('csrf_token', $_SESSION[self::$session_var_name]['csrf_token'], 0, '/');
+
 				return true;
+
 			}
 			else{
 				return false;
@@ -90,9 +99,16 @@ class Auth{
 			if( empty($_POST['csrf_token']) || ($_POST['csrf_token'] != $_SESSION[self::$session_var_name]['csrf_token']) ){
 				
 				mail("mladen@tirien.com", "Possible CSRF Attack", json_encode($_POST).json_encode($_SERVER));
+				die();
 				
 			}
 		}
+		
+	}
+		
+	static function getCSRFtoken(){
+		
+		return !empty($_SESSION[self::$session_var_name]['csrf_token']) ? $_SESSION[self::$session_var_name]['csrf_token'] : null;
 		
 	}
 		
