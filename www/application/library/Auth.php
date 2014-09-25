@@ -5,6 +5,7 @@
  *	$Rev$
  */
 class Auth{
+	
 	//todo:srediti docs za ovaj lib
 	private static $entity_object;
 	private static $entity_method;
