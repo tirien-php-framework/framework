@@ -85,7 +85,8 @@ class Image
             $i++;
         }
 
-		$arr['img_uri'] = $newname;
+		$arr['img_path'] = $newname;
+		$arr['img_uri'] = preg_replace('/^public\//i', '', $newname);
 		$arr['img_name'] = $image_name;
 
 		$copied = $key !== null ? copy($_FILES[$name]['tmp_name'][$key], $newname) : copy($_FILES[$name]['tmp_name'], $newname);
