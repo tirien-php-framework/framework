@@ -30,7 +30,7 @@ class Mail {
 			$mailer->Port       = 587;
 			$mailer->Username   = "tiriendev@gmail.com";
 			$mailer->Password   = "devtirien011";
-			$mailer->setFrom('tiriendev@gmail.com', 'Tirien Development');
+			$mailer->setFrom('tiriendev@gmail.com', 'Development');
 		}
 		
 		$mailer->Subject = $options['subject'];
