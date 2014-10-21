@@ -18,13 +18,12 @@ var tAnimate = new function (){
 
 	this.progress = 0;
 	this.tweens = [];
-	this.animationHeight = 0;
 
 	this.init = function(animation, m){
 
-		m = typeof m == "undefined" ? m = 10 : m;
-		this.animationHeight = window.innerHeight * m;
-		$(animation).height(this.animationHeight);
+		if(typeof m != "undefined"){
+			$(animation).height(window.innerHeight * m);
+		}
 
 		if(_mobile){
 		    
@@ -38,6 +37,36 @@ var tAnimate = new function (){
 			});
 
 		}
+
+		$(function(){
+
+			if(_mobile){
+
+				$(window).on('touchmove', function(event) {
+
+					tAnimate.refresh();
+					scrollFix();
+
+					tAnimate.inertia.touches.push({
+						pageY: event.originalEvent.changedTouches[0].pageY, 
+						timeStamp: event.originalEvent.timeStamp 
+					});
+						
+				})
+
+				$(window).on('touchend touchcancel', function(event) {
+					tAnimate.inertia.start();
+				})
+
+			}
+			else{
+
+				$(window).on("scroll", tAnimate.refresh);
+				$(window).on("scroll", scrollFix);
+
+			}
+
+		})		
 
 	}
 
@@ -157,19 +186,25 @@ var tAnimate = new function (){
 
 	this.inertia = new function(){
 
+		this.running = false;
 		this.touches = [];
 		this.redrawInterval;
 		this.redrawManualInterval;
 		var speed, lastTouch, oldScrolltop, distance;
-		var duration = 800; //ms
-		var inertiaRatio = 1/5; // speed dependence of distance
+		var duration = 700; //ms
+		var inertiaRatio = 1/7; // speed dependence of distance
 
 		this.redraw = function(){
 
 			var timePassed = typeof lastTouch == "undefined" ? new Date().getTime() : new Date().getTime() - lastTouch.timeStamp;
 			var newScrolltop = easeOutExpo(timePassed, oldScrolltop, distance, duration).toFixed();
 
-			if(newScrolltop != oldScrolltop + distance){
+			if(isNaN(newScrolltop) || newScrolltop == oldScrolltop + distance){
+				tAnimate.inertia.running = false;
+				return false;
+			}			
+
+			if(!isNaN(newScrolltop) && newScrolltop != oldScrolltop + distance){
 				$(".animation-wrap").scrollTop(newScrolltop);
 				tAnimate.refresh();
 				return true;
@@ -204,10 +239,12 @@ var tAnimate = new function (){
 
 			if(tAnimate.inertia.redrawInterval){
 				clearInterval(tAnimate.inertia.redrawInterval);
+				tAnimate.inertia.redrawInterval = null;
 			}
 
 			if(tAnimate.inertia.redrawManualInterval){
 				clearInterval(tAnimate.inertia.redrawManualInterval);
+				tAnimate.inertia.redrawManualInterval = null;
 			}
 
 			// calculate speed in px/s
@@ -227,7 +264,8 @@ var tAnimate = new function (){
 			tAnimate.inertia.touches = [];
 			tAnimate.inertia.redraw();
 
-			tAnimate.inertia.redrawInterval = setInterval(tAnimate.inertia.redraw,20);
+			tAnimate.inertia.running = true;
+			tAnimate.inertia.redrawInterval = setInterval(tAnimate.inertia.redraw,10);
 				
 		}	
 
@@ -257,34 +295,6 @@ var tAnimate = new function (){
 	}
 
 }
-
-$(function(){
-
-	if(_mobile){
-
-		$(window).on('touchmove', function(event) {
-
-			tAnimate.refresh();
-
-			tAnimate.inertia.touches.push({
-				pageY: event.originalEvent.changedTouches[0].pageY, 
-				timeStamp: event.originalEvent.timeStamp 
-			});
-				
-		})
-
-		$(window).on('touchend touchcancel', function(event) {
-			tAnimate.inertia.start();
-		})
-
-	}
-	else{
-
-		$(window).on("scroll", tAnimate.refresh);
-
-	}
-	
-})
 
 function easeOutExpo(t, b, c, d) {
 	// t: current time, b: begining value, c: change value, d: duration
