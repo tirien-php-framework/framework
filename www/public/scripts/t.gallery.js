@@ -22,12 +22,13 @@
             beforeChange: function(){},
             afterChange: function(){},
             beforeAnimation: function(){},
-            onInit: function(){}
+            onInit: function(images, i){}
         }
 
         var plugin = this;
 
         plugin.settings = {}
+        plugin.resizeEventSet = false;
 
         var $element = $(element),
              element = element;
@@ -51,8 +52,9 @@
                 run();
             }
 
-            if(plugin.settings.transition == 'slide'){
+            if(plugin.settings.transition == 'slide' && !plugin.resizeEventSet){
                 $(window).resize(plugin.slideResizeFix);
+                plugin.resizeEventSet = true;
             }
 
             plugin.settings.onInit(images, i);
