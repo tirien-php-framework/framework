@@ -62,11 +62,13 @@
 
         plugin.startPlaying = function() {
             clearTimeout(timer);
+            plugin.settings.autoPlay = true;
             run();
         }
 
         plugin.stopPlaying = function() {
             clearTimeout(timer);
+            plugin.settings.autoPlay = false;
         }
 
         plugin.refresh = function(){
