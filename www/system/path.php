@@ -24,7 +24,7 @@ class Path{
 		self::$assetsVersion = empty($assetsVersion) ? '' : '?v='.$assetsVersion;
 	}
 	
-	public static function script($attachment=''){
+	public static function scripts($attachment=''){
 		return trim( self::$urlBase.self::$folders['scripts'], '/').'/'.trim($attachment,'/').self::$assetsVersion;
 	}
 	
@@ -32,15 +32,15 @@ class Path{
 		return trim( self::$urlBase.self::$folders['css'], '/').'/'.trim($attachment,'/').self::$assetsVersion;
 	}
 	
-	public static function doc($attachment=''){
+	public static function docs($attachment=''){
 		return trim( self::$urlBase.self::$folders['docs'], '/').'/'.trim($attachment,'/').self::$assetsVersion;
 	}	
 	
-	public static function video($attachment=''){
-		return trim( self::$urlBase.self::$folders['video'], '/').'/'.trim($attachment,'/').self::$assetsVersion;
+	public static function videos($attachment=''){
+		return trim( self::$urlBase.self::$folders['videos'], '/').'/'.trim($attachment,'/').self::$assetsVersion;
 	}	
 	
-	public static function image($attachment=''){
+	public static function images($attachment=''){
 		return trim( self::$urlBase.self::$folders['images'], '/').'/'.trim($attachment,'/').self::$assetsVersion;
 	}
 	
