@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 /**
  * Multilanguage Library
  * Initiate with: 
@@ -18,6 +18,13 @@ Class ml {
     private static $csv_array = array();
 
     static function init( $languages ) {
+
+        global $_config;
+        
+        $default_controller = empty($_config['system']['default_controller']) ? 'index' : $_config['system']['default_controller'];
+        
+        $default_action = empty($_config['system']['default_action']) ? 'index' : $_config['system']['default_action'];
+
         self::$languages = $languages;
         self::$default_language = $languages[self::$default_language_id];
 
@@ -32,7 +39,7 @@ Class ml {
         if ( !empty($_REQUEST['rq_controller']) && in_array($_REQUEST['rq_controller'], $languages) ) {
 
             self::$active_language = $_REQUEST['rq_controller'];
-            $_REQUEST['rq_controller'] = !empty($_REQUEST['rq_action']) ? $_REQUEST['rq_action'] : 'index';
+            $_REQUEST['rq_controller'] = !empty($_REQUEST['rq_action']) ? $_REQUEST['rq_action'] : $default_controller;
 			
 			if( !empty($_REQUEST['rq_param']) ){
 				$rq_param = explode("/",$_REQUEST['rq_param']);
@@ -45,7 +52,7 @@ Class ml {
 				}
 			}
 			else {
-				$_REQUEST['rq_action'] = 'index';
+				$_REQUEST['rq_action'] = $default_action;
 			}
 
         } 
