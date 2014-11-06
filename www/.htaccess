@@ -14,7 +14,7 @@ RewriteRule ^sitemap\.xml$ sitemap.xml [L]
 RewriteRule ^robots\.txt$ robots.txt [L]
 
 RewriteRule ^css/(.+\.(css|htc|jpe?g|gif|png))$ public/css/$1 [L]
-RewriteRule ^docs/(.+\.(pdf|docx?))$ public/docs/$1 [L]
+RewriteRule ^docs/(.+\.(pdf|zip|docx?))$ public/docs/$1 [L]
 RewriteRule ^fonts/(.+\.(otf|ttf|woff|eot|css|svg))$ public/fonts/$1 [L]
 RewriteRule ^videos/(.+\.(mp4|m4v|flv))$ public/videos/$1 [L]
 RewriteRule ^images/(.+\.(jpe?g|gif|png|ico))$ public/images/$1 [L]
