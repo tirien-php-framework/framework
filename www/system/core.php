@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 	class Core
 	{
 		public $view;
@@ -14,6 +14,7 @@
 		public function __construct() {
 
 			global $_config;
+			$this->config = $_config;
 			
 			$this->view = new stdClass();
 			
