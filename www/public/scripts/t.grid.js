@@ -1,4 +1,10 @@
-function Grid(ops){
+/* 
+*   Grid jQuery Plugin
+*   Tirien.com
+*   $Rev: 302 $
+*/
+
+function tGrid(ops){
     var defaults = {
         grid: '.grid',
         colSpacing: 0,
