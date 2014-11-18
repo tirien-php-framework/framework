@@ -1,7 +1,7 @@
 /* 
 *   Grid jQuery Plugin
 *   Tirien.com
-*   $Rev: $
+*   $Rev$
 */
 
 function tGrid(ops){
