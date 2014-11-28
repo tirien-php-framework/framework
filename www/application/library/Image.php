@@ -24,21 +24,21 @@ class Image
 
 		$arr = array();
 		$arr['status'] = 1;
-		$arr['msg'] = 'Sucess';
+		$arr['message'] = 'Success';
 
 		//reads the name of the file the user submitted for uploading
 		$image = $key !== null ? $_FILES[$name]['name'][$key] : $_FILES[$name]['name'];
 		
 		if( !$image ){
 			$arr['status'] = 0;
-			$arr['msg'] = 'False';
+			$arr['message'] = 'Image error';
 			return $arr;
 		}
 
         if (!is_dir($dirname)) {
             if (!mkdir($dirname)) {
 				$arr['status'] = 0;
-				$arr['msg'] = 'Error making directory';
+				$arr['message'] = 'Error making image directory';
 				return $arr;
 			}
         }
@@ -53,7 +53,7 @@ class Image
 
 		if( ( $extension != "jpg" ) && ( $extension != "jpeg" ) && ( $extension != "png" ) && ( $extension != "gif" ) ){
 			$arr['status'] = 0;
-			$arr['msg'] = 'Wrong format!';
+			$arr['message'] = 'Wrong image format';
 			return $arr;
 		}
 
@@ -66,7 +66,7 @@ class Image
 		//compare the size with the maxim size we defined and print error if bigger
 		if( $size > self::MAX_SIZE ){
 			$arr['status'] = 0;
-			$arr['msg'] = 'You have exceeded the size limit!';
+			$arr['message'] = 'You have exceeded image size limit';
 			return $arr;
 		}
 
@@ -93,7 +93,7 @@ class Image
 
 		if( !$copied ){
 			$arr['status'] = 0;
-			$arr['msg'] = 'Copy unsuccessfull!';
+			$arr['message'] = 'Image copy error';
 			return $arr;
 		}
 
