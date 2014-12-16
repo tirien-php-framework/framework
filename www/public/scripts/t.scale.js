@@ -85,10 +85,10 @@ $.fn.scale = function(ops){
         } 
 
         if(f){
-            el.removeClass("scale").addClass('scale-f scale-done');
+            el.removeClass("scale").addClass('scale-fit scale-done');
         }
         else{
-            el.removeClass("scale-f").addClass('scale scale-done');
+            el.removeClass("scale-fit").addClass('scale scale-done');
         }
 
         return true;
@@ -113,9 +113,9 @@ $.fn.scale = function(ops){
 };
 
 $(window).load(function(){
-    $('img.scale,img.scale-f').load(function(){
+    $('img.scale,img.scale-fit').load(function(){
         $(this).filter('.scale').scale();
-        $(this).filter('.scale-f').scale({
+        $(this).filter('.scale-fit').scale({
             type: 'fit'
         });
         
@@ -124,14 +124,14 @@ $(window).load(function(){
     });
 
     $('.scale').not('img').scale();
-    $('.scale-f').not('img').scale({
+    $('.scale-fit').not('img').scale({
         type: 'fit'
     });
 });
 
 $(window).resize(function(){
     $('.scale').scale();
-    $('.scale-f').scale({
+    $('.scale-fit').scale({
         type: 'fit'
     });
 });
