@@ -66,6 +66,17 @@ class Auth{
 		}
 	}
 	
+	static function refreshData()
+	{
+		if (isset($_SESSION[self::$session_var_name])) {
+			$_SESSION[self::$session_var_name] = self::$entity_object->{self::$entity_method}( self::data('id') );
+			return $_SESSION[self::$session_var_name];
+		}
+		else{
+			return false;
+		}
+	}
+	
 	static function logout()
 	{
 		unset( $_SESSION[self::$session_var_name] );
