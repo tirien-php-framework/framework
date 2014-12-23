@@ -70,7 +70,7 @@ function disableMagicQuotes() {
 }
 
 function pageNotFound() {
-	ob_end_clean();
+	if (ob_get_contents()) ob_end_clean();
 	header( 'Content-type: text/html' );
 	header( $_SERVER["SERVER_PROTOCOL"]." 404 Not Found" );
 	include( 'views/404.htm' );
@@ -78,7 +78,7 @@ function pageNotFound() {
 }
 
 function pageForbidden() {
-	ob_end_clean();
+	if (ob_get_contents()) ob_end_clean();
 	header( 'Content-type: text/html' );
 	header( $_SERVER["SERVER_PROTOCOL"]." 403 Forbidden" );
 	include( 'views/403.htm' );
