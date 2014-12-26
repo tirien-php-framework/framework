@@ -22,7 +22,7 @@ RewriteRule ^images/(.+\.(jpe?g|gif|png|ico))$ public/images/$1 [L]
 RewriteRule ^scripts/(.+\.(jpe?g|gif|png|css|js|svg|otf|ttf|woff))$ public/scripts/$1 [L]
 RewriteRule ^uploads/(.+\.(jpe?g|gif|png|pdf|docx?|mp4|m4v|flv))$ public/uploads/$1 [L]
 
-RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/(.+)$ index.php?rq_controller=$1&rq_action=$2&rq_param=$3 [L]
+RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/(.+)$ index.php?rq_controller=$1&rq_action=$2&rq_params=$3 [L]
 RewriteRule ^([a-zA-Z0-9_-]+)/([a-zA-Z0-9_-]+)/?$ index.php?rq_controller=$1&rq_action=$2 [L]
 RewriteRule ^([a-zA-Z0-9_-]+)/?$ index.php?rq_controller=$1 [L]
 

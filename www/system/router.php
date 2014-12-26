@@ -6,7 +6,7 @@
 		public static $action;
 		public static $rq_controller;
 		public static $rq_action;
-		public static $param;
+		public static $params;
 		
 		public static function init()
 		{
@@ -19,7 +19,7 @@
 			
 			self::$controller = !isset($_REQUEST['rq_controller']) ? $default_controller : strtolower(trim($_REQUEST['rq_controller'],'/'));
 			self::$action = !isset($_REQUEST['rq_action']) ? $default_action : strtolower(trim($_REQUEST['rq_action'],'/'));
-			self::$param = !isset($_REQUEST['rq_param']) ? null : strtolower(trim($_REQUEST['rq_param']));
+			self::$params = !isset($_REQUEST['rq_params']) ? null : strtolower(trim($_REQUEST['rq_params']));
 			
 			
 			self::$rq_controller = self::$controller;
@@ -39,12 +39,12 @@
 			self::$action = explode("?",self::$action);
 			if(is_array(self::$action)) self::$action = self::$action[0];
 			
-			self::$param = explode("#",self::$param);
-			if(is_array(self::$param)) self::$param = self::$param[0];
-			self::$param = explode("?",self::$param);
-			if(is_array(self::$param)) self::$param = self::$param[0];
-			self::$param = explode("/",self::$param);
-			self::$param = is_array(self::$param) ? self::$param : array(self::$param);
+			self::$params = explode("#",self::$params);
+			if(is_array(self::$params)) self::$params = self::$params[0];
+			self::$params = explode("?",self::$params);
+			if(is_array(self::$params)) self::$params = self::$params[0];
+			self::$params = explode("/",self::$params);
+			self::$params = is_array(self::$params) ? self::$params : array(self::$params);
 
 
 			$request_url = trim( Path::$urlProtocol.'://'.$_SERVER['HTTP_HOST'].$_SERVER['REQUEST_URI'], "/" );
@@ -76,7 +76,7 @@
 						
 						self::$action = isset($redirect['action']) ? $redirect['action'] : self::$action ;
 						
-						self::$param = isset($redirect['param']) ? $redirect['param'] : self::$param ;
+						self::$params = isset($redirect['params']) ? $redirect['params'] : self::$params ;
 						
 					}
 				}
