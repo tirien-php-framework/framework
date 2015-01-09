@@ -19,9 +19,9 @@
             autoPlay : true,
             lockSize: true,
             transition: 'crossfade',
-            beforeChange: function(){},
-            afterChange: function(){},
-            beforeAnimation: function(){},
+            beforeChange: function(images, i){},
+            afterChange: function(images, i){},
+            beforeAnimation: function(images, i){},
             onInit: function(images, i){}
         }
 
@@ -222,12 +222,12 @@
 
         var transitionCrossFade = function(prev,next,direction){
             prev.fadeOut(plugin.settings.speed);
-            next.fadeIn( plugin.settings.speed, plugin.settings.afterChange );
+            next.fadeIn( plugin.settings.speed, plugin.settings.afterChange(images, i) );
         }
 
         var transitionFade = function(prev,next,direction){
             prev.fadeOut( plugin.settings.speed, function(){
-                next.fadeIn( plugin.settings.speed, plugin.settings.afterChange );
+                next.fadeIn( plugin.settings.speed, plugin.settings.afterChange(images, i) );
             });
         }
 
@@ -235,7 +235,7 @@
             var left = direction === 'next' || next.index()>prev.index();
             prev.css({zIndex: 5}).animate( {left: left ? "-50%" : "150%"}, plugin.settings.speed, function(){$(this).hide()} );
             next.css({zIndex:10, left: left ? "150%" : "-50%", marginLeft:-next.width()/2}).show();
-            next.animate( {left:"50%"}, plugin.settings.speed, plugin.settings.afterChange );
+            next.animate( {left:"50%"}, plugin.settings.speed, plugin.settings.afterChange(images, i) );
         }
 
         plugin.nextImage = function() {
