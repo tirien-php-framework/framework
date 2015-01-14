@@ -6,7 +6,8 @@ class Image
 	const MAX_SIZE = 10485760; // 10MiB
 
 	static function getExtension( $str ) {
-		return end(explode('.',$str));
+		$tmp = explode('.',$str);
+		return end($tmp);
 	}
 
 
