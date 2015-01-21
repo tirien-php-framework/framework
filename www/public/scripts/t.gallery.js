@@ -28,7 +28,6 @@
         var plugin = this;
 
         plugin.settings = {}
-        plugin.resizeEventSet = false;
 
         var $element = $(element),
              element = element;
@@ -52,11 +51,6 @@
                 run();
             }
 
-            if(plugin.settings.transition == 'slide' && !plugin.resizeEventSet){
-                $(window).resize(plugin.slideResizeFix);
-                plugin.resizeEventSet = true;
-            }
-
             plugin.settings.onInit(images, i);
         }
 
@@ -72,13 +66,14 @@
         }
 
         plugin.refresh = function(){
+
+            if(plugin.settings.transition == 'slide'){
+                options.startImage = activeImage.index();
+            }
+
             clearTimeout(timer);
             plugin.init();
-        }
 
-        plugin.slideResizeFix = function(){
-            options.startImage = activeImage.index();
-            plugin.refresh();
         }
 
         plugin.next = function(){
@@ -116,7 +111,7 @@
             $(plugin.settings.goToImage).filter('[data-n='+plugin.settings.startImage+']').addClass('current');
 
             if( plugin.settings.transition == 'slide' ){
-                $(plugin.settings.imageSelector).eq(plugin.settings.startImage).css({position:"absolute",'margin-left':-$element.width()/2,left:'50%'});
+                $(plugin.settings.imageSelector).eq(plugin.settings.startImage).css({position:"absolute",'margin-left':-$element.outerWidth()/2,left:'50%'});
                 $(plugin.settings.imageSelector).css({overflow: "hidden"});
             }
 
