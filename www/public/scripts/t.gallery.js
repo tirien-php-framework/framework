@@ -227,7 +227,7 @@
         }
 
         var transitionSlide = function(prev,next,direction){
-            var left = direction === 'next' || next.index()>prev.index();
+            var left = direction === 'next';
             prev.css({zIndex: 5}).animate( {left: left ? "-50%" : "150%"}, plugin.settings.speed, function(){$(this).hide()} );
             next.css({zIndex:10, left: left ? "150%" : "-50%", marginLeft:-next.width()/2}).show();
             next.animate( {left:"50%"}, plugin.settings.speed, plugin.settings.afterChange(images, i) );
