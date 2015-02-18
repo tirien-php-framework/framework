@@ -10,6 +10,7 @@
 		public $disable_layout = false;
 		public $disable_view = false;
 		private $layout_name = '';
+		private $detect;
 		
 		public function __construct() {
 
@@ -17,6 +18,7 @@
 			$this->config = $_config;
 			
 			$this->view = new stdClass();
+			$this->detect = new Mobile_Detect();
 			
 			// PAGE META
 			if ( !empty($_config['system']['page_meta_table']) ) {
