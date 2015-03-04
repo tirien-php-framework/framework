@@ -85,4 +85,17 @@ function pageForbidden() {
 	die();
 }
 
+function generateRandomHash($length = 32){
+
+	$charset = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz";
+	$hash = '';
+
+	for ($i=0; $i < $length; $i++) { 
+		$hash .= $charset[mt_rand(0, strlen($charset) - 1)];
+	}
+
+	return $hash;
+
+}
+
 ?>
