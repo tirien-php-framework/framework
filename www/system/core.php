@@ -40,22 +40,6 @@
 				$this->ajax = true;
 			}
 
-			if( strstr(@$_SERVER['HTTP_USER_AGENT'],'iPhone') || strstr(@$_SERVER['HTTP_USER_AGENT'],'iPod') || strstr(@$_SERVER['HTTP_USER_AGENT'],'iPad') ) {
-				$this->apple = true;
-			}
-			
-			if( strstr(@$_SERVER['HTTP_USER_AGENT'],'iPhone') ) {
-				$this->iphone = true;
-			}
-
-			if( strstr(@$_SERVER['HTTP_USER_AGENT'],'iPad') ) {
-				$this->ipad = true;
-			}
-
-			if( preg_match("/(android|avantgo|blackberry|bolt|boost|cricket|docomo|fone|hiptop|mini|mobi|palm|phone|pie|iphone|itouch|ipod|symbian|htc_|htc-|palmos|opera mini|iemobile|windows ce|nokia|fennec|kindle|mot |mot-|samsung|sonyericsson|^sie-|nintendo|up\.browser|up\.link|webos|wos)/i", @$_SERVER["HTTP_USER_AGENT"]) ) {
-				$this->mobile = true;
-			}
-
 		}
 
 		public function init() {
