@@ -1,18 +1,16 @@
 <?php
 class Log {
 	
-
-
 	static function session(){
-		
+
 		global $_config;
-		$app_salt = $_config['application']['salt'];
+		$session_key = md5($_config['application']['salt']);
 		
 		if ($_config['system']['log_session']){
 		
-			if( empty($_SESSION[$app_salt]['sls_id']) ) {
+			if( empty($_SESSION[$session_key]['sls_id']) ) {
 							
-				$_SESSION[$app_salt]['sls_id'] = DB::insert('sys_log_session',array(
+				$_SESSION[$session_key]['sls_id'] = DB::insert('sys_log_session',array(
 					'session_id'=>session_id(),
 					'http_cookie'		=>	!isset($_SERVER['HTTP_COOKIE']) ? null : $_SERVER['HTTP_COOKIE'],
 					'http_host'			=>	!isset($_SERVER['HTTP_HOST']) ? null : $_SERVER['HTTP_HOST'],
@@ -35,8 +33,8 @@ class Log {
 				));
 				
 			}
-			
-			return $_SESSION[$app_salt]['sls_id'];
+
+			return $_SESSION[$session_key]['sls_id'];
 			
 		}
 
