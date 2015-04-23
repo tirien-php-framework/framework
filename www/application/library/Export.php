@@ -1,10 +1,12 @@
-<?php
+﻿<?php
 Class Export
 {
     public static function toXLS( $data, $columns, $file_name = false )
     {
 
-        $out = '<table border="1">';
+        $out = '<style>.number{mso-number-format:General;} .text{mso-number-format:"\@";/*force text*/}</style>';
+        
+        $out .= '<table border="1">';
 
 
         // header
@@ -19,7 +21,7 @@ Class Export
         foreach ($data as $row) {
             $out .= "<tr>";           
             foreach ($row as $value) {
-                $out .= "<td>" . $value . "</td>";
+                $out .= "<td class='text'>" . $value . "</td>";
             }
             $out .= "</tr>";
         }
