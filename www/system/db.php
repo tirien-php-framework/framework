@@ -1,4 +1,4 @@
-<?php
+﻿<?php
 class DB
 {
 	private static $link;
@@ -10,6 +10,11 @@ class DB
 	static function init( $config = array() ) {
 		global $_config;
 		global $_debug;
+
+		if (empty($_config)) 
+		{
+			$_config = parse_ini_file( 'application/configs/application.ini', true );
+		}
 
 		$db_config = array_merge($_config['database'], $config);
 		self::$isInitiated = true;
@@ -220,6 +225,12 @@ class DB
 			return self::prepare( $statement, $where )->execute();
 		}
 
+	}
+
+	public static function deleteAll( $table ) {
+		if( !self::$isInitiated ) self::init();
+		$statement = sprintf( 'DELETE FROM %s`%s`', self::$databaseName, $table );
+		return self::prepare( $statement )->execute();
 	}
 
 	private static function prepare( $statement, $values = array() ) {
