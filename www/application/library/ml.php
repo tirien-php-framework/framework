@@ -1,4 +1,4 @@
-﻿<?php
+<?php
 /**
  * Multilanguage Library
  * Initiate with: 

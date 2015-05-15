@@ -95,12 +95,12 @@ if( empty($_SESSION) ){
 }
 
 if ($_config['system']['log_session']){
-Log::session();	
+	Log::session();	
 }
 
 /* INIT MULTILANGUAGE */
 if (!empty($_config['system']['multilanguage'])) {
-ml::init( array('en') ); 
+	ml::init( array('en') ); 
 }
 	
 /* INIT ROUTES */
