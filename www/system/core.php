@@ -3,10 +3,6 @@
 	{
 		public $view;
 		public $ajax = false;
-		public $mobile = false;
-		public $apple = false;
-		public $iphone = false;
-		public $ipad = false;
 		public $disable_layout = false;
 		public $disable_view = false;
 		private $layout_name = '';

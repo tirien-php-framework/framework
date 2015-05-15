@@ -23,7 +23,7 @@
 	<script src="scripts/jquery-1.11.1.min.js"></script>
 	<script src="scripts/global.js"></script>
 	
-	<?php if($this->mobile) { ?>
+	<?php if($this->detect->isMobile()) { ?>
 		<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<?php } ?>
 
