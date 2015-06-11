@@ -90,7 +90,7 @@ if (version_compare(PHP_VERSION, '5.1.2', '>=')) {
 disableMagicQuotes();
 
 /* LOG SESSION */
-if( empty($_SESSION) ){
+if( session_id() == '' ){
 	session_start(); 
 }
 
