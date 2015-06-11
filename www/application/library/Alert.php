@@ -15,17 +15,30 @@
 
 class Alert {
 
-    static function show() {
+	private static $session_started = false;
 
-		if ( !empty($_SESSION["alerts"]) ){ 
+	static function checkSession()
+	{
+		if( !self::$session_started && session_id() == '' )
+		{
+			session_start();
+			self::$session_started = true;
+		}
+	}
 
+    static function show() 
+    {
+    	self::checkSession();
+
+		if ( !empty($_SESSION["alerts"]) )
+		{ 
 			ksort($_SESSION["alerts"]);
 
 			$alert_type = '';
 			$i = 0;
 
-			foreach ($_SESSION["alerts"] as $key => $alert_group) {
-
+			foreach ($_SESSION["alerts"] as $key => $alert_group) 
+			{
 				$i++;
 
 				if($alert_type != $key){
@@ -47,21 +60,21 @@ class Alert {
 				if( $i == count($_SESSION["alerts"]) ){
 					echo '</div>';
 				}
-
-
 			} 
 
-			unset($_SESSION["alerts"]);
-
+			self::clear();
 		}
-
     }
 
-    static function set($type, $alert) {
+    static function set($type, $alert) 
+    {
+    	self::checkSession();
     	$_SESSION["alerts"][$type][] = $alert;
     }
 
-    static function clear() {
+    static function clear() 
+    {
+    	self::checkSession();
     	unset($_SESSION["alerts"]);
     }
 
