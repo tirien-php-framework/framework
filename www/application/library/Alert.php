@@ -17,7 +17,7 @@ class Alert {
 
 	private static $session_started = false;
 
-	static function checkSession()
+	private static function checkSession()
 	{
 		if( !self::$session_started && session_id() == '' )
 		{
@@ -70,6 +70,12 @@ class Alert {
     {
     	self::checkSession();
     	$_SESSION["alerts"][$type][] = $alert;
+    }
+
+    static function get($type, $alert) 
+    {
+    	self::checkSession();
+    	return empty($_SESSION["alerts"]) ? array() : $_SESSION["alerts"];
     }
 
     static function clear() 
