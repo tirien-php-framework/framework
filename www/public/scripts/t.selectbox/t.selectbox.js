@@ -55,6 +55,7 @@ $.fn.tSelectbox = function(userConfig) {
             }
             else if(config.firstIsEmptyText){
                 selectOption(options.filter(':first-child'));
+                options.filter(':first-child').hide();
             }
 
             $(document).click(closeAll);
@@ -182,10 +183,8 @@ $.fn.tSelectbox = function(userConfig) {
 
                 selected.attr('value', v);
                 selected.text(o.text());
+
                 if (inputSelect.val() !== v){
-                    if(config.firstIsEmptyText) {
-                        other_options.first().hide();
-                    }
                     inputSelect.val(v).trigger('change');
                 }
             }
