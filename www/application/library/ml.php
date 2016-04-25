@@ -41,14 +41,14 @@ Class ml {
             self::$active_language = $_REQUEST['rq_controller'];
             $_REQUEST['rq_controller'] = !empty($_REQUEST['rq_action']) ? $_REQUEST['rq_action'] : $default_controller;
 			
-			if( !empty($_REQUEST['rq_param']) ){
-				$rq_param = explode("/",$_REQUEST['rq_param']);
-				if( is_array($rq_param) ){
-					$_REQUEST['rq_action'] = array_shift($rq_param);
-					$_REQUEST['rq_param'] = implode('/',$rq_param);
+			if( !empty($_REQUEST['rq_params']) ){
+				$rq_params = explode("/",$_REQUEST['rq_params']);
+				if( is_array($rq_params) ){
+					$_REQUEST['rq_action'] = array_shift($rq_params);
+					$_REQUEST['rq_params'] = implode('/',$rq_params);
 				}
 				else{
-					$_REQUEST['rq_action'] = $_REQUEST['rq_param'];
+					$_REQUEST['rq_action'] = $_REQUEST['rq_params'];
 				}
 			}
 			else {
