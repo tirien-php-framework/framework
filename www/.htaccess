@@ -18,7 +18,7 @@ RewriteRule ^less/(.+\.(css|less|htc|jpe?g|gif|png))$ public/less/$1 [L]
 RewriteRule ^docs/(.+\.(pdf|zip|docx?))$ public/docs/$1 [L]
 RewriteRule ^fonts/(.+\.(otf|ttf|woff|eot|css|svg|ttc))$ public/fonts/$1 [L]
 RewriteRule ^videos/(.+\.(mp4|m4v|flv))$ public/videos/$1 [L]
-RewriteRule ^images/(.+\.(jpe?g|gif|png|ico))$ public/images/$1 [L]
+RewriteRule ^images/(.+\.(jpe?g|gif|png|ico|svg))$ public/images/$1 [L]
 RewriteRule ^scripts/(.+\.(jpe?g|gif|png|css|js|svg|otf|ttf|woff|map))$ public/scripts/$1 [L]
 RewriteRule ^uploads/(.+\.(jpe?g|gif|png|pdf|docx?|mp4|m4v|flv))$ public/uploads/$1 [L]
 
