@@ -70,7 +70,7 @@
         });
 
         // validation
-        form.submit(function(){
+        form.submit(function(e){
             var valid = true;
             var form = $(this);
 
@@ -162,7 +162,7 @@
                     }
                 });
                
-                settings.onValidForm();
+                settings.onValidForm(e);
                 return settings.autoSubmit ? true : false;
                 
             }
