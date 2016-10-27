@@ -17,7 +17,7 @@
 
 (function($) {
     $.tValidate = function(element, options) {
-        var settings = {
+        var defaultSettings = {
             activeColor: 'black',
             inactiveColor: 'gray',
             errorInputFontColor: 'red',
@@ -27,10 +27,11 @@
             enableValidColors: false,
             placeholders: true,
             autoSubmit: true,
-            onValidForm: function(){}
+            onValidForm: function(e){}
         }
 
-        var settings = $.extend({}, settings, options);
+        var settings = this.settings = $.extend({}, defaultSettings, options);
+
         var form = $(element);
         var inputs = form.find("input,textarea,select").not("[type='submit']");
 
@@ -70,7 +71,7 @@
         });
 
         // validation
-        form.submit(function(e){
+        this.submitEventHandler = form.on('submit', function(e){
             var valid = true;
             var form = $(this);
 
