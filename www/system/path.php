@@ -16,7 +16,7 @@ class Path{
 	
 	public static function init( $index_uri, $index_path, $assetsVersion = '' ){
 		$index_uri = trim($index_uri, "/\\");
-		self::$appRoot = trim($index_path, "/\\");
+		self::$appRoot = rtrim($index_path, "/\\");
 		
 		self::$urlProtocol = empty($_SERVER['HTTPS']) || $_SERVER['HTTPS']=='off' ? 'http' : 'https';
 		self::$urlPort = $_SERVER['SERVER_PORT']=='80' ? '' : $_SERVER['SERVER_PORT'];
