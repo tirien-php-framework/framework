@@ -17,7 +17,7 @@ class Auth{
 		global $_config;
 		
 		// customize options self
-		self::$entity_object = new Model_Account;
+		self::$entity_object = new Model_User;
 		self::$entity_get_method = 'getById';
 		self::$entity_secure_get_method = 'get';
 		self::$loginPageUrl = Path::urlBase('login');
