@@ -52,7 +52,7 @@ class Image
 		$extension = self::getExtension( $filename );
 		$extension = strtolower( $extension );
 
-		if( ( $extension != "jpg" ) && ( $extension != "jpeg" ) && ( $extension != "png" ) && ( $extension != "gif" ) ){
+		if( ( $extension != "jpg" ) && ( $extension != "jpeg" ) && ( $extension != "png" ) && ( $extension != "gif" ) && ( $extension != "svg" ) ) ){
 			$arr['status'] = 0;
 			$arr['message'] = 'Wrong image format';
 			return $arr;
