@@ -22,7 +22,7 @@ class Mail {
 		$mailer = new PHPMailer;
 		$mailer->CharSet = 'UTF-8';
 
-		if ( $_SERVER['SERVER_NAME'] == 'localhost' ) {
+		if ( $_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == 'svn' ) {
 			$mailer->isSMTP();
 			$mailer->Host       = "smtp.gmail.com";
 			$mailer->SMTPSecure = "tls";

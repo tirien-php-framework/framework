@@ -6,6 +6,9 @@ ErrorDocument 404 /application/views/404.htm
 RewriteEngine On
 #RewriteBase /somesubfolder
 
+RewriteCond %{HTTP_HOST} ^www\.(.*)$ [NC]
+RewriteRule ^(.*)$ http://%1/$1 [R=301,L]
+
 RewriteRule ^index\.php$ index.php [L]
 RewriteRule ^public/(.+)$ public/$1 [L]
 
