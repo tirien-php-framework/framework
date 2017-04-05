@@ -18,7 +18,7 @@
 	<meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
 	
 	<link rel="stylesheet" href="css/reset.css">
-	<link rel="stylesheet" href="css/global.css">
+	<link rel="stylesheet" href="css/global.min.css">
 	
 	<script src="scripts/jquery-1.11.1.min.js"></script>
 	<script src="scripts/global.js"></script>

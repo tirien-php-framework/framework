@@ -1,0 +1,21 @@
+@1024: ~"only screen and (max-width: 1024px)";
+
+.transition(@el:all, @speed:400ms, @tf:ease, @delay:0ms) {
+	-webkit-transition: @el @speed @tf @delay;
+	-moz-transition: @el @speed @tf @delay;
+	-o-transition: @el @speed @tf @delay;
+	transition: @el @speed @tf @delay;
+}
+
+.include-custom-font(@family: arial, @weight: normal, @style: normal){
+    @font-face{
+        font-family: @family;
+        src:url('../fonts/@{family}.eot');
+        src:url('../fonts/@{family}.eot?#iefix') format('embedded-opentype'),
+            url('../fonts/@{family}.woff') format('woff'),
+            url('../fonts/@{family}.ttf') format('truetype'),
+            url('../fonts/@{family}.svg#icon') format('svg');
+        font-weight: @weight;
+        font-style: @style;
+    }
+}
