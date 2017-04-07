@@ -34,15 +34,32 @@
 
         var form = $(element);
         var inputs = form.find("input,textarea,select").not("[type='submit']");
+        var submitedBefore = false;
 
+        inputs.bind('change', function(){
+            if (submitedBefore) {
+                validate(false);
+            }
+        });
 
         // placeholders
         inputs.each(function(){
             
             if( !settings.enableValidColors ){
-                $(this).data('activeColor', $(this).css('color') );
-                $(this).data('validInputFontColor', $(this).css('color') );
-                $(this).data('validInputBorderColor', $(this).css('border-color') );
+                if ($(this).next('.custom-combobox').find('.cs-selected').length) {
+                    var existingColor = $(this).next('.custom-combobox').find('.cs-selected').css('color');
+                    var existingInputFontColor = $(this).next('.custom-combobox').find('.cs-selected').css('color');
+                    var existingInputBorderColor = $(this).next('.custom-combobox').find('.cs-selected').css('border-color');
+                }
+                else{
+                    var existingColor = $(this).css('color');
+                    var existingInputFontColor = $(this).css('color');
+                    var existingInputBorderColor = $(this).css('border-color');
+                }
+
+                $(this).data('activeColor', existingColor );
+                $(this).data('validInputFontColor', existingInputFontColor );
+                $(this).data('validInputBorderColor', existingInputBorderColor );
             }
 
             if( $(this).val() == '' && settings.placeholders ){
@@ -70,8 +87,13 @@
             }
         });
 
-        // validation
+        // define event handler for future use like $('#contact-form').data('tValidate').submitEventHandler
         this.submitEventHandler = form.on('submit', function(e){
+            submitedBefore = true;
+            return validate(true);
+        });
+
+        var validate = function(showAlert){
             var valid = true;
             var form = $(this);
 
@@ -95,10 +117,20 @@
                     color:settings.validInputFontColor
                 });
 
+                $(this).next('.custom-combobox').css({
+                    borderColor:settings.validInputBorderColor, 
+                    color:settings.validInputFontColor
+                });
+
+                $(this).next('.custom-combobox').find('.cs-selected').css({
+                    borderColor:settings.validInputBorderColor, 
+                    color:settings.validInputFontColor
+                });
+
                 if( 
                     $(this).hasClass("required") && 
                     ( 
-                        $(this).val()=='' || 
+                        $(this).val()=='' || $(this).val()==null ||
                         ( 
                             $(this).val()==$(this).data("placeholder") && 
                             settings.placeholders 
@@ -151,6 +183,16 @@
                         borderColor:settings.errorInputBorderColor, 
                         color:settings.errorInputFontColor
                     });
+
+                    $(this).next('.custom-combobox').css({
+                        borderColor:settings.errorInputBorderColor, 
+                        color:settings.errorInputFontColor
+                    });
+
+                    $(this).next('.custom-combobox').find('.cs-selected').css({
+                        borderColor:settings.errorInputBorderColor, 
+                        color:settings.errorInputFontColor
+                    });
                 }
 
             });
@@ -168,10 +210,13 @@
                 
             }
             else{
-                alert(settings.errorMessage);
+                if (showAlert) {
+                    alert(settings.errorMessage);   
+                }
+
                 return false;
             }
-        });
+        }
     }
 
     $.fn.tValidate = function(options) {
