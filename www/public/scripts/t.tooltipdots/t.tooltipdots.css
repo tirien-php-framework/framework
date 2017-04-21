@@ -3,24 +3,84 @@
 	cursor: pointer;
 	display: none;
 	
-	width: 10px;
-	height: 10px;
+	width: 33px;
+	height: 33px;
 	background-color: #232357;
-	
-	-webkit-border-radius: 5px;
-	-moz-border-radius: 5px;
-	border-radius: 5px;
+	text-align: center;
+	-webkit-border-radius: 17px;
+	-moz-border-radius: 17px;
+	border-radius: 17px;
+	transform: translate(-50%, -50%);
 }
+.tooltipPoint span{
+	color: #fff;
+	font-size: 20px;
+	text-align: center;
+	vertical-align: top;
+	display: inline-block;
+	margin-top: 6px;
+	font-family: "Times New Roman",serif;
+}
+.tooltipPoint.marker{
+	background: url('../../images/map-logo.jpg');
+	width: 60px;
+	height: 60px;
+	background-size: 60px 60px;
+	border-radius: 0px;
+}
+.tooltipPoint.parks {
+	background-color: #72a896;
+}
+.tooltipPoint.grocery-stores {
+	background-color: #42735d;
+}
+.tooltipPoint.specialty-markets {
+	background-color: #654679;
+}
+/*.tooltipPoint.meats-market {
+	background-color: #db695f;
+}*/
+/*.tooltipPoint.wine-stores {
+	background-color: #b64f83;
+}*/
+.tooltipPoint.schools {
+	background-color: #9b96b4;
+}
+.tooltipPoint.restaurants {
+	background-color: #6d6e71;
+}
+.tooltipPoint.convenience {
+	background-color: #2e3466;
+}
+.tooltipPoint.subway {
+	background-color: #406583;
+}
+
+.tooltipPoint.shopping {
+	background-color: #9d9fa2;
+}
+
+
+
 .tooltipBox {
 	display: none;
-	width: 80px;
-	font: 11px Arial;
-	color: #232357;
+	width: 100px;
+	font-size: 15px;
+	color: white;
 	position: absolute;
-	bottom: 15px;
+	bottom: 28px;
 	left: -42px;
 	padding: 7px;
 	text-align: center;
+	background:#878e92;
+	font-family: "Times New Roman",serif;
+}
+.tooltipBox.down{
+	top: 11px;
+	bottom: auto;
+}
+.tooltipBox.right{
+	left: -5px
 }
 .tooltipBox img{
 	margin-top: 5px;
