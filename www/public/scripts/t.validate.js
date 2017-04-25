@@ -10,6 +10,9 @@
         activeColor: 'white',
         inactiveColor: 'white'
     };
+
+    Use data-empty attribute in select's option in order mark that one as empty on validation. 
+    This allows empty values for other options in select.
     
     To initiate use:
     $("#contact-form").tValidate(options);
@@ -94,7 +97,7 @@
         });
 
         var validate = function(showAlert){
-            var valid = true;
+            var validForm = true;
             var form = $(this);
 
             inputs.each(function(){
@@ -105,7 +108,7 @@
                 var numberPattern = /^[\d]+$/;
                 var textPattern = /^[-'\sa-zA-Z\u0400-\u04FF\u00C0-\u02AF]+$/;
 
-                var inputValid = false;
+                var validInput = true;
 
                 if( !settings.enableValidColors ){
                     settings.validInputFontColor = $(this).data('validInputFontColor');
@@ -130,55 +133,58 @@
                 if( 
                     $(this).hasClass("required") && 
                     ( 
-                        $(this).val()=='' || $(this).val()==null ||
+                        $(this).val()=='' || 
+                        $(this).val()==null ||
+                        !!$(this).find('option[data-empty]:selected').length ||
                         ( 
                             $(this).val()==$(this).data("placeholder") && 
                             settings.placeholders 
                             )
-                        )    
+                        )
                     ){
-                    settings.errorMessage = "Required fields can not be empty";
-                    valid = false;
+                        if (!$(this).find('option[data-empty]').length || $(this).val()!='') {
+                            settings.errorMessage = "Required fields can not be empty";
+                            validInput = false;
+                        }
                 }
                 else if( $(this).val()!='' && $(this).hasClass("email") && !emailPattern.test($(this).val()) ){
                     settings.errorMessage = "Email is not valid";
-                    valid = false;
+                    validInput = false;
                 }
                 else if( $(this).val()!='' && $(this).hasClass("phone") && !phonePattern.test($(this).val()) ){
                     settings.errorMessage = "Phone is not valid";
-                    valid = false;
+                    validInput = false;
                 }
                 else if( $(this).val()!='' && $(this).hasClass("postcode") && !postcodePattern.test($(this).val()) ){
                     settings.errorMessage = "Postcode is not valid";
-                    valid = false;
+                    validInput = false;
                 }
                 else if( $(this).val()!='' && $(this).hasClass("number") && !numberPattern.test($(this).val()) ){
                     settings.errorMessage = "Only numbers allowed";
-                    valid = false;
+                    validInput = false;
                 }
                 else if( $(this).val()!='' && $(this).hasClass("text") && !textPattern.test($(this).val()) ){
                     settings.errorMessage = "Only letters allowed";
-                    valid = false;
+                    validInput = false;
                 }
                 else if( $(this).hasClass("terms") && !$(this).prop('checked') ){
                     settings.errorMessage = "You have to accept Terms and Conditions to continue";
-                    valid = false;
+                    validInput = false;
                 }
                 else if( $(this).hasClass('repeat_password') && form.find("input[name='password']").val() != $(this).val() ){
                     $("input[name='password'], input[name='repeat_password']").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Passwords must match";
-                    valid = false;
+                    validInput = false;
                 }
                 else if( $(this).hasClass('repeat_email') && form.find(".email").val().toLowerCase() != $(this).val().toLowerCase() ){
                     $("input[name='email'], input[name='repeat_email']").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Emails must match";
-                    valid = false;
-                }
-                else{
-                    inputValid = true;
+                    validInput = false;
                 }
 
-                if (!inputValid) {
+                if (!validInput) {
+                    validForm = false;
+
                     $(this).css({
                         borderColor:settings.errorInputBorderColor, 
                         color:settings.errorInputFontColor
@@ -197,17 +203,16 @@
 
             });
             
-            if( valid ){
-
+            if( validForm ){
                 inputs.each(function(){
                     if( $(this).val() == $(this).data('placeholder') && settings.placeholders ){
                         $(this).val("");
                     }
                 });
                
-                settings.onValidForm(e);
-                return settings.autoSubmit ? true : false;
-                
+                settings.onValidForm();
+
+                return settings.autoSubmit ? true : false;                
             }
             else{
                 if (showAlert) {
