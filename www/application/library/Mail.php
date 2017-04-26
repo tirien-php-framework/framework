@@ -18,11 +18,14 @@
 class Mail {
 
     static function send($options) {
+		$_config = parse_ini_file( 'application/configs/application.ini', true );
 
 		$mailer = new PHPMailer;
 		$mailer->CharSet = 'UTF-8';
 
-		if ( $_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == 'svn' ) {
+		$local_env = $_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == 'svn';
+
+		if ( $local_env ) {
 			$mailer->isSMTP();
 			$mailer->Host       = "smtp.gmail.com";
 			$mailer->SMTPSecure = "tls";
@@ -37,7 +40,7 @@ class Mail {
 		$mailer->msgHTML($options['body']);
 
 		foreach ($options['to'] as $to) {
-			$mailer->AddAddress( $to['email'], empty($to['name']) ? '' : $to['name']);
+			$mailer->AddAddress( $local_env ? $_config['application']['dev_email'] : $to['email'], empty($to['name']) ? '' : $to['name']);
 		}
 
 		if (isset($options['from'])) {
