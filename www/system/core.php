@@ -24,6 +24,7 @@
 					$this->view->head['title'] = $page_meta['title'];
 					$this->view->head['description'] = $page_meta['description'];
 					$this->view->head['keywords'] = $page_meta['keywords'];
+					$this->view->head['image'] = $page_meta['image'];
 				}
 	
 			}
