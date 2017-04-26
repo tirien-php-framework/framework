@@ -10,7 +10,7 @@
 
 	<meta property="og:title" content="<?php echo empty($this->view->head['og_title']) ? @$this->view->head['title'] : $this->view->head['og_title'] ?>"/>
 	<meta property="og:description" content="<?php echo empty($this->view->head['og_description']) ? @$this->view->head['description'] : $this->view->head['og_description'] ?>"/>
-	<meta property="og:image" content="<?php echo empty($this->view->head['og_image']) ? Path::urlBase() .'/'. $this->view->head['image'] : Path::urlBase() .'/'. $this->view->head['og_image'] ?>"/>
+	<meta property="og:image" content="<?php echo empty($this->view->head['og_image']) ? $this->view->head['image'] : $this->view->head['og_image'] ?>"/>
 	<meta property="og:type" content="website" /> 
 	<meta property="og:url" content="<?php echo Path::pageUrl() ?>" /> 
 
