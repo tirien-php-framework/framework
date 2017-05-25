@@ -11,7 +11,7 @@
         inactiveColor: 'white'
     };
     
-    Use data-empty attribute in select's option in order mark that one as empty on validation. This allows empty values for other options in select.
+    Use `data-empty` attribute in select's option in order mark that one as empty on validation. This allows empty values for other options in select.
     
     To initiate with JS use:
     $("#contact-form").tValidate(options);
