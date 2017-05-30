@@ -25,7 +25,7 @@ class Mail {
 
 		$local_env = $_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == 'svn';
 
-		if ( $local_env ) {
+		if ( $local_env && !empty($_config['application']['send_emails_in_dev']) ) {
 			$mailer->isSMTP();
 			$mailer->Host       = "smtp.gmail.com";
 			$mailer->SMTPSecure = "tls";
