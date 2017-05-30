@@ -3,7 +3,7 @@
     Tirien.com
     $Rev$
     
-    Use `data-tvalidate-required` attribute on inputs that is mandatory and class `data-tvalidate-email` to validate email.
+    Use `data-tvalidate-required` or just native 'required' attribute on inputs that are mandatory and class `data-tvalidate-email` to validate email.
     
     This is optional:
     options = {
@@ -136,7 +136,11 @@
                 });
 
                 if( 
-                    this.hasAttribute("required") && 
+                    (
+                        this.hasAttribute("required") || 
+                        this.hasAttribute("data-tvalidate-required")
+                    )
+                    && 
                     ( 
                         $(this).val()=='' || 
                         $(this).val()==null ||
