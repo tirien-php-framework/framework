@@ -52,8 +52,13 @@ class Path{
 		return rtrim(self::$urlBase.'/'.trim($attachment,'/'), '/');
 	}
 	
-	public static function urlUri($strip_query=false){
+	public static function urlQuery(){
+		$uri = trim( substr( self::$urlProtocol.'://'.$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"], strlen( self::$urlBase ) ), '/' );
 
+		return strpos($uri,'?')!==false ? substr($uri, strpos($uri,'?')) : '';
+	}
+
+	public static function urlUri($strip_query=false){
 		$uri = trim( substr( self::$urlProtocol.'://'.$_SERVER['HTTP_HOST'].$_SERVER["REQUEST_URI"], strlen( self::$urlBase ) ), '/' );
 
 		if (strpos($uri,'?')!==false && $strip_query) {
@@ -61,7 +66,6 @@ class Path{
 		}
 
 		return $uri;
-		
 	}
 	
 	public static function pageUrl($strip_query=false){
