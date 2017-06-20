@@ -17,14 +17,14 @@
 	z-index: 999;
 }
 .cs-option, .cs-selected{
-	color: #777;
+	color: inherit;
 	padding: 12px 20px;
 	display:block;	
 	text-decoration: none;
 	outline: none;
 }
 .cs-option{
-	background-color: #e0e0e0;
+	background-color: inherit;
 }
 .cs-option:first-child{
 		border-radius: 5px 5px 0 0;
@@ -39,9 +39,11 @@
 .cs-right {
 	position: absolute;
 	background: url('drop-down-arrow.png') no-repeat;
-	width: 11px;
+    background-size: cover;
+	width: 10px;
 	height: 6px;
-	right: 15px;
-	top: 19px;
+	top: 50%;
+	right: 10px;
+    transform: translateY(-50%);
 	cursor: pointer;
 }
