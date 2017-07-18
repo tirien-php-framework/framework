@@ -104,7 +104,6 @@
 
         var validate = function(showAlert){
             var validForm = true;
-            var form = $(this);
 
             inputs.each(function(){
                 var emailPattern = /^[-\w\.]+@([-\w\.]+\.)[-\w]{2,4}$/;
@@ -160,8 +159,8 @@
                     settings.errorMessage = "Email is not valid";
                     validInput = false;
                 }
-                else if( this.hasAttribute('data-repeat-email') && form.find(".email").val().toLowerCase() != $(this).val().toLowerCase() ){
-                    $("input[name='email'], input[name='repeat_email']").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                else if( this.hasAttribute('data-tvalidate-repeat-email') && form.find("[data-tvalidate-repeat-email]").val().toLowerCase() != form.find("[data-tvalidate-email]").val().toLowerCase() ){
+                    form.find("[data-tvalidate-repeat-email], [data-tvalidate-email]").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Emails must match";
                     validInput = false;
                 }
@@ -185,8 +184,8 @@
                     settings.errorMessage = "You have to accept Terms and Conditions to continue";
                     validInput = false;
                 }
-                else if( this.hasAttribute('data-repeat-password') && form.find("input[name='password']").val() != $(this).val() ){
-                    $("input[name='password'], input[name='repeat_password']").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                else if( this.hasAttribute('data-tvalidate-repeat-password') && form.find("[data-tvalidate-repeat-password]").val() != form.find("[data-tvalidate-password]").val() ){
+                    form.find("[data-tvalidate-repeat-password], [data-tvalidate-password]").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
                     settings.errorMessage = "Passwords must match";
                     validInput = false;
                 }
@@ -211,7 +210,7 @@
                 }
 
             });
-            
+
             if( validForm ){
                 inputs.each(function(){
                     if( $(this).val() == $(this).data('placeholder') && settings.placeholders ){
