@@ -98,6 +98,8 @@ class Image
 			return $arr;
 		}
 
+		self::progresive($arr['path']);
+
 		return $arr;
 	}
 
@@ -145,9 +147,16 @@ class Image
 
 	    $fit_gd_image = imagecreatetruecolor($fit_image_width, $fit_image_height);
 
+		if ($source_image_type == IMAGETYPE_PNG) {
+			imagealphablending($fit_gd_image, false);
+			imagesavealpha($fit_gd_image, true);
+		}
+
 	    imagecopyresampled($fit_gd_image, $source_gd_image, 0, 0, 0, 0, $fit_image_width, $fit_image_height, $source_image_width, $source_image_height);
 
 		$output_image_path = empty($output_image_path) ? $source_image_path : $output_image_path;
+	    
+	    imageinterlace($fit_gd_image, true); //PROGRESIVE
 
         switch ($source_image_type) {
             case IMAGETYPE_GIF:
@@ -219,6 +228,11 @@ class Image
 
 		$canvas_image = imagecreatetruecolor( $output_width, $output_height );
 
+		if ($source_image_type == IMAGETYPE_PNG) {
+			imagealphablending($canvas_image, false);
+			imagesavealpha($canvas_image, true);
+		}
+
 		// Resize and crop
 		imagecopyresampled($canvas_image,
 		                   $image,
@@ -228,6 +242,8 @@ class Image
 		                   $new_width, $new_height,
 		                   $width, $height);
 		$output_image_path = empty($output_image_path) ? $source_image_path : $output_image_path;
+
+	    imageinterlace($canvas_image, true); //PROGRESIVE
 
         switch ($source_image_type) {
             case IMAGETYPE_GIF:
@@ -283,6 +299,8 @@ class Image
         
         $filter = imagefilter($image, IMG_FILTER_GRAYSCALE);
 
+        imageinterlace($image, true); //PROGRESIVE        
+
         if ($filter) {
             if ($pom == 'gif') {
                 $save_image = imagegif($image, $output_path);
@@ -310,7 +328,59 @@ class Image
             return false;
         }
     }
+        
+    static function progresive($path, $output_path = null)
+    {
+        if ( empty($output_path) ) {
+            $output_path = $path;
+        }
 
+        $tmp = explode('.', $path);
+        $pom = strtolower( end($tmp) );
+
+        if ($pom == 'gif') {
+            $image = imagecreatefromgif($path);
+        }
+        else if ($pom == 'png') {
+            $image = imagecreatefrompng($path);
+
+            imagealphablending($image, false);
+			imagesavealpha($image, true);
+        }
+        else if ($pom == 'bmp') {
+            $image = imagecreatefromwbmp($path);
+        }
+        else if ($pom == 'jpg'  ||  $pom == 'jpeg') {
+            $image = imagecreatefromjpeg($path);
+        }
+        else{   
+            trigger_error("Format not supported", E_USER_ERROR);
+            return false;           
+        }
+        
+        imageinterlace($image, true); //PROGRESIVE
+
+        if ($pom == 'gif') {
+            $save_image = imagegif($image, $output_path);
+        }
+        else if ($pom == 'png') {
+            $save_image = imagepng($image, $output_path);
+        }
+        else if ($pom == 'bmp') {
+            $save_image = imagewbmp($image, $output_path);
+        }
+        else if ($pom == 'jpg'  ||  $pom == 'jpeg') {
+            $save_image = imagejpeg($image, $output_path, self::DEFAULT_JPG_QUALITY);
+        }
+        else{   
+            trigger_error("Error saving extension", E_USER_ERROR);
+            return false;           
+        }
+        
+        imagedestroy($image);
+
+        return $save_image;
+    }
 }
 
 ?>
