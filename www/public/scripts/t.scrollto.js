@@ -47,7 +47,7 @@
             $.tScrollToElement(where, offset);
 
             $(this).addClass('active');
-            $(this).parent().siblings().find('a').removeClass('active');
+            $("[data-scrollto]").not($(this)).removeClass('active');
         });
     });
 
