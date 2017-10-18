@@ -1,10 +1,11 @@
 <?php
 
-function vd( $var, $die = false ) {
+function vd( $var ) {
 	global $_debug;
 	if( !$_debug ) return false;
 
 	$debug_backtrace = debug_backtrace();
+	
 	header( 'Content-type: text/html' );
 
 	echo '<pre style="background-color:#faa; color:#000; padding:20px; clear:both; font:bold 12px/24px Tahoma; position:relative; top:0; text-align:left; width:100%; z-index: 99999; box-sizing: border-box;">';
@@ -12,12 +13,12 @@ function vd( $var, $die = false ) {
 	var_dump( $var );
 	echo '</pre>';
 
-	if( $die ){
-		die();
-	}
-	else{
-		return true;
-	}
+	return true;
+}
+
+function dd( $var ) {
+	vd($var);
+	die();
 }
 
 function cleanInput( $input, $type = "string" ) {
