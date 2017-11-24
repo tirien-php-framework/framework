@@ -358,6 +358,23 @@ class Image
             return false;           
         }
         
+		$exif = exif_read_data($path);
+		if (!empty($exif['Orientation'])) {
+		    switch ($exif['Orientation']) {
+		        case 3:
+		        $image = imagerotate($image, 180, 0);
+		        break;
+		        case 6:
+		        $image = imagerotate($image, -90, 0);
+		        break;
+		        case 8:
+		        $image = imagerotate($image, 90, 0);
+		        break;
+		        default:
+		        $image = $image;
+		    } 
+		}
+        
         imageinterlace($image, true); //PROGRESIVE
 
         if ($pom == 'gif') {
