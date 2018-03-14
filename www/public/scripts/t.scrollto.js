@@ -44,6 +44,11 @@
             var where = $(this).data('scrollto') || $(this).attr('href');
             var offset = $(this).data('scrollto-offset') || 0;
 
+            if (!$(where).length) {
+                console.log(where + " element doesn't exist");
+                return false;
+            }
+
             $.tScrollToElement(where, offset);
 
             $(this).addClass('active');
@@ -57,6 +62,11 @@
         $("[data-scrollto]").reverse().each(function(){
             var where = $(this).data('scrollto') || $(this).attr('href');
             var offset = $(this).data('scrollto-activestate-offset') || 0;
+
+            if (!$(where).length) {
+                console.log(where + " element doesn't exist");
+                return false;
+            }
 
             if ($(window).scrollTop() > ($(where).offset().top + offset)) {
                 $(this).addClass('active');
