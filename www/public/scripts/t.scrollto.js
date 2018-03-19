@@ -10,6 +10,7 @@
 
     There are also optional:
     data-scrollto-offset="100" - scroll to element position + offset value
+    data-scrollto-duration="1000" - animation duration
     data-scrollto-activestate-offset="100" - links will get class="active" when element is reached + offset value
 
     You can use anchors in href, and IDs and Classes in data-scrollto attribute.
@@ -17,7 +18,7 @@
 
 (function($) {
 
-    $.tScrollToElement = function(element, offset){
+    $.tScrollToElement = function(element, offset, duration){
         if ($('body').hasClass('scrolling')) {
             return false;
         }
@@ -26,11 +27,15 @@
             offset = 0;
         }
 
+        if (duration == undefined) {
+            duration = 1000;
+        }
+
         $('body').addClass('scrolling');
 
         $('html, body').animate({
             scrollTop: $(element).offset().top + offset
-        }, 1500, function(){
+        }, duration, function(){
             $('body').removeClass('scrolling');
         });
     }
@@ -43,13 +48,14 @@
 
             var where = $(this).data('scrollto') || $(this).attr('href');
             var offset = $(this).data('scrollto-offset') || 0;
+            var duration = $(this).data('scrollto-duration') || 1000;
 
             if (!$(where).length) {
                 console.log(where + " element doesn't exist");
                 return false;
             }
 
-            $.tScrollToElement(where, offset);
+            $.tScrollToElement(where, offset, duration);
 
             $(this).addClass('active');
             $("[data-scrollto]").not($(this)).removeClass('active');
