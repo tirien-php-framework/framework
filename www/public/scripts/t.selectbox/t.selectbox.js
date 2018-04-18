@@ -30,7 +30,6 @@ $.fn.tSelectbox = function(userConfig) {
         init();
 
         function inputChanged() {
-
             var changedValue = $(this).val();
 
             options.each(function() {
@@ -42,12 +41,9 @@ $.fn.tSelectbox = function(userConfig) {
                 }
 
             });
-
         }
 
         function init() {
-
-            inputSelect.css({position: 'absolute', left: -9999, top: -9999, visibility: 'hidden'});
             inputSelect.change(inputChanged);
  
             if (inputSelect.find('[selected]').length){
@@ -59,7 +55,6 @@ $.fn.tSelectbox = function(userConfig) {
             }
 
             $(document).click(closeAll);
-
         }
 
         function closeAll() {
@@ -81,10 +76,11 @@ $.fn.tSelectbox = function(userConfig) {
             tSelectbox = $('<div class="custom-combobox"><div class="cs-select"><span class="cs-left"></span><a href="#" class="cs-selected">' + selectedText + '</a><span class="cs-right"></span><div class="cs-clear"></div></div><div style="display:none" class="cs-dropdown">' + options + '</div></div>');
             
             inputSelect.after(tSelectbox);
+            inputSelect.css({position:"absolute", left:"50%", opacity:0});
+            tSelectbox.append(inputSelect);
         }
 
         function toggleDropdown() {
-
             if ((isOpened = !dropdown.is(':visible')))
             {
                 closeAll();
@@ -95,7 +91,6 @@ $.fn.tSelectbox = function(userConfig) {
             {
                 closeAll();
             }
-
         }
 
         tSelectbox.click(function(e) {
@@ -105,7 +100,6 @@ $.fn.tSelectbox = function(userConfig) {
         });
 
         selected.keydown(function(e) {
-
             var s = options.filter("[selected]");
             var t = $(this);
 
@@ -127,11 +121,9 @@ $.fn.tSelectbox = function(userConfig) {
                     }
                     break;
             }
-
         });
 
         options.keydown(function(e) {
-
             var t = $(this);
 
             switch (e.which)            {
@@ -146,11 +138,9 @@ $.fn.tSelectbox = function(userConfig) {
                     focusOption(t, n);
                     break;
             }
-
         });
 
         options.click(function(e) {
-
             e.preventDefault();
             selectOption($(this));
             $(".cs-focused").removeClass('cs-focused');
@@ -159,11 +149,9 @@ $.fn.tSelectbox = function(userConfig) {
             if ( $(this).data('url') !==undefined) {
                 window.location = $(this).data('url');
             } 
-
         });
 
         function focusOption(p, n) {
-
             if (n.length)
             {
                 if (p !== null) {
@@ -171,11 +159,9 @@ $.fn.tSelectbox = function(userConfig) {
                 }
                 n.focus().addClass("cs-focused");
             }
-
         }
 
         function selectOption(o) {
-
             if (o.length)            {
                 var v = o.attr('value');
                 var other_options = o.attr('selected', true).addClass('cs-hilighted').siblings();
@@ -188,7 +174,6 @@ $.fn.tSelectbox = function(userConfig) {
                     inputSelect.val(v).trigger('change');
                 }
             }
-
         }
 
     });
