@@ -16,11 +16,13 @@ class Path{
 	
 	public static function init( $index_uri, $index_path, $assetsVersion = '' ){
 		$index_uri = trim($index_uri, "/\\");
-		self::$appRoot = rtrim($index_path, "/\\");
+		self::$appRoot = trim($index_path, "/\\");
+
+		$host = empty($_SERVER['HTTP_X_ORIGINAL_HOST']) ? $_SERVER['HTTP_HOST'] : $_SERVER['HTTP_X_ORIGINAL_HOST'];
 		
 		self::$urlProtocol = empty($_SERVER['HTTPS']) || $_SERVER['HTTPS']=='off' ? 'http' : 'https';
 		self::$urlPort = $_SERVER['SERVER_PORT']=='80' ? '' : $_SERVER['SERVER_PORT'];
-		self::$urlBase = self::$urlProtocol . '://' . trim($_SERVER['HTTP_HOST'], "/") . ( empty($index_uri) ? '' : '/'.$index_uri );
+		self::$urlBase = self::$urlProtocol . '://' . trim($host, "/") . ( empty($index_uri) ? '' : '/'.$index_uri );
 		self::$assetsVersion = empty($assetsVersion) ? '' : '?v='.$assetsVersion;
 	}
 	
