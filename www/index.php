@@ -21,7 +21,7 @@ $_debug = $_config['system']['debug'] && in_array( $_SERVER['REMOTE_ADDR'], $_co
 
 if( $_debug ){
 	ini_set( 'display_errors', 1 );
-	ini_set( 'error_reporting', E_ALL );
+	ini_set( 'error_reporting', E_ALL & ~E_NOTICE );
 }
 else{
 	ini_set( 'display_errors', 0 );
