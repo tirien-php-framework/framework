@@ -43,7 +43,7 @@
     $(document).ready(function() {
         $.fn.reverse = [].reverse;
 
-        $("[data-scrollto]").click(function(e) {
+        $("body").delegate("[data-scrollto]", "click", function(e) {
             e.preventDefault();
 
             var where = $(this).data('scrollto') || $(this).attr('href');
