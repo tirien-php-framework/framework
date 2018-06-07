@@ -17,7 +17,7 @@ RewriteRule ^sitemap\.xml$ sitemap.xml [L]
 RewriteRule ^BingSiteAuth\.xml$ BingSiteAuth.xml [L]
 RewriteRule ^robots\.txt$ robots.txt [L]
 
-RewriteRule ^css/(.+\.(css|less|htc|jpe?g|gif|png))$ public/css/$1 [L]
+RewriteRule ^css/(.+\.(css|less|htc|jpe?g|gif|png|map))$ public/css/$1 [L]
 RewriteRule ^less/(.+\.(css|less|htc|jpe?g|gif|png))$ public/less/$1 [L]
 RewriteRule ^docs/(.+\.(pdf|zip|docx?))$ public/docs/$1 [L]
 RewriteRule ^fonts/(.+\.(otf|ttf|woff|woff2|eot|css|svg|ttc))$ public/fonts/$1 [L]
