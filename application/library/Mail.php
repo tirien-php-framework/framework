@@ -31,9 +31,9 @@ class Mail {
 			$mailer->SMTPSecure = "tls";
 			$mailer->SMTPAuth   = true;
 			$mailer->Port       = 587;
-			$mailer->Username   = "tiriendev@gmail.com";
-			$mailer->Password   = "devtirien011";
-			$mailer->setFrom('tiriendev@gmail.com', 'Development');
+			$mailer->Username   = "GMAIL EMAIL";
+			$mailer->Password   = "GMAIL PASS";
+			$mailer->setFrom('GMAIL EMAIL', 'Development');
 		}
 		
 		$mailer->Subject = $options['subject'];
