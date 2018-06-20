@@ -23,7 +23,7 @@ class Mail {
 		$mailer = new PHPMailer;
 		$mailer->CharSet = 'UTF-8';
 
-		$local_env = $_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == 'svn';
+		$local_env = $_SERVER['SERVER_NAME'] == 'localhost' || $_SERVER['SERVER_NAME'] == 'development';
 
 		if ( $local_env && !empty($_config['application']['send_emails_in_dev']) ) {
 			$mailer->isSMTP();
