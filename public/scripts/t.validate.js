@@ -1,9 +1,9 @@
 ﻿/*  
     Validate jQuery Plugin
     Tirien.com
-    $Rev$
     
-    Use `data-tvalidate-required` or just native 'required' attribute on inputs that are mandatory and class `data-tvalidate-email` to validate email.
+    Use `data-tvalidate-required` or just native 'required' attribute on inputs that are mandatory and class `data-tvalidate-email` to validate email. 
+    `data-tvalidate-email` is set by default for `type=email"` that have `required` attribute
     
     This is optional:
     options = {
@@ -133,6 +133,8 @@
                     borderColor:settings.validInputBorderColor, 
                     color:settings.validInputFontColor
                 });
+                
+                $("[type='email'][required]").attr("data-tvalidate-email", "");
 
                 if( 
                     (
