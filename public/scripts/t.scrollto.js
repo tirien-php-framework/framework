@@ -1,12 +1,11 @@
 /*  
     ScrollTo jQuery Plugin
     Tirien.com
-    $Rev: 1 $
     
     To initiate within markup use:
     <a href="#contact" data-scrollto>...</a>
     or
-    <button data-scrollto="#contact"/>
+    <button data-scrollto="#contact"/> (use only IDs)
 
     There are also optional:
     data-scrollto-offset="100" - scroll to element position + offset value
@@ -14,11 +13,13 @@
     data-scrollto-activestate-offset="100" - links will get class="active" when element is reached + offset value
 
     You can use anchors in href, and IDs and Classes in data-scrollto attribute.
+
+    #TODO - if last section is hitting the bottom of page and it's smaller than window height, it should be set as active
 */
 
 (function($) {
 
-    $.tScrollToElement = function(element, offset, duration){
+    $.tScrollToElement = function(selector, offset, duration){
         if ($('body').hasClass('scrolling')) {
             return false;
         }
@@ -34,16 +35,17 @@
         $('body').addClass('scrolling');
 
         $('html, body').animate({
-            scrollTop: $(element).offset().top + offset
+            scrollTop: $(selector).offset().top + offset
         }, duration, function(){
             $('body').removeClass('scrolling');
+            history.pushState({}, '', selector);
         });
     }
 
     $(document).ready(function() {
         $.fn.reverse = [].reverse;
 
-        $("body").delegate("[data-scrollto]", "click", function(e) {
+        $("body").delegate('[data-scrollto]', 'click', function(e) {
             e.preventDefault();
 
             var where = $(this).data('scrollto') || $(this).attr('href');
@@ -63,24 +65,35 @@
     });
 
     $(window).scroll(function(){
-        if ($('body').hasClass('scrolling')) return false;
+        if ($('body').hasClass('scrolling')) {
+            return false;
+        }
 
-        $("[data-scrollto]").reverse().each(function(){
-            var where = $(this).data('scrollto') || $(this).attr('href');
+        var sections = $("[data-scrollto]").map(function(){
+            return $(this).attr("href");
+        }).toArray();
+
+        $(sections.join(',')).reverse().each(function(){
+            var href = "#" + $(this).attr('id');
             var offset = $(this).data('scrollto-activestate-offset') || 0;
+            var links = $("[data-scrollto][href='"+href+"']");
 
-            if (!$(where).length) {
-                console.log(where + " element doesn't exist");
-                return false;
-            }
+            if ($(window).scrollTop() > ($(this).offset().top + offset)) {
+                if (!links.filter(".active").length) {
+                    history.pushState({}, '', href);
+                }
 
-            if ($(window).scrollTop() > ($(where).offset().top + offset)) {
-                $(this).addClass('active');
-                $("[data-scrollto]").not($(this)).removeClass('active');
+                links.addClass('active');
+                $("[data-scrollto]").not(links).removeClass('active');
+
                 return false;
             }
             else{
-                $(this).removeClass('active');
+                if (window.location.hash == href) {
+                    history.pushState({}, '', '');
+                }
+
+                links.removeClass('active');
             }
         })
     });
