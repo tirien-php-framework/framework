@@ -3,7 +3,17 @@
     Tirien.com
     
     Use `data-tvalidate-required` or just native 'required' attribute on inputs that are mandatory and class `data-tvalidate-email` to validate email. 
+
     `data-tvalidate-email` is set by default for `type=email"` that have `required` attribute
+    'data-tvalidate-email' validate email 
+    'data-tvalidate-repeat-email' validate confirmed email 
+    'data-tvalidate-phone' validate phone 
+    'data-tvalidate-postcode' validate postcode 
+    'data-tvalidate-number' validate number 
+    'data-tvalidate-text' validate text 
+    'data-tvalidate-terms' validate terms 
+    'data-tvalidate-password' validate password 
+    'data-tvalidate-repeat-password' validate confirmed password 
     
     This is optional:
     options = {
@@ -19,7 +29,7 @@
     To initiate within markup use:
     <form data-tvalidate data-tvalidate-options='{"activeColor":"yellow"}'>
 
-    Options are optional.
+    Options are not mandatory. 
 */
 
 (function($) {
@@ -104,6 +114,7 @@
 
         var validate = function(showAlert){
             var validForm = true;
+            var errorMessages = [];
 
             inputs.each(function(){
                 var emailPattern = /^[-\w\.\+]+@([-\w\.]+\.)[-\w]{2,4}$/;
@@ -136,47 +147,47 @@
                 
                 $("[type='email'][required]").attr("data-tvalidate-email", "");
 
-                if(this.hasAttribute("required") || this.hasAttribute("data-tvalidate-required")) {
+                if(this.hasAttribute("required") || $(this).is("[data-tvalidate-required], [data-tvalidate-email], [data-tvalidate-email], [data-tvalidate-repeat-email], [data-tvalidate-phone], [data-tvalidate-postcode], [data-tvalidate-number], [data-tvalidate-text], [data-tvalidate-terms], [data-tvalidate-password], [data-tvalidate-repeat-password")) {
                     if($(this).val()=='' || $(this).val()==null || ($(this).val()==$(this).data("placeholder") && settings.placeholders)){
-                        settings.errorMessage = "Required fields can not be empty";
+                        errorMessages.push("Required fields can not be empty");
                         validInput = false;
                     }
-                    if (!!$(this).find('option[data-empty]:selected').length) {
-                        settings.errorMessage = "You have to select one option";
+                    else if (!!$(this).find('option[data-empty]:selected').length) {
+                        errorMessages.push("You have to select one option");
                         validInput = false;
                     }                    
                     else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-email") && !emailPattern.test($(this).val()) ){
-                        settings.errorMessage = "Email is not valid";
+                        errorMessages.push("Email is not valid");
                         validInput = false;
                     }
                     else if( this.hasAttribute('data-tvalidate-repeat-email') && form.find("[data-tvalidate-repeat-email]").val().toLowerCase() != form.find("[data-tvalidate-email]").val().toLowerCase() ){
                         form.find("[data-tvalidate-repeat-email], [data-tvalidate-email]").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
-                        settings.errorMessage = "Emails must match";
+                        errorMessages.push("Emails must match");
                         validInput = false;
                     }
                     else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-phone") && !phonePattern.test($(this).val()) ){
-                        settings.errorMessage = "Phone is not valid";
+                        errorMessages.push("Phone is not valid");
                         validInput = false;
                     }
                     else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-postcode") && !postcodePattern.test($(this).val()) ){
-                        settings.errorMessage = "Postcode is not valid";
+                        errorMessages.push("Postcode is not valid");
                         validInput = false;
                     }
                     else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-number") && !numberPattern.test($(this).val()) ){
-                        settings.errorMessage = "Only numbers allowed";
+                        errorMessages.push("Only numbers allowed");
                         validInput = false;
                     }
                     else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-text") && !textPattern.test($(this).val()) ){
-                        settings.errorMessage = "Only letters allowed";
-                        validInput = false;
-                    }
-                    else if( this.hasAttribute("data-tvalidate-terms") && !$(this).prop('checked') ){
-                        settings.errorMessage = "You have to accept Terms and Conditions to continue";
+                        errorMessages.push("Only letters allowed");
                         validInput = false;
                     }
                     else if( this.hasAttribute('data-tvalidate-repeat-password') && form.find("[data-tvalidate-repeat-password]").val() != form.find("[data-tvalidate-password]").val() ){
                         form.find("[data-tvalidate-repeat-password], [data-tvalidate-password]").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
-                        settings.errorMessage = "Passwords must match";
+                        errorMessages.push("Passwords must match");
+                        validInput = false;
+                    }
+                    else if( this.hasAttribute("data-tvalidate-terms") && !$(this).prop('checked') ){
+                        errorMessages.push("You have to accept Terms and Conditions to continue");
                         validInput = false;
                     }
                 }
@@ -215,7 +226,7 @@
             }
             else{
                 if (showAlert) {
-                    alert(settings.errorMessage);   
+                    alert(errorMessages[0]);   
                 }
 
                 return false;
