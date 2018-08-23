@@ -106,7 +106,7 @@
             var validForm = true;
 
             inputs.each(function(){
-                var emailPattern = /^[-\w\.]+@([-\w\.]+\.)[-\w]{2,4}$/;
+                var emailPattern = /^[-\w\.\+]+@([-\w\.]+\.)[-\w]{2,4}$/;
                 var postcodePattern = /^\d{5}$/;
                 var phonePattern = /^\+?[\d-\/ ]+$/;
                 var numberPattern = /^[\d]+$/;
