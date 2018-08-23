@@ -1,4 +1,4 @@
-﻿/*  
+/*  
     Validate jQuery Plugin
     Tirien.com
     
@@ -11,7 +11,7 @@
         inactiveColor: 'white'
     };
     
-    Use `data-empty` attribute in select's option in order mark that one as empty on validation. This allows empty values for other options in select.
+    Use `data-empty` attribute in select's option in order to mark that option as empty on validation. This allows empty values for other options in select.
     
     To initiate with JS use:
     $("#contact-form").tValidate(options);
@@ -136,60 +136,49 @@
                 
                 $("[type='email'][required]").attr("data-tvalidate-email", "");
 
-                if( 
-                    (
-                        this.hasAttribute("required") || 
-                        this.hasAttribute("data-tvalidate-required")
-                    )
-                    && 
-                    ( 
-                        $(this).val()=='' || 
-                        $(this).val()==null ||
-                        !!$(this).find('option[data-empty]:selected').length ||
-                        ( 
-                            $(this).val()==$(this).data("placeholder") && 
-                            settings.placeholders 
-                            )
-                        )    
-                    ){
-                        if (!$(this).find('option[data-empty]').length || $(this).val()!='') {
-                    settings.errorMessage = "Required fields can not be empty";
-                            validInput = false;
-                        }
-                }
-                else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-email") && !emailPattern.test($(this).val()) ){
-                    settings.errorMessage = "Email is not valid";
-                    validInput = false;
-                }
-                else if( this.hasAttribute('data-tvalidate-repeat-email') && form.find("[data-tvalidate-repeat-email]").val().toLowerCase() != form.find("[data-tvalidate-email]").val().toLowerCase() ){
-                    form.find("[data-tvalidate-repeat-email], [data-tvalidate-email]").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
-                    settings.errorMessage = "Emails must match";
-                    validInput = false;
-                }
-                else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-phone") && !phonePattern.test($(this).val()) ){
-                    settings.errorMessage = "Phone is not valid";
-                    validInput = false;
-                }
-                else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-postcode") && !postcodePattern.test($(this).val()) ){
-                    settings.errorMessage = "Postcode is not valid";
-                    validInput = false;
-                }
-                else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-number") && !numberPattern.test($(this).val()) ){
-                    settings.errorMessage = "Only numbers allowed";
-                    validInput = false;
-                }
-                else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-text") && !textPattern.test($(this).val()) ){
-                    settings.errorMessage = "Only letters allowed";
-                    validInput = false;
-                }
-                else if( this.hasAttribute("data-tvalidate-terms") && !$(this).prop('checked') ){
-                    settings.errorMessage = "You have to accept Terms and Conditions to continue";
-                    validInput = false;
-                }
-                else if( this.hasAttribute('data-tvalidate-repeat-password') && form.find("[data-tvalidate-repeat-password]").val() != form.find("[data-tvalidate-password]").val() ){
-                    form.find("[data-tvalidate-repeat-password], [data-tvalidate-password]").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
-                    settings.errorMessage = "Passwords must match";
-                    validInput = false;
+                if(this.hasAttribute("required") || this.hasAttribute("data-tvalidate-required")) {
+                    if($(this).val()=='' || $(this).val()==null || ($(this).val()==$(this).data("placeholder") && settings.placeholders)){
+                        settings.errorMessage = "Required fields can not be empty";
+                        validInput = false;
+                    }
+                    if (!!$(this).find('option[data-empty]:selected').length) {
+                        settings.errorMessage = "You have to select one option";
+                        validInput = false;
+                    }                    
+                    else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-email") && !emailPattern.test($(this).val()) ){
+                        settings.errorMessage = "Email is not valid";
+                        validInput = false;
+                    }
+                    else if( this.hasAttribute('data-tvalidate-repeat-email') && form.find("[data-tvalidate-repeat-email]").val().toLowerCase() != form.find("[data-tvalidate-email]").val().toLowerCase() ){
+                        form.find("[data-tvalidate-repeat-email], [data-tvalidate-email]").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                        settings.errorMessage = "Emails must match";
+                        validInput = false;
+                    }
+                    else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-phone") && !phonePattern.test($(this).val()) ){
+                        settings.errorMessage = "Phone is not valid";
+                        validInput = false;
+                    }
+                    else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-postcode") && !postcodePattern.test($(this).val()) ){
+                        settings.errorMessage = "Postcode is not valid";
+                        validInput = false;
+                    }
+                    else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-number") && !numberPattern.test($(this).val()) ){
+                        settings.errorMessage = "Only numbers allowed";
+                        validInput = false;
+                    }
+                    else if( $(this).val()!='' && this.hasAttribute("data-tvalidate-text") && !textPattern.test($(this).val()) ){
+                        settings.errorMessage = "Only letters allowed";
+                        validInput = false;
+                    }
+                    else if( this.hasAttribute("data-tvalidate-terms") && !$(this).prop('checked') ){
+                        settings.errorMessage = "You have to accept Terms and Conditions to continue";
+                        validInput = false;
+                    }
+                    else if( this.hasAttribute('data-tvalidate-repeat-password') && form.find("[data-tvalidate-repeat-password]").val() != form.find("[data-tvalidate-password]").val() ){
+                        form.find("[data-tvalidate-repeat-password], [data-tvalidate-password]").css({borderColor:settings.errorInputBorderColor, color:settings.errorInputFontColor});
+                        settings.errorMessage = "Passwords must match";
+                        validInput = false;
+                    }
                 }
 
                 if (!validInput) {
@@ -200,12 +189,12 @@
                         color:settings.errorInputFontColor
                     });
 
-                    $(this).next('.custom-combobox').css({
+                    $(this).parents('.custom-combobox').css({
                         borderColor:settings.errorInputBorderColor, 
                         color:settings.errorInputFontColor
                     });
 
-                    $(this).next('.custom-combobox').find('.cs-selected').css({
+                    $(this).parents('.custom-combobox').find('.cs-selected').css({
                         borderColor:settings.errorInputBorderColor, 
                         color:settings.errorInputFontColor
                     });
