@@ -147,7 +147,7 @@
                 
                 $("[type='email'][required]").attr("data-tvalidate-email", "");
 
-                if(this.hasAttribute("required") || $(this).is("[data-tvalidate-required], [data-tvalidate-email], [data-tvalidate-email], [data-tvalidate-repeat-email], [data-tvalidate-phone], [data-tvalidate-postcode], [data-tvalidate-number], [data-tvalidate-text], [data-tvalidate-terms], [data-tvalidate-password], [data-tvalidate-repeat-password")) {
+                if(this.hasAttribute("required") || $(this).is("[data-tvalidate-required], [data-tvalidate-email], [data-tvalidate-email], [data-tvalidate-repeat-email], [data-tvalidate-phone], [data-tvalidate-postcode], [data-tvalidate-number], [data-tvalidate-text], [data-tvalidate-terms], [data-tvalidate-password], [data-tvalidate-repeat-password]")) {
                     if($(this).val()=='' || $(this).val()==null || ($(this).val()==$(this).data("placeholder") && settings.placeholders)){
                         errorMessages.push("Required fields can not be empty");
                         validInput = false;
