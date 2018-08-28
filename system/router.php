@@ -93,6 +93,8 @@
 
 		public static function back( $query = null )
 		{
+			$query = is_array($query) || is_object($query) ? http_build_query($query) : query;
+			
 			header( "Location: ".$_SERVER['HTTP_REFERER'] . (!empty($query) ? '?'.$query : '') );
 			die();
 		}
