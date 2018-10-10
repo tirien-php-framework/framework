@@ -45,7 +45,8 @@
             enableValidColors: false,
             placeholders: true,
             autoSubmit: true,
-            onValidForm: function(e){}
+            showAlert: true,
+            onValidForm: function(){}
         }
 
         var form = $(element);
@@ -106,10 +107,11 @@
             }
         });
 
-        // define event handler for future use like $('#contact-form').data('tValidate').submitEventHandler
-        this.submitEventHandler = form.on('submit', function(e){
+        // Define event handler for future use. Get it like $('#contact-form').data('tValidate').submitEventHandler
+        // or use namespace to remove the event - $form.off('submit.tValidate')
+        this.submitEventHandler = form.on('submit.tValidate', function(e){
             submitedBefore = true;
-            return validate(true);
+            return validate(settings.showAlert);
         });
 
         var validate = function(showAlert){
