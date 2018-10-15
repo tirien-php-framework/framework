@@ -11,7 +11,7 @@ Class Pagination{
 	private $offset;
 	private $count;
 
-	function Pagination( $data, $key = null, $items_per_page = null ){
+	function __construct( $data, $key = null, $items_per_page = null ){
 
 		$this->key = $key;
 		$this->data = $data;
