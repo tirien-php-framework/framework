@@ -8,9 +8,9 @@ if (is_file(__DIR__ . '/../../vendor/autoload.php') && is_readable(__DIR__ . '/.
 }
 
 \Cloudinary::config(array(
-    "cloud_name" => "dohn4mj3f",
-    "api_key" => "352954792973665",
-    "api_secret" => "xXeryhlLBTNZbjVbYibPIKq8Kes"
+    "cloud_name" => "",
+    "api_key" => "",
+    "api_secret" => ""
 ));
 
 class Image
