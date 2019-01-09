@@ -69,7 +69,11 @@ function TirienFWAutoload( $classname ) {
 	}
 }
 
-spl_autoload_register('TirienFWAutoload', true, true);
+if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
+    spl_autoload_register('TirienFWAutoload', true, true);
+} else {
+    spl_autoload_register('TirienFWAutoload');
+}
 
 /* DISABLE MAGIC QUOTES */
 disableMagicQuotes();
