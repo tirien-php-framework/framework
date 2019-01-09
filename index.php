@@ -1,8 +1,6 @@
 <?php
 
 /* Tirien Web Framework */
-/* Version 1 */
-/* $Rev$ */
 /* www.tirien.com */
 
 // Set include paths
