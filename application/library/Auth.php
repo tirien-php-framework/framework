@@ -39,6 +39,7 @@ class Auth{
 		
 		die('Admin credentials set to <b>' . $data['username'] . '</b> with password <b>' . $data['password'] . '</b>');
 	}
+	
 	/**
 	 * @param string $username
 	 * @param string $password
