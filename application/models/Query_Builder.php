@@ -58,4 +58,9 @@ abstract class Query_Builder
 	{
 		return DB::delete($this->table, "id=".$id );
 	}
+	
+	public function deleteAll()
+	{
+		return DB::delete($this->table);
+	}
 }
