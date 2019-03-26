@@ -25,7 +25,20 @@ class Auth{
 		self::$return_as_array = true;
 		self::$session_var_name = 'AuthLib_user_data_'.md5(self::$config['application']['salt']);
 	}
-
+	
+	/**
+	 * @param string $data
+	 * @return string
+	 */
+	static function resetCredentials( $data )
+	{
+		$data['dti'] = date('Y-m-d H:i:s');
+		
+		self::$entity_object->deleteAll();
+		self::$entity_object->create($data);
+		
+		die('Admin credentials set to <b>' . $data['username'] . '</b> with password <b>' . $data['password'] . '</b>');
+	}
 	/**
 	 * @param string $username
 	 * @param string $password
