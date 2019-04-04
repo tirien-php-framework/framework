@@ -61,6 +61,6 @@ abstract class Query_Builder
 	
 	public function deleteAll()
 	{
-		return DB::delete($this->table);
+		return DB::deleteAll($this->table);
 	}
 }
