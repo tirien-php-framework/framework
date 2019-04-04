@@ -229,7 +229,7 @@ class DB
 
 	public static function deleteAll( $table ) {
 		if( !self::$isInitiated ) self::init();
-		$statement = sprintf( 'DELETE FROM %s`%s`', self::$databaseName, $table );
+		$statement = sprintf( 'DELETE FROM `%s`', $table );
 		return self::prepare( $statement )->execute();
 	}
 
