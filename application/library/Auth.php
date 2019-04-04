@@ -27,27 +27,33 @@ class Auth{
 	}
 	
 	/**
-	 * @param string $data
-	 * @return string
+	 * @param string $username
+	 * @param string $password
+	 * @return die
 	 */
-	static function resetCredentials( $data )
+	static function resetCredentials( $username, $password )
 	{
 		$data['dti'] = date('Y-m-d H:i:s');
+		$data['username'] = $username;
+		$data['password_hash'] = self::hash( $password );
+
 		
 		self::$entity_object->deleteAll();
 		self::$entity_object->create($data);
 		
-		die('Admin credentials set to <b>' . $data['username'] . '</b> with password <b>' . $data['password'] . '</b>');
+		die("<b>/admin</b><br> Username: <b>$username</b><br> Password: <b>$password</b>");
 	}
-	
+
 	/**
 	 * @param string $username
 	 * @param string $password
-	 * @return boolan
+	 * @param boolean $remember_me
+	 * @return boolean
 	 */
 	static function login( $username, $password, $remember_me = false )
 	{
 		if( isset($username) && isset($password) ){
+			//self::resetCredentials($username, $password);
 		
 			$data['username'] = $username;
 			$data['password_hash'] = self::hash( $password );
