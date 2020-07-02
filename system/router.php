@@ -63,20 +63,20 @@
 			// END GET PARAMS
 			
 			
-			// REDIRECTIONS
-			$redirects = parse_ini_file('configs/redirects.ini', true);
+			// CUSTOM ROUTES
+			$custom_routes = parse_ini_file('configs/custom_routes.ini', true);
 			
-			foreach($redirects as &$redirect){
-				if( !empty($redirect['uri']) ){
-					$redirect_url = trim( Path::urlBase().'/'.$redirect['uri'], "/" );
+			foreach($custom_routes as $custom_route){
+				if( !empty($custom_route['uri']) ){
+					$$custom_route_url = trim( Path::urlBase().'/'.$custom_route['uri'], "/" );
 
-					if( $request_url == $redirect_url ){
+					if( $request_url == $$custom_route_url ){
 					
-						self::$controller = isset($redirect['controller']) ? $redirect['controller'] : self::$controller ;
+						self::$controller = isset($custom_route['controller']) ? $custom_route['controller'] : self::$controller ;
 						
-						self::$action = isset($redirect['action']) ? $redirect['action'] : self::$action ;
+						self::$action = isset($custom_route['action']) ? $custom_route['action'] : self::$action ;
 						
-						self::$params = isset($redirect['params']) ? $redirect['params'] : self::$params ;
+						self::$params = isset($custom_route['params']) ? $custom_route['params'] : self::$params ;
 						
 					}
 				}
