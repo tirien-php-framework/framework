@@ -70,10 +70,10 @@ $.fn.tSelectbox = function(userConfig, callback) {
                     var e = $(el);
                     var data = "";
                     data += e.data('url') ? ' data-url = "' + e.data('url') + '"' : "";
-                    options += '<a ' + data + ' href="#" class="cs-option" value="' + e.prop('value') + '" >' + e.text() + '</a>';
+                    options += '<a ' + data + ' href="javascript:void(0)" class="cs-option" value="' + e.prop('value') + '" >' + e.text() + '</a>';
                 });
 
-                tSelectbox = $('<div class="custom-combobox"><div class="cs-select"><span class="cs-left"></span><a href="#" class="cs-selected">' + selectedText + '</a><span class="cs-right"></span><div class="cs-clear"></div></div><div style="display:none" class="cs-dropdown">' + options + '</div></div>');
+                tSelectbox = $('<div class="custom-combobox"><div class="cs-select"><span class="cs-left"></span><a href="javascript:void(0)" class="cs-selected">' + selectedText + '</a><span class="cs-right"></span><div class="cs-clear"></div></div><div style="display:none" class="cs-dropdown">' + options + '</div></div>');
 
                 inputSelect.after(tSelectbox);
                 inputSelect.css({ position: "absolute", left: "50%", opacity: 0 });
