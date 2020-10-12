@@ -15,7 +15,7 @@ set_include_path( implode( PATH_SEPARATOR, $paths) );
 
 
 $_config = parse_ini_file( 'configs/application.ini', true );
-$_debug = $_config['system']['debug'] && in_array( $_SERVER['REMOTE_ADDR'], $_config['system']['development_ip'] ) ? true : false;
+$_debug = $_config['system']['debug'] && in_array( $_SERVER['REMOTE_ADDR'], $_config['system']['development_ip'] );
 
 if( $_debug ){
 	ini_set( 'display_errors', 1 );
@@ -117,5 +117,3 @@ if( method_exists( $system, $system_rq_action ) ){
 else{
 	pageNotFound();
 }
-
-?>
