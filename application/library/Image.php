@@ -28,7 +28,8 @@ class Image
      * Upload image
      *
      * @param $name
-     * @param $dir
+     * @param $dirname
+     * @param $key
      *
      * @return array
      */
@@ -76,21 +77,21 @@ class Image
             }
         }
 
-        $newlImageName = strtolower(str_replace(" ", "-", $originalImageName));
-        $newlImagePath = $dirname . "/" . $newlImageName;
+        $newImageName = strtolower(str_replace(" ", "-", $originalImageName));
+        $newImagePath = $dirname . "/" . $newImageName;
 
         $i = 1;
 
-        while (file_exists($newlImagePath)) {
-            $pathInfo = pathinfo($newlImagePath);
-            $newlImageName = rtrim($pathInfo['filename'], "_" . ($i - 1)) . "_$i." . $pathInfo['extension'];
-            $newlImagePath = $pathInfo['dirname'] . "/" . $newlImageName;
+        while (file_exists($newImagePath)) {
+            $pathInfo = pathinfo($newImagePath);
+            $newImageName = rtrim($pathInfo['filename'], "_" . ($i - 1)) . "_$i." . $pathInfo['extension'];
+            $newImagePath = $pathInfo['dirname'] . "/" . $newImageName;
             $i++;
         }
 
-        $arr['path'] = $newlImagePath;
-        $arr['uri'] = preg_replace('/^public\//i', '', $newlImagePath);
-        $arr['filename'] = $newlImageName;
+        $arr['path'] = $newImagePath;
+        $arr['uri'] = preg_replace('/^public\//i', '', $newImagePath);
+        $arr['filename'] = $newImageName;
 
         // upload to Cloudinary
         $upload = \Cloudinary\Uploader::upload($tmpImagePath, array("progressive" => true, "quality" => "auto", "fetch_format" => "auto", "public_id" => $_SERVER['HTTP_HOST'] . "/" . $arr['uri']));
@@ -103,11 +104,11 @@ class Image
             curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
             $returnData = curl_exec($ch);
 
-            $copied = file_put_contents($newlImagePath, $returnData);
+            $copied = file_put_contents($newImagePath, $returnData);
             $arr['cloudinary'] = true;
         } else {
-            $copied = copy($tmpImagePath, $newlImagePath);
-            self::progresive($newlImagePath);
+            $copied = copy($tmpImagePath, $newImagePath);
+            self::progressive($newImagePath);
         }
 
         if (!$copied) {
@@ -169,7 +170,7 @@ class Image
 
         $output_image_path = empty($output_image_path) ? $source_image_path : $output_image_path;
 
-        imageinterlace($fit_gd_image, true); //PROGRESIVE
+        imageinterlace($fit_gd_image, true); //PROGRESSIVE
 
         switch ($source_image_type) {
             case IMAGETYPE_GIF:
@@ -252,7 +253,7 @@ class Image
             $width, $height);
         $output_image_path = empty($output_image_path) ? $source_image_path : $output_image_path;
 
-        imageinterlace($canvas_image, true); //PROGRESIVE
+        imageinterlace($canvas_image, true); //PROGRESSIVE
 
         switch ($source_image_type) {
             case IMAGETYPE_GIF:
@@ -298,12 +299,11 @@ class Image
             $image = imagecreatefromjpeg($path);
         } else {
             trigger_error("Format not supported", E_USER_ERROR);
-            return false;
         }
 
         $filter = imagefilter($image, IMG_FILTER_GRAYSCALE);
 
-        imageinterlace($image, true); //PROGRESIVE        
+        imageinterlace($image, true); //PROGRESSIVE
 
         if ($filter) {
             if ($pom == 'gif') {
@@ -316,7 +316,6 @@ class Image
                 $save_image = imagejpeg($image, $output_path, self::DEFAULT_JPG_QUALITY);
             } else {
                 trigger_error("Error saving extension", E_USER_ERROR);
-                return false;
             }
 
             imagedestroy($image);
@@ -329,7 +328,7 @@ class Image
         }
     }
 
-    static function progresive($path, $output_path = null)
+    static function progressive($path, $output_path = null)
     {
         if (empty($output_path)) {
             $output_path = $path;
@@ -351,7 +350,6 @@ class Image
             $image = imagecreatefromjpeg($path);
         } else {
             trigger_error("Format not supported", E_USER_ERROR);
-            return false;
         }
 
         $exif = exif_read_data($path);
@@ -367,11 +365,10 @@ class Image
                     $image = imagerotate($image, 90, 0);
                     break;
                 default:
-                    $image = $image;
             }
         }
 
-        imageinterlace($image, true); //PROGRESIVE
+        imageinterlace($image, true); //PROGRESSIVE
 
         if ($pom == 'gif') {
             $save_image = imagegif($image, $output_path);
@@ -383,7 +380,6 @@ class Image
             $save_image = imagejpeg($image, $output_path, self::DEFAULT_JPG_QUALITY);
         } else {
             trigger_error("Error saving extension", E_USER_ERROR);
-            return false;
         }
 
         imagedestroy($image);
@@ -391,5 +387,3 @@ class Image
         return $save_image;
     }
 }
-
-?>
