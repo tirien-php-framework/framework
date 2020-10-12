@@ -29,7 +29,7 @@ class Auth{
 	/**
 	 * @param string $username
 	 * @param string $password
-	 * @return die
+	 * @return void
 	 */
 	static function resetCredentials( $username, $password )
 	{
@@ -85,8 +85,7 @@ class Auth{
 	{
 		if( !empty( $_SESSION[self::$session_var_name] ) ){
 			return true;			
-		}
-		else if (isset($_COOKIE["Remember_me_".$_SERVER['SERVER_NAME']])) {
+		} else if (isset($_COOKIE["Remember_me_".$_SERVER['SERVER_NAME']])) {
 			// CHECK REMEMBER ME
 			$user = self::$entity_object->where('remember_me_token', $_COOKIE["Remember_me_".$_SERVER['SERVER_NAME']]);
 
@@ -97,9 +96,8 @@ class Auth{
 				return true;
 			}
 		}
-		else{
-			return false;			
-		}
+
+		return false;
 	}
 	
 	static function refreshData()
