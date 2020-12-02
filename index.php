@@ -73,9 +73,6 @@ if (version_compare(PHP_VERSION, '5.3.0', '>=')) {
     spl_autoload_register('TirienFWAutoload');
 }
 
-/* DISABLE MAGIC QUOTES */
-disableMagicQuotes();
-
 /* LOG SESSION */
 if( session_id() == '' ){
 	session_start(); 
