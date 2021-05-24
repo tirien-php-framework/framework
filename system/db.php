@@ -250,7 +250,7 @@ class DB
 				$prepared_stmt->bindValue( ":$key", $value, $param );
 			}
 		}
-		else{
+		else if (!empty($values)){
 			$prepared_stmt->bindValue( 1, $values );
 		}
 		return $prepared_stmt;
