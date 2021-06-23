@@ -68,9 +68,9 @@
 			
 			foreach($custom_routes as $custom_route){
 				if( !empty($custom_route['uri']) ){
-					$$custom_route_url = trim( Path::urlBase().'/'.$custom_route['uri'], "/" );
+					$custom_route_url = trim( Path::urlBase().'/'.$custom_route['uri'], "/" );
 
-					if( $request_url == $$custom_route_url ){
+					if( $request_url == $custom_route_url ){
 					
 						self::$controller = isset($custom_route['controller']) ? $custom_route['controller'] : self::$controller ;
 						
