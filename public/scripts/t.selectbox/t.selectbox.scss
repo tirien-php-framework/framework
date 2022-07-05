@@ -1,0 +1,79 @@
+$mainColor: $main-color-light;
+$bgdColor: $bgd-color;
+$hoverColor: $main-color-light;
+$highlightColor: $main-color-light;
+
+.custom-combobox {
+    width: 100%;
+    position: relative;
+    background-color: $bgdColor;
+    color: $mainColor;
+    font-size: 1em;
+    line-height: 1em;
+    display: inline-block;
+    border-bottom: 1px solid $mainColor;
+    text-align: left;
+
+    .cs-select {
+        position: relative;
+    }
+
+    .cs-dropdown {
+        background: inherit;
+        position: absolute;
+        width: 100%;
+        z-index: 999;
+        border: 1px solid $mainColor;
+    }
+
+    .cs-option, .cs-selected {
+        color: inherit;
+        box-sizing: border-box;
+        line-height: calc(3em - 1px);
+        display: block;
+        text-decoration: none;
+        outline: none;
+    }
+
+    .cs-option {
+        padding: 0 .5em;
+        background: inherit;
+        border-bottom: 1px solid $mainColor;
+        transition: all .4s;
+
+        &:last-child {
+            border:none;
+        }
+
+        &:hover {
+            background-color: $hoverColor;
+            color: white;
+        }
+    }
+
+    .cs-selected {
+        background: inherit;
+        border: none;
+    }
+
+    .cs-hilighted {
+        background-color: $highlightColor;
+        color: white;
+    }
+
+    .cs-right {
+        position: absolute;
+        border-bottom: 1px solid $mainColor;
+        border-right: 1px solid $mainColor;
+        width: 10px;
+        height: 10px;
+        top: 50%;
+        right: 10px;
+        transform: translateY(-50%) rotate(45deg);
+        cursor: pointer;
+    }
+}
+
+.custom-combobox {
+    font-size: 14px;
+}
