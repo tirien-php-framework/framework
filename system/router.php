@@ -39,11 +39,11 @@
 			self::$action = explode("?",self::$action);
 			if(is_array(self::$action)) self::$action = self::$action[0];
 			
-			self::$params = explode("#",self::$params);
+			if(!empty(self::$params)) self::$params = explode("#",self::$params);
 			if(is_array(self::$params)) self::$params = self::$params[0];
-			self::$params = explode("?",self::$params);
+			if(!empty(self::$params)) self::$params = explode("?",self::$params);
 			if(is_array(self::$params)) self::$params = self::$params[0];
-			self::$params = explode("/",self::$params);
+			if(!empty(self::$params)) self::$params = explode("/",self::$params);
 			self::$params = is_array(self::$params) ? self::$params : array(self::$params);
 
 
