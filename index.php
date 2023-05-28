@@ -27,10 +27,14 @@ else{
 }
 
 
+
+
 /* IF SITE IS ON MAINTENANCE */
+$ip_address = $_SERVER['HTTP_CF_CONNECTING_IP'] ?? $_SERVER['HTTP_X_FORWARDED_FOR'] ?? $_SERVER['REMOTE_ADDR'];
+
 if(
 	$_config['system']['maintenance'] &&
-	!in_array( $_SERVER['REMOTE_ADDR'], $_config['system']['development_ip'] )
+	!in_array( $ip_address, $_config['system']['development_ip'] )
 ){
 	include( 'views'.DIRECTORY_SEPARATOR.'maintenance.htm' );
 	die();
